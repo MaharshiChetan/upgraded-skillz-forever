@@ -32,8 +32,19 @@ follower-following-page {
   .segment-button.segment-activated {
     font-weight: bold;
   }
+  .toolbar-md-light .toolbar-background-md {
+    background-color: #60af00;
+  }
 
-  .segment-md .segment-button {
-    font-weight: bold;
+  .segment-md-light .segment-button {
+    background-color: #60af00;
+  }
+
+  .toolbar-md {
+    margin-bottom: -6px;
+  }
+
+  .toolbar-background {
+    height: 90%;
   }
 }

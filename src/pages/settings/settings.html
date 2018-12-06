@@ -1,17 +1,24 @@
-<ion-header class="privacy-header legal-header">
-  <ion-toolbar>
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <span showWhen="ios">Cancel</span>
-        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title>
-      Settings
-    </ion-title>
-  </ion-toolbar>
+<ion-header>
+  <ion-navbar color="nav"> <ion-title> Settings </ion-title> </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <button ion-button (click)="logout()">Logout</button>
+<ion-content>
+  <ion-card>
+    <ion-list>
+      <ion-list-header> ACCOUNT </ion-list-header>
+      <!-- <hr /> -->
+      <ion-item class="click">Edit Profile</ion-item>
+      <ion-item class="click">Change Password</ion-item>
+      <ion-item class="click">Blocked Accounts</ion-item>
+      <ion-list-header> SETTINGS </ion-list-header>
+      <!-- <hr /> -->
+      <ion-item class="click">Activity Feed</ion-item>
+      <ion-item class="click">Push Notifications</ion-item>
+      <ion-item class="click">Default Section</ion-item>
+      <ion-item class="click">Terms of Use</ion-item>
+
+      <hr />
+      <ion-item class="click" (click)="logout()">Sign Out</ion-item>
+    </ion-list>
+  </ion-card>
 </ion-content>

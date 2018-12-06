@@ -14,6 +14,7 @@ import firebase from 'firebase';
 import { Network } from '@ionic-native/network';
 import { Storage } from '@ionic/storage';
 import { Message } from '../providers/message/message';
+import { HeaderColor } from '@ionic-native/header-color';
 
 @Component({
   templateUrl: 'app.html',
@@ -33,8 +34,10 @@ export class MyApp {
     public toastCtrl: ToastController,
     public menuCtrl: MenuController,
     private alertCtrl: AlertController,
-    private presentMessage: Message
+    private presentMessage: Message,
+    private headerColor: HeaderColor
   ) {
+    this.headerColor.tint('#60af00');
     //INITIALIZES FIREBASE WITH THE APP
     firebase.initializeApp(config);
 
@@ -58,8 +61,7 @@ export class MyApp {
       } else if (networkChange.type === 'offline') {
         const alert = this.alertCtrl.create({
           title: 'Connection Failed!',
-          subTitle:
-            'There may be a problem in your internet connection. Please try again !',
+          subTitle: 'There may be a problem in your internet connection. Please try again !',
           buttons: ['OK'],
           enableBackdropDismiss: true,
         });
@@ -75,30 +77,6 @@ export class MyApp {
     });
   }
 
-  onLogout() {
-    let alertPopup = this.alertCtrl.create({
-      title: 'Log out of Skillz-Forever?',
-      message: 'You have to login again, once you have logout.',
-      buttons: [
-        {
-          text: 'Log Out',
-          handler: () => {
-            alertPopup.dismiss().then(() => {
-              this.storage.remove('user');
-              this.nav.setRoot('LoginPage');
-              this.menuCtrl.close();
-            });
-            return false;
-          },
-        },
-        {
-          text: 'Cancel',
-          handler: () => {},
-        },
-      ],
-    });
-    alertPopup.present();
-  }
   goToCreateEvent() {
     this.nav.push('CreateEventPage');
     this.menuCtrl.close();

@@ -342,7 +342,7 @@ export class AuthProvider {
     });
   }
 
-  updateUser(uid, name, username, profilePhoto) {
+  updateUser(uid, name, username, profilePhoto, bio?: string) {
     return new Promise(resolve => {
       firebase
         .auth()
@@ -358,6 +358,7 @@ export class AuthProvider {
               uid: firebase.auth().currentUser.uid,
               displayName: name,
               userName: username,
+              bio: bio || '',
               profilePhoto: profilePhoto,
             })
             .then(res => {

@@ -58,7 +58,7 @@ one-to-one-chat-page {
 
   .message-detail.right {
     float: right;
-    color: lightgray;
+    color: #f4f6f2b8;
     font-family: sans-serif;
   }
 
@@ -105,14 +105,13 @@ one-to-one-chat-page {
   }
 
   .chat-bubble.right {
-    background-color: #158ffe;
+    background-color: #60af00;
     color: #fff;
     float: right;
-    margin-right: 55px;
   }
 
   .chat-bubble.right:before {
-    background-color: #158ffe;
+    background-color: #60af00;
     right: 10px;
     -webkit-transform: rotate(118deg) skew(-5deg);
   }
@@ -161,7 +160,7 @@ one-to-one-chat-page {
   }
 
   a.autolinker {
-    color: #3b88c3;
+    color: #60af00;
     text-decoration: none;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   IonicPage,
   NavParams,
@@ -27,7 +27,7 @@ import firebase from 'firebase';
   selector: 'event-details-page',
   templateUrl: 'event-details.html',
 })
-export class EventDetailsPage implements OnInit {
+export class EventDetailsPage {
   @ViewChild(Content)
   content: Content;
 
@@ -63,7 +63,6 @@ export class EventDetailsPage implements OnInit {
   constructor(
     private navParams: NavParams,
     private navCtrl: NavController,
-    private myElement: ElementRef,
     private imageViewerCtrl: ImageViewerController,
     private authService: AuthProvider,
     private eventService: EventsProvider,
@@ -79,8 +78,6 @@ export class EventDetailsPage implements OnInit {
     private postService: PostProvider,
     private modalCtrl: ModalController
   ) {
-    this.showheader = false;
-    this.hideheader = true;
     this.event = this.navParams.get('event');
   }
 
@@ -123,28 +120,6 @@ export class EventDetailsPage implements OnInit {
   fetchCurrentUserProfile() {
     this.authService.getUserDetails().then(user => {
       this.currentUserDetails = user;
-    });
-  }
-
-  ngOnInit() {
-    // Ionic scroll element
-    this.ionScroll = this.myElement.nativeElement.getElementsByClassName(
-      'scroll-content'
-    )[0];
-    // On scroll function
-    this.ionScroll.addEventListener('scroll', () => {
-      if (this.ionScroll.scrollTop - this.start > this.threshold) {
-        this.showheader = true;
-        this.hideheader = false;
-      } else {
-        this.showheader = false;
-        this.hideheader = true;
-      }
-      if (this.slideHeaderPrevious >= this.ionScroll.scrollTop - this.start) {
-        this.showheader = false;
-        this.hideheader = true;
-      }
-      this.slideHeaderPrevious = this.ionScroll.scrollTop - this.start;
     });
   }
 

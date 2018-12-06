@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar color="nav"> <ion-title>Create Title</ion-title> </ion-navbar>
+</ion-header>
+
+<ion-content text-center>
+  <ion-card>
+    <ion-avatar (click)="changePicture()">
+      <img
+        class="image cover-image"
+        [src]="chosenPicture || title?.title?.title?.image || defaultPicture"
+      />
+      <button ion-button clear color="dark">Change image</button>
+    </ion-avatar>
+
+    <form [formGroup]="form" (ngSubmit)="createTitle()">
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Title</ion-label>
+          <ion-input type="text" name="title" formControlName="title"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Description</ion-label>
+          <ion-input type="text" name="description" formControlName="description"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Location(City)</ion-label>
+          <ion-input type="text" name="location" formControlName="location"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Position</ion-label>
+          <ion-select formControlName="winningPosition">
+            <ion-option value="first">First (1st)</ion-option>
+            <ion-option value="second">Runner Up(2nd)</ion-option>
+            <ion-option value="third">Second Runner Up (3rd)</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Category</ion-label>
+          <ion-select formControlName="competitionCategory" (ionChange)="change($event)">
+            <ion-option value="breaking">Breaking</ion-option>
+            <ion-option value="old-school">Old School</ion-option>
+            <ion-option value="middle-school">Middle School</ion-option>
+            <ion-option value="new-school">New School</ion-option>
+            <ion-option value="house">House</ion-option>
+            <ion-option value="locking">Locking</ion-option>
+            <ion-option value="poping">Poping</ion-option>
+            <ion-option value="krump">Krump</ion-option>
+            <ion-option value="dj">DJ</ion-option>
+            <ion-option value="graffiti">Graffiti</ion-option>
+            <ion-option value="other">{{ otherCategory }}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Type</ion-label>
+          <ion-select formControlName="type">
+            <ion-option value="solo">Solo</ion-option>
+            <ion-option value="duet">Duet</ion-option>
+            <ion-option value="trio">Trio</ion-option>
+            <ion-option value="group">Group</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Year</ion-label>
+          <ion-datetime pickerFormat="YYYY" formControlName="year"></ion-datetime>
+        </ion-item>
+        <button ion-button clear [disabled]="!form.valid" class="save-btn">Submit</button>
+      </ion-list>
+    </form>
+  </ion-card>
+</ion-content>

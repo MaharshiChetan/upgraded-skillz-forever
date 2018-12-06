@@ -1,10 +1,43 @@
 edit-profile-page {
   .image {
     margin: auto;
-    height: 110px;
-    width: 110px;
+    height: 100px;
+    width: 100px;
+    margin-top: 13px;
     border-radius: 50%;
     box-shadow: 0 0 5px gray;
     display: block;
+  }
+
+  .card-md {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 4px;
+    width: 97%;
+    padding-bottom: 26px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  .button-inner {
+    font-weight: bold;
+  }
+  .save-btn {
+    float: right;
+    left: -12px;
+    top: 11px;
+    color: #008000;
+  }
+
+  .item-input-has-focus .label-md[stacked],
+  .input-has-focus .label-md[stacked],
+  .item-input-has-focus .label-md[floating],
+  .input-has-focus .label-md[floating] {
+    color: #008000;
+  }
+
+  .label-md[stacked],
+  .label-md[floating] {
+    color: gray;
   }
 }

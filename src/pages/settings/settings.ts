@@ -4,22 +4,21 @@ import {
   NavController,
   NavParams,
   ViewController,
-  LoadingController,
+  AlertController,
 } from 'ionic-angular';
-import { AuthProvider } from '../../providers/auth/auth';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
-  selector: 'page-settings',
+  selector: 'settings-page',
   templateUrl: 'settings.html',
 })
 export class SettingsPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private view: ViewController,
-    private authService: AuthProvider,
-    private loadingCtrl: LoadingController
+    private alertCtrl: AlertController,
+    public storage: Storage
   ) {}
 
   ionViewDidLoad() {
@@ -27,18 +26,26 @@ export class SettingsPage {
   }
 
   logout() {
-    const loader = this.loadingCtrl.create({
-      spinner: 'dots',
-      content: 'Logging Out',
+    let alertPopup = this.alertCtrl.create({
+      title: 'Log out of Skillz-Forever?',
+      message: 'You have to login again, once you have logout.',
+      buttons: [
+        {
+          text: 'Log Out',
+          handler: () => {
+            alertPopup.dismiss().then(() => {
+              this.storage.remove('user');
+              this.navCtrl.setRoot('LoginPage');
+            });
+            return false;
+          },
+        },
+        {
+          text: 'Cancel',
+          handler: () => {},
+        },
+      ],
     });
-    loader.present();
-
-    this.authService.logout();
-    loader.dismiss();
-
-    this.navCtrl.setRoot('LoginPage');
-  }
-  dismiss() {
-    this.view.dismiss();
+    alertPopup.present();
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -7,19 +7,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'tabs.html',
 })
 export class TabsPage {
-  tab1Root: string = 'EventsPage';
-  tab2Root: string = 'ExplorePage';
-  tab3Root: string = 'NotificationsPage';
-  tab4Root: string = 'ProfilePage';
+  navbarTitle: string = 'Activity Feed';
+  titles = ['Tutorials', 'Play', 'Activity Feed', 'Events', 'Chats'];
   hide = false;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor() {}
 
   ionViewDidLoad() {}
 
-  show() {
-    console.log('hello');
+  onTabSelect(event) {
+    this.navbarTitle = this.titles[event.index];
   }
-
   hideFabButton() {
     this.hide = true;
   }

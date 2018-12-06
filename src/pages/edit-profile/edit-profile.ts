@@ -27,8 +27,8 @@ export class EditProfilePage {
     private navCtrl: NavController,
     private navParams: NavParams,
     private actionsheetCtrl: ActionSheetController,
-    private cameraService: CameraProvider,
     private platform: Platform,
+    private cameraService: CameraProvider,
     private loadingCtrl: LoadingController,
     private authService: AuthProvider,
     private presentMessage: Message
@@ -40,6 +40,8 @@ export class EditProfilePage {
     const loader = this.loadingCtrl.create();
     loader.present();
     this.userProfile = this.navParams.get('userDetails');
+    console.log(this.userProfile);
+
     loader.dismiss();
   }
 
@@ -47,6 +49,7 @@ export class EditProfilePage {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       username: new FormControl('', Validators.required),
+      bio: new FormControl('', Validators.required),
     });
   }
 
@@ -55,6 +58,7 @@ export class EditProfilePage {
     loader.present();
     const name = this.form.get('name').value;
     const username = this.form.get('username').value;
+    const bio = this.form.get('bio').value;
     const uid = this.authService.getActiveUser().uid;
     if (this.chosenPicture) {
       const imageStore = firebase
@@ -62,41 +66,36 @@ export class EditProfilePage {
         .ref('/profileimages')
         .child(uid);
       imageStore.putString(this.chosenPicture, 'data_url').then(res => {
-        firebase
-          .storage()
-          .ref('/profileimages')
-          .child(uid)
-          .getDownloadURL()
-          .then(url => {
-            this.authService
-              .updateUser(uid, name, username, url)
-              .then(res => {
-                loader.dismiss();
-                this.presentMessage.showToast(
-                  'Succefully updated your profile!',
-                  'success-toast'
-                );
-                this.navCtrl.popToRoot();
-              })
-              .catch(e => {
-                loader.dismiss();
-                this.presentMessage.showToast(
-                  'Failed to updated your profile!',
-                  'fail-toast'
-                );
-              });
-          });
+        imageStore.getDownloadURL().then(url => {
+          this.authService
+            .updateUser(uid, name, username, url, bio)
+            .then(res => {
+              loader.dismiss();
+              this.presentMessage.showToast(
+                'Succefully updated your profile!',
+                'success-toast'
+              );
+              this.navCtrl.pop();
+            })
+            .catch(e => {
+              loader.dismiss();
+              this.presentMessage.showToast(
+                'Failed to updated your profile!',
+                'fail-toast'
+              );
+            });
+        });
       });
     } else {
       this.authService
-        .updateUser(uid, name, username, this.userProfile.profilePhoto)
+        .updateUser(uid, name, username, this.userProfile.profilePhoto, bio)
         .then(res => {
           loader.dismiss();
           this.presentMessage.showToast(
             'Succefully updated your profile!',
             'success-toast'
           );
-          this.navCtrl.popToRoot();
+          this.navCtrl.pop();
         })
         .catch(e => {
           loader.dismiss();

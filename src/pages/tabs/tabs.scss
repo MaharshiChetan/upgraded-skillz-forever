@@ -1,6 +1,6 @@
 tabs-page {
-  .tabbar {
-    background: color($colors, tabs-navigation, base) !important;
+  .tabs-md .tabbar {
+    background: #60af00;
     border-top-color: darken(
       color($colors, tabs-navigation, base),
       6%
@@ -9,23 +9,22 @@ tabs-page {
     height: 46px;
     .tab-button {
       color: color($colors, tabs-navigation, contrast);
-
-      .tab-button-icon {
-        color: #000000;
-      }
     }
 
     .tab-button:hover:not(.disable-hover),
     .tab-button[aria-selected='true'] {
-      color: $theme-color-1;
-
       .tab-button-icon {
-        color: $theme-color-1;
+        color: #ffffff;
       }
     }
   }
 
   .tabs-md .tab-button-icon {
-    font-size: 2.1em;
+    color: #c4e1c2;
+  }
+
+  .bar-button-md[icon-only] ion-icon {
+    margin-left: 8px;
+    font-size: 1.6em;
   }
 }

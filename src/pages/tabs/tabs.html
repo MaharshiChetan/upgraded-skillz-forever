@@ -1,13 +1,17 @@
-<ion-tabs>
-  <ion-tab [root]="tab1Root" tabIcon="ios-home"></ion-tab>
-  <ion-tab [root]="tab2Root" tabIcon="ios-search"></ion-tab>
-  <!-- <ion-tab (click)="show()" tabIcon="ios-add-circle"></ion-tab> -->
-  <ion-tab></ion-tab>
-  <ion-fab bottom center [hidden]="hide">
-    <button ion-fab (click)="show()">
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-fab>
-  <ion-tab [root]="tab3Root" tabIcon="ios-notifications"></ion-tab>
-  <ion-tab [root]="tab4Root" tabIcon="ios-person"></ion-tab>
-</ion-tabs>
+<ion-header no-shadow no-border> <navbar [navbarTitle]="navbarTitle"></navbar> </ion-header>
+<ion-content>
+  <super-tabs
+    selectedTabIndex="2"
+    toolbarBackground="nav"
+    toolbarColor="white"
+    indicatorColor="white"
+    (tabSelect)="onTabSelect($event)"
+    shortSwipeDuration="0"
+  >
+    <super-tab root="TutorialPage" icon="md-school"></super-tab>
+    <super-tab root="TrackPage" icon="md-musical-notes"></super-tab>
+    <super-tab root="HomePage" icon="md-home"></super-tab>
+    <super-tab root="EventsPage" icon="md-calendar"></super-tab>
+    <super-tab root="ChatListPage" icon="md-chatbubbles"></super-tab>
+  </super-tabs>
+</ion-content>

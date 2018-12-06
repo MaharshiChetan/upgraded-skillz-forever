@@ -30,10 +30,15 @@ import { ImageLoaderConfig } from 'ionic-image-loader';
 import { ChatProvider } from '../providers/chat/chat';
 import { Clipboard } from '@ionic-native/clipboard';
 import { DataProvider } from '../providers/data/data';
-import { TabsPage } from '../pages/tabs/tabs';
+
+import { PopoverComponent } from '../components/popover/popover';
+import { HeaderColor } from '@ionic-native/header-color';
+import { SuperTabsModule } from 'ionic2-super-tabs';
+import { TitlesProvider } from '../providers/titles/titles';
+import { NewPopoverComponent } from '../components/new-popover/new-popover';
 
 @NgModule({
-  declarations: [MyApp],
+  declarations: [MyApp, PopoverComponent, NewPopoverComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -45,9 +50,10 @@ import { TabsPage } from '../pages/tabs/tabs';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     IonicImageViewerModule,
+    SuperTabsModule.forRoot(),
   ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp],
+  entryComponents: [MyApp, PopoverComponent, NewPopoverComponent],
   providers: [
     StatusBar,
     SplashScreen,
@@ -60,6 +66,7 @@ import { TabsPage } from '../pages/tabs/tabs';
     InAppBrowser,
     FileTransfer,
     File,
+    HeaderColor,
 
     AuthProvider,
     CameraProvider,
@@ -67,11 +74,11 @@ import { TabsPage } from '../pages/tabs/tabs';
     Message,
     FollowProvider,
     PostProvider,
+    TitlesProvider,
     ImageLoaderConfig,
     ChatProvider,
     Clipboard,
     DataProvider,
-    TabsPage,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

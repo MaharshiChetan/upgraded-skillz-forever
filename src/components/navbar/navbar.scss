@@ -1,0 +1,23 @@
+navbar {
+  .select-md .select-icon .select-icon-inner {
+    color: #fff;
+  }
+
+  ion-select {
+    max-width: 70%;
+  }
+
+  .select-md .select-icon {
+    width: 19px;
+  }
+
+  .select-md .select-icon .select-icon-inner {
+    left: 11px;
+    top: 70%;
+  }
+
+  .select-md {
+    padding: 0px 8px 0px 0px;
+    float: left;
+  }
+}

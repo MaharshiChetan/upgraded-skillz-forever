@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, AlertController } from 'ionic-angular';
+import { IonicPage, AlertController, App } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
 import firebase from 'firebase';
 import _ from 'lodash';
@@ -21,10 +21,10 @@ export class ChatListPage {
   subscription: any;
   searchMessages;
   constructor(
-    private navCtrl: NavController,
     private alertCtrl: AlertController,
     private chatService: ChatProvider,
-    private dataService: DataProvider
+    private dataService: DataProvider,
+    private app: App
   ) {}
 
   ionViewWillEnter() {
@@ -108,7 +108,7 @@ export class ChatListPage {
   }
 
   goToChatPage(user) {
-    this.navCtrl.push('OneToOneChatPage', { userDetails: user });
+    this.app.getRootNav().push('OneToOneChatPage', { userDetails: user });
   }
 
   setFilteredItems(event) {

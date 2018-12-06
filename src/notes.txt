@@ -1,0 +1,8 @@
+NOTES
+
+1. Use below syntax for navigating between pages in super-tabs
+    this.app.getRootNav().push('ProfilePage', { currentUser: this.userDetails });
+    OR
+    this.navParams.get('rootNavCtrl').push('ChatListPage', { currentUser: this.userDetails });
+2. Use below syntax for navigating between pages inside super-tabs
+    this.navCtrl.push('ProfilePage');

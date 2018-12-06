@@ -1,0 +1,98 @@
+<ion-content>
+  <ion-list no-lines>
+    <ion-list-header> 1st (First) </ion-list-header>
+
+    <ion-item-sliding *ngFor="let title of titles">
+      <ion-item
+        (press)="showToast()"
+        *ngIf="title.title.title.winningPosition === 'first'"
+        class="click animated fadeIn"
+      >
+        <ion-avatar item-start>
+          <img
+            class="cover-image"
+            [src]="
+              title.title.title.image ||
+              'https://banner2.kisspng.com/20180406/ype/kisspng-computer-icons-trophy-award-trophy-5ac75f9eef5be5.5335408415230155829804.jpg'
+            "
+          />
+        </ion-avatar>
+        <h2>{{ title.title.title.title }}</h2>
+        <p>{{ title.title.title.description }}</p>
+      </ion-item>
+
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="showConfirm(title.key)">
+          <ion-icon name="md-trash"></ion-icon>
+          Delete
+        </button>
+        <button ion-button color="light" (click)="goToTitlesFormPage(title)">
+          <ion-icon name="md-create"></ion-icon>
+          Edit
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-list-header> 2nd (Runner Up) </ion-list-header>
+    <ion-item-sliding *ngFor="let title of titles">
+      <ion-item
+        (press)="showToast()"
+        *ngIf="title.title.title.winningPosition === 'second'"
+        class="click animated fadeIn"
+      >
+        <ion-avatar item-start>
+          <img
+            class="cover-image"
+            [src]="
+              title.title.title.image ||
+              'https://banner2.kisspng.com/20180406/ype/kisspng-computer-icons-trophy-award-trophy-5ac75f9eef5be5.5335408415230155829804.jpg'
+            "
+          />
+        </ion-avatar>
+        <h2>{{ title.title.title.title }}</h2>
+        <p>{{ title.title.title.description }}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="showConfirm(title.key)">
+          <ion-icon name="md-trash"></ion-icon>
+          Delete
+        </button>
+        <button ion-button color="light" (click)="goToTitlesFormPage(title)">
+          <ion-icon name="md-create"></ion-icon>
+          Edit
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-list-header> 3rd (Second Runner Up) </ion-list-header>
+    <ion-item-sliding *ngFor="let title of titles">
+      <ion-item
+        (press)="showToast()"
+        *ngIf="title.title.title.winningPosition === 'third'"
+        class="click animated fadeIn"
+      >
+        <ion-avatar item-start>
+          <img
+            class="cover-image"
+            [src]="
+              title.title.title.image ||
+              'https://banner2.kisspng.com/20180406/ype/kisspng-computer-icons-trophy-award-trophy-5ac75f9eef5be5.5335408415230155829804.jpg'
+            "
+          />
+        </ion-avatar>
+        <h2>{{ title.title.title.title }}</h2>
+        <p>{{ title.title.title.description }}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="showConfirm(title.key)">
+          <ion-icon name="md-trash"></ion-icon>
+          Delete
+        </button>
+        <button ion-button color="light" (click)="goToTitlesFormPage(title)">
+          <ion-icon name="md-create"></ion-icon>
+          Edit
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

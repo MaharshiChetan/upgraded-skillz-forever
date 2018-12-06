@@ -1,3 +1,29 @@
-page-settings {
+settings-page {
+  .card-md {
+    margin: 5px;
+    width: calc(100% - 9px);
+  }
 
+  .list-header-md {
+    padding: 0px;
+    margin: 0px 0px 0px 10px;
+    min-height: 0px;
+    font-size: 1.9rem;
+    border-bottom: 1.2px solid #dedede;
+    border-top: none;
+    color: #222;
+  }
+
+  .label-md {
+    margin: 12px 0px 12px;
+  }
+
+  .item.item-block.item-md {
+    padding-left: 22px;
+  }
+
+  .content-md hr {
+    height: 1.5px;
+    background: #dedede;
+  }
 }

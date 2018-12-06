@@ -1,15 +1,9 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-searchbar placeholder="Explore" (ionInput)="getItems($event)"></ion-searchbar>
-  </ion-navbar>
-
+  <ion-navbar color="nav"> <ion-title>Explore</ion-title> </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let item of items">
-      {{ item }}
-    </ion-item>
+    <ion-item *ngFor="let item of items"> {{ item }} </ion-item>
   </ion-list>
 </ion-content>

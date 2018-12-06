@@ -22,6 +22,8 @@ events-page {
     position: relative;
     overflow: hidden;
     display: inline-block;
+    width: 97.5%;
+    margin: 5px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   }
 
@@ -65,5 +67,13 @@ events-page {
 
   ion-card .placeholder {
     height: 190px;
+  }
+
+  .searchbar-md {
+    padding: 2px 0px 1px 0px;
+  }
+
+  .searchbar-md .searchbar-input {
+    padding: 6px 22px 6px 42px;
   }
 }
