@@ -31,14 +31,25 @@ export class AuthProvider {
         this.updateOnAway();
       }
     });
-    // this.storage
-    //   .get('user')
-    //   .then(res => {
-    //     this.uid = res;
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //   });
+  }
+
+  checkUsername(username) {
+    return firebase.database().ref(`usernames/${username}`);
+  }
+
+  removeUsername(username) {
+    return firebase
+      .database()
+      .ref(`usernames/${username}`)
+      .remove();
+  }
+
+  updateUsername(username, uid, email) {
+    return firebase
+      .database()
+      .ref(`usernames`)
+      .child(`${username}`)
+      .update({ uid: uid, email: email });
   }
 
   registerWithEmail(email, password, name, username) {
@@ -50,41 +61,55 @@ export class AuthProvider {
           firebase
             .auth()
             .currentUser.sendEmailVerification()
-            .then(res => {
-              let userdata = JSON.parse(JSON.stringify(response));
-              this.updateUser(
-                userdata.uid,
-                name,
-                username,
-                'https://profile.actionsprout.com/default.jpeg'
-              )
-                .then(res => {
-                  if (res === true) {
-                    this.loginwithEmail(email, password)
-                      .then(res => {
-                        if (res === true) {
-                          resolve(true);
-                        } else if (res === 'verify') {
-                          resolve('verify');
-                        } else if (res === 'password') {
-                          resolve('password');
-                        } else {
+            .then(() => {
+              this.updateUsername(username, response.user.uid, email)
+                .then(() => {
+                  this.updateUser(
+                    response.user.uid,
+                    name,
+                    username,
+                    'https://profile.actionsprout.com/default.jpeg',
+                    '',
+                    email
+                  )
+                    .then(res => {
+                      if (res === true) {
+                        this.loginwithEmail(email, password)
+                          .then(res => {
+                            if (res === true) {
+                              resolve(true);
+                            } else if (res === 'verify') {
+                              resolve('verify');
+                            } else if (res === 'password') {
+                              resolve('password');
+                            } else {
+                              resolve(false);
+                            }
+                          })
+                          .catch(err => {
+                            resolve(false);
+                            console.error(err);
+                          });
+                      } else {
+                        this.deleteAccount()
+                          .then(res => {
+                            resolve(false);
+                          })
+                          .catch(err => {
+                            console.error(err);
+                          });
+                      }
+                    })
+                    .catch(err => {
+                      console.error(err);
+                      this.deleteAccount()
+                        .then(res => {
                           resolve(false);
-                        }
-                      })
-                      .catch(err => {
-                        resolve(false);
-                        console.error(err);
-                      });
-                  } else {
-                    this.deleteAccount()
-                      .then(res => {
-                        resolve(false);
-                      })
-                      .catch(err => {
-                        console.error(err);
-                      });
-                  }
+                        })
+                        .catch(err => {
+                          console.error(err);
+                        });
+                    });
                 })
                 .catch(err => {
                   console.error(err);
@@ -99,13 +124,7 @@ export class AuthProvider {
             })
             .catch(err => {
               console.error(err);
-              this.deleteAccount()
-                .then(res => {
-                  resolve(false);
-                })
-                .catch(err => {
-                  console.error(err);
-                });
+              resolve('email');
             });
         })
         .catch(err => {
@@ -141,26 +160,8 @@ export class AuthProvider {
           if (err.code === 'auth/wrong-password') {
             resolve('password');
           } else {
-            console.error(err.code);
             resolve(false);
           }
-        });
-    });
-  }
-
-  webGoogleLogin(): Promise<boolean> {
-    return new Promise(resolve => {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then(res => {
-          console.log(res);
-          resolve(true);
-        })
-        .catch(err => {
-          resolve(false);
-          console.error(err);
         });
     });
   }
@@ -169,8 +170,7 @@ export class AuthProvider {
     return new Promise(resolve => {
       this.googlePlus
         .login({
-          webClientId:
-            '766344988044-rq4ldcpfb22dggipn58a03te59nhen25.apps.googleusercontent.com',
+          webClientId: '766344988044-rq4ldcpfb22dggipn58a03te59nhen25.apps.googleusercontent.com',
           offline: true,
         })
         .then(res => {
@@ -187,7 +187,9 @@ export class AuthProvider {
                 userdata.uid,
                 userdata.displayName,
                 userdata.email.substring(0, userdata.email.lastIndexOf('@')),
-                userdata.photoURL
+                userdata.photoURL,
+                '',
+                userdata.email
               )
                 .then(res => {
                   if (res === true) {
@@ -196,9 +198,7 @@ export class AuthProvider {
                         resolve(true);
                       })
                       .catch(err => {
-                        console.error(
-                          'There is an error setting login key' + err
-                        );
+                        console.error('There is an error setting login key' + err);
                         this.deleteAccount()
                           .then(res => {
                             resolve(false);
@@ -257,7 +257,9 @@ export class AuthProvider {
                 userdata.uid,
                 userdata.displayName,
                 'NOUSERNAME',
-                userdata.photoURL
+                userdata.photoURL,
+                '',
+                ''
               )
                 .then(res => {
                   if (res === true) {
@@ -266,9 +268,7 @@ export class AuthProvider {
                         resolve(true);
                       })
                       .catch(err => {
-                        console.error(
-                          'There is an error setting login key' + err
-                        );
+                        console.error('There is an error setting login key' + err);
                         this.deleteAccount()
                           .then(res => {
                             resolve(false);
@@ -342,37 +342,40 @@ export class AuthProvider {
     });
   }
 
-  updateUser(uid, name, username, profilePhoto, bio?: string) {
+  updateUser(uid, name, username, profilePhoto, bio: string, email: string) {
     return new Promise(resolve => {
-      firebase
-        .auth()
-        .currentUser.updateProfile({
-          displayName: name,
-          photoURL: profilePhoto,
-        })
-        .then(res => {
-          this.usersdata
-            .child(firebase.auth().currentUser.uid)
-            .child('personalData')
-            .set({
-              uid: firebase.auth().currentUser.uid,
-              displayName: name,
-              userName: username,
-              bio: bio || '',
-              profilePhoto: profilePhoto,
-            })
-            .then(res => {
-              resolve(true);
-            })
-            .catch(err => {
-              console.error(err);
-              resolve(false);
-            });
-        })
-        .catch(err => {
-          console.error(err);
-          resolve(false);
-        });
+      this.updateUsername(username, uid, email).then(() => {
+        firebase
+          .auth()
+          .currentUser.updateProfile({
+            displayName: name,
+            photoURL: profilePhoto,
+          })
+          .then(res => {
+            this.usersdata
+              .child(firebase.auth().currentUser.uid)
+              .child('personalData')
+              .set({
+                uid: firebase.auth().currentUser.uid,
+                displayName: name,
+                email: email,
+                userName: username,
+                bio: bio || '',
+                profilePhoto: profilePhoto,
+              })
+              .then(res => {
+                resolve(true);
+              })
+              .catch(err => {
+                console.error(err);
+                resolve(false);
+              });
+          })
+          .catch(err => {
+            console.error(err);
+            resolve(false);
+          });
+      });
     });
   }
 

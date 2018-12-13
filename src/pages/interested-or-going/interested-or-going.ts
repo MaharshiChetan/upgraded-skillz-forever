@@ -37,9 +37,7 @@ export class InterestedOrGoingPage {
 
   initializeInterestedLoader() {
     this.interestedLoader =
-      this.interestedUsers.length >= this.interestedUsersKeys.length
-        ? 'false'
-        : '';
+      this.interestedUsers.length >= this.interestedUsersKeys.length ? 'false' : '';
     this.interestedLoadingText =
       this.interestedUsers.length >= this.interestedUsersKeys.length
         ? 'Completed'
@@ -47,21 +45,14 @@ export class InterestedOrGoingPage {
   }
 
   initializeGoingLoader() {
-    this.goingLoader =
-      this.goingUsers.length >= this.goingUsersKeys.length ? 'false' : '';
+    this.goingLoader = this.goingUsers.length >= this.goingUsersKeys.length ? 'false' : '';
     this.goingLoadingText =
-      this.goingUsers.length >= this.goingUsersKeys.length
-        ? 'Completed'
-        : 'Loading more users...';
+      this.goingUsers.length >= this.goingUsersKeys.length ? 'Completed' : 'Loading more users...';
   }
 
   fetchInterestedUsers() {
     return new Promise((resolve, reject) => {
-      for (
-        let i = this.interestedUsers.length;
-        i < this.interestedUsers.length + 10;
-        i++
-      ) {
+      for (let i = this.interestedUsers.length; i < this.interestedUsers.length + 10; i++) {
         this.initializeInterestedLoader();
         if (i >= this.interestedUsersKeys.length) {
           break;
@@ -83,11 +74,7 @@ export class InterestedOrGoingPage {
 
   fetchGoingUsers() {
     return new Promise((resolve, reject) => {
-      for (
-        let i = this.goingUsers.length;
-        i < this.goingUsers.length + 10;
-        i++
-      ) {
+      for (let i = this.goingUsers.length; i < this.goingUsers.length + 10; i++) {
         this.initializeGoingLoader();
         if (i >= this.goingUsersKeys.length) {
           break;
@@ -133,7 +120,7 @@ export class InterestedOrGoingPage {
     if (firebase.auth().currentUser.uid === user.uid) {
       this.navCtrl.push('ProfilePage', { currentUser: user });
     } else {
-      this.navCtrl.push('ProfilePage', { user: user });
+      this.navCtrl.push('ProfilePage', { otherUser: user });
     }
   }
 }

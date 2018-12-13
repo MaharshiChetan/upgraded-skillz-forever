@@ -13,11 +13,7 @@ export class ShrinkingSegmentHeaderComponent {
   constructor(public element: ElementRef, public renderer: Renderer) {}
 
   ngAfterViewInit() {
-    this.renderer.setElementStyle(
-      this.element.nativeElement,
-      'height',
-      this.headerHeight + 'px'
-    );
+    this.renderer.setElementStyle(this.element.nativeElement, 'height', this.headerHeight + 'px');
 
     this.scrollArea.ionScroll.subscribe(ev => {
       this.resizeHeader(ev);

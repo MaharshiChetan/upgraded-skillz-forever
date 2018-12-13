@@ -10,17 +10,10 @@
   <ion-refresher (ionRefresh)="fetchEvents($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div *ngIf="!events" class="spinner-container">
-    <ion-spinner></ion-spinner>
-  </div>
-  <ion-card
-    tappable
-    *ngFor="let e of events"
-    (click)="goToEventDetails(e)"
-    class="click"
-  >
+  <div *ngIf="!events" class="spinner-container"><ion-spinner></ion-spinner></div>
+  <ion-card tappable *ngFor="let e of events" (click)="goToEventDetails(e)" class="click">
     <img
-      class="cover-image placeholder"
+      class="cover-image animated fadeIn"
       [src]="placeholderImage"
       (load)="loaded = false"
       [hidden]="loaded"
@@ -29,7 +22,7 @@
     <img
       (load)="loaded = true"
       [src]="e.eventImage"
-      class="original"
+      class="original cover-image"
       [ngClass]="{ 'animated fadeIn delay-3s': animate }"
     />
     <ion-card-content>
@@ -48,11 +41,7 @@
             </p>
           </ion-col>
           <ion-col class="vertical-align-content book">
-            <button
-              ion-button
-              color="danger"
-              [ngClass]="{ 'animated bounceIn': animate }"
-            >
+            <button ion-button color="danger" [ngClass]="{ 'animated bounceIn': animate }">
               Book
             </button>
           </ion-col>
@@ -60,4 +49,9 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
+  <ion-fab bottom right #fab>
+    <button ion-fab color="secondary" (click)="goToCreateEventPage()">
+      <ion-icon name="md-create"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

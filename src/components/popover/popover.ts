@@ -1,20 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { ViewController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { ViewController, NavParams } from 'ionic-angular';
 
 @Component({
   selector: 'popover',
   templateUrl: 'popover.html',
 })
 export class PopoverComponent {
-  options = [
-    { name: 'Leaderboard', id: 1 },
-    { name: 'Invite Friends', id: 2 },
-    { name: 'Share', id: 3 },
-    { name: 'Edit Profile', id: 4 },
-    { name: 'Settings', id: 5 },
+  currentUserOptions = [
+    { name: 'Leaderboard' },
+    { name: 'Invite Friends' },
+    { name: 'Share' },
+    { name: 'My Events' },
+    { name: 'My Tutorials' },
+    { name: 'Edit Profile' },
+    { name: 'Settings' },
+  ];
+  otherUserOptions = [
+    { name: 'Drop' },
+    { name: 'Message' },
+    { name: 'Share' },
+    { name: 'Report' },
+    { name: 'Block' },
   ];
 
-  constructor(private viewCtrl: ViewController) {}
+  type = '';
+  constructor(private viewCtrl: ViewController, private navParams: NavParams) {
+    this.type = this.navParams.get('type');
+  }
 
   optionSelected(option) {
     this.viewCtrl.dismiss(option);

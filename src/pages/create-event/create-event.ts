@@ -27,9 +27,9 @@ export class CreateEventPage implements AfterViewInit {
   imageStore: any;
   button: string = 'Create';
   subscription: any;
-  imageChoice = 'Upload Image';
+  imageChoice = 'Upload Event Image';
   chosenPicture: string;
-  showcases = [];
+  defaultPicture: string = '../../assets/black.jpg';
   categories = [];
   event = {
     startTime: '10:00',
@@ -60,11 +60,10 @@ export class CreateEventPage implements AfterViewInit {
     if (this.eventData) {
       this.button = 'Update';
       this.categories = this.eventData.eventCategories || [];
-      this.showcases = this.eventData.eventShowcases || [];
     }
 
     this.createForm();
-    if (this.chosenPicture || this.eventData) this.imageChoice = 'Change Image';
+    if (this.chosenPicture || this.eventData) this.imageChoice = 'Change Event Image';
   }
 
   ngAfterViewInit() {
@@ -109,36 +108,15 @@ export class CreateEventPage implements AfterViewInit {
   createForm() {
     if (this.eventData) {
       this.eventForm = new FormGroup({
-        eventName: new FormControl(
-          this.eventData.eventName,
-          Validators.required
-        ),
-        startDate: new FormControl(
-          this.eventData.startDate,
-          Validators.required
-        ),
+        eventName: new FormControl(this.eventData.eventName, Validators.required),
+        startDate: new FormControl(this.eventData.startDate, Validators.required),
         endDate: new FormControl(this.eventData.endDate, Validators.required),
-        startTime: new FormControl(
-          this.eventData.startTime,
-          Validators.required
-        ),
+        startTime: new FormControl(this.eventData.startTime, Validators.required),
         endTime: new FormControl(this.eventData.endTime, Validators.required),
-        eventPrice: new FormControl(
-          this.eventData.eventPrice,
-          Validators.required
-        ),
-        eventLocation: new FormControl(
-          this.eventData.eventLocation,
-          Validators.required
-        ),
-        eventState: new FormControl(
-          this.eventData.eventState,
-          Validators.required
-        ),
-        eventCity: new FormControl(
-          this.eventData.eventCity,
-          Validators.required
-        ),
+        eventPrice: new FormControl(this.eventData.eventPrice, Validators.required),
+        eventLocation: new FormControl(this.eventData.eventLocation, Validators.required),
+        eventState: new FormControl(this.eventData.eventState, Validators.required),
+        eventCity: new FormControl(this.eventData.eventCity, Validators.required),
       });
     } else {
       this.eventForm = new FormGroup({
@@ -193,17 +171,14 @@ export class CreateEventPage implements AfterViewInit {
     return this.cameraService.getPictureFromCamera(false).then(
       picture => {
         if (picture) {
-          const quality =
-            6 < parseFloat(this.cameraService.getImageSize(picture))
-              ? 0.5
-              : 0.8;
+          const quality = 6 < parseFloat(this.cameraService.getImageSize(picture)) ? 0.5 : 0.8;
           this.cameraService.generateFromImage(picture, quality, data => {
             this.chosenPicture =
               parseFloat(this.cameraService.getImageSize(picture)) >
               parseFloat(this.cameraService.getImageSize(data))
                 ? data
                 : picture;
-            this.imageChoice = 'Change Image';
+            this.imageChoice = 'Change Event Image';
           });
         }
         loading.dismiss();
@@ -221,17 +196,14 @@ export class CreateEventPage implements AfterViewInit {
     return this.cameraService.getPictureFromPhotoLibrary(false).then(
       picture => {
         if (picture) {
-          const quality =
-            6 < parseFloat(this.cameraService.getImageSize(picture))
-              ? 0.5
-              : 0.8;
+          const quality = 6 < parseFloat(this.cameraService.getImageSize(picture)) ? 0.5 : 0.8;
           this.cameraService.generateFromImage(picture, quality, data => {
             this.chosenPicture =
               parseFloat(this.cameraService.getImageSize(picture)) >
               parseFloat(this.cameraService.getImageSize(data))
                 ? data
                 : picture;
-            this.imageChoice = 'Change Image';
+            this.imageChoice = 'Change Event Image';
           });
         }
         loading.dismiss();
@@ -243,9 +215,7 @@ export class CreateEventPage implements AfterViewInit {
   }
 
   adjust(index): void {
-    let textArea = this.element.nativeElement.getElementsByTagName('textarea')[
-      index
-    ];
+    let textArea = this.element.nativeElement.getElementsByTagName('textarea')[index];
     textArea.style.overflow = 'hidden';
     textArea.style.height = 'auto';
     textArea.style.height = textArea.scrollHeight + 10 + 'px';
@@ -269,7 +239,7 @@ export class CreateEventPage implements AfterViewInit {
       endDateAndTime: `${this.eventForm.get('endDate').value} ${
         this.eventForm.get('endTime').value
       }`,
-      eventShowcases: this.showcases,
+
       eventCategories: this.categories,
     };
 
@@ -282,19 +252,14 @@ export class CreateEventPage implements AfterViewInit {
 
   updateEvent(event, eventKey?: any) {
     if (!(this.chosenPicture || this.eventData)) {
-      this.presentMessage.showToast(
-        'Please upload event image, Its mandatory!',
-        'fail-toast'
-      );
+      this.presentMessage.showToast('Please upload event image, Its mandatory!', 'fail-toast');
       return;
     }
     const loader = this.loadingCtrl.create();
     loader.present();
     const uid = this.authService.getActiveUser().uid;
 
-    let imageId = this.eventData
-      ? this.eventData.imageId
-      : this.db.createPushId();
+    let imageId = this.eventData ? this.eventData.imageId : this.db.createPushId();
 
     this.imageStore = firebase
       .storage()
@@ -307,19 +272,13 @@ export class CreateEventPage implements AfterViewInit {
             .updateEvent(event, url, eventKey, this.eventData.imageId)
             .then(res => {
               loader.dismiss();
-              this.presentMessage.showToast(
-                'Successfully updated event!',
-                'success-toast'
-              );
+              this.presentMessage.showToast('Successfully updated event!', 'success-toast');
               this.showAlertMessage = false;
-              this.navCtrl.popToRoot();
+              this.navCtrl.pop();
             })
             .catch(e => {
               loader.dismiss();
-              this.presentMessage.showToast(
-                'Failed to update event!',
-                'fail-toast'
-              );
+              this.presentMessage.showToast('Failed to update event!', 'fail-toast');
             });
         });
       });
@@ -333,64 +292,28 @@ export class CreateEventPage implements AfterViewInit {
         )
         .then(res => {
           loader.dismiss();
-          this.presentMessage.showToast(
-            'Successfully updated event!',
-            'success-toast'
-          );
+          this.presentMessage.showToast('Successfully updated event!', 'success-toast');
           this.showAlertMessage = false;
-          this.navCtrl.popToRoot();
+          this.navCtrl.pop();
         })
         .catch(e => {
           loader.dismiss();
-          this.presentMessage.showToast(
-            'Failed to update event!',
-            'fail-toast'
-          );
+          this.presentMessage.showToast('Failed to update event!', 'fail-toast');
         });
     } else {
       this.imageStore.putString(this.chosenPicture, 'data_url').then(res => {
         this.imageStore.getDownloadURL().then(url => {
           this.eventService.createEvent(event, url, imageId).then(res => {
             loader.dismiss();
-            this.presentMessage.showToast(
-              'Successfully created event!',
-              'success-toast'
-            );
+            this.presentMessage.showToast('Successfully created event!', 'success-toast');
             this.showAlertMessage = false;
-            this.navCtrl.popToRoot();
+            this.navCtrl.pop();
           });
         });
       });
     }
   }
 
-  addShowcase() {
-    const prompt = this.alertCtrl.create({
-      title: 'Add Showcase',
-      message: 'Enter the name of showcase.',
-      inputs: [
-        {
-          name: 'showcase',
-          placeholder: 'Showcase',
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          },
-        },
-        {
-          text: 'Add',
-          handler: data => {
-            this.showcases.push({ name: data.showcase, totalVotes: 0 });
-          },
-        },
-      ],
-    });
-    prompt.present();
-  }
   addCategories() {
     const prompt = this.alertCtrl.create({
       title: 'Add Category',
@@ -422,14 +345,12 @@ export class CreateEventPage implements AfterViewInit {
     });
     prompt.present();
   }
+
   private exitPage() {
     this.showAlertMessage = false;
-    this.navCtrl.popToRoot();
+    this.navCtrl.pop();
   }
 
-  removeShowcase(index) {
-    this.showcases.splice(index, 1);
-  }
   removeCategory(index) {
     this.categories.splice(index, 1);
   }

@@ -53,13 +53,9 @@ export class EditProfilePage {
     });
   }
 
-  updateUserProfile() {
+  updateUserProfile(name, username, bio, uid) {
     const loader = this.loadingCtrl.create();
     loader.present();
-    const name = this.form.get('name').value;
-    const username = this.form.get('username').value;
-    const bio = this.form.get('bio').value;
-    const uid = this.authService.getActiveUser().uid;
     if (this.chosenPicture) {
       const imageStore = firebase
         .storage()
@@ -68,42 +64,57 @@ export class EditProfilePage {
       imageStore.putString(this.chosenPicture, 'data_url').then(res => {
         imageStore.getDownloadURL().then(url => {
           this.authService
-            .updateUser(uid, name, username, url, bio)
+            .updateUser(uid, name, username, url, bio, this.userProfile.email)
             .then(res => {
-              loader.dismiss();
-              this.presentMessage.showToast(
-                'Succefully updated your profile!',
-                'success-toast'
-              );
+              loader.dismissAll();
+              this.presentMessage.showToast('Succefully updated your profile!', 'success-toast');
               this.navCtrl.pop();
             })
             .catch(e => {
-              loader.dismiss();
-              this.presentMessage.showToast(
-                'Failed to updated your profile!',
-                'fail-toast'
-              );
+              loader.dismissAll();
+              this.presentMessage.showToast('Failed to updated your profile!', 'fail-toast');
             });
         });
       });
     } else {
       this.authService
-        .updateUser(uid, name, username, this.userProfile.profilePhoto, bio)
+        .updateUser(uid, name, username, this.userProfile.profilePhoto, bio, this.userProfile.email)
         .then(res => {
-          loader.dismiss();
-          this.presentMessage.showToast(
-            'Succefully updated your profile!',
-            'success-toast'
-          );
+          loader.dismissAll();
+          if (this.userProfile.userName !== username) {
+            this.authService.removeUsername(this.userProfile.userName);
+          }
+          this.presentMessage.showToast('Succefully updated your profile!', 'success-toast');
           this.navCtrl.pop();
         })
         .catch(e => {
-          loader.dismiss();
-          this.presentMessage.showToast(
-            'Failed to updated your profile!',
-            'fail-toast'
-          );
+          loader.dismissAll();
+          this.presentMessage.showToast('Failed to updated your profile!', 'fail-toast');
         });
+    }
+  }
+  submitForm() {
+    const loader = this.loadingCtrl.create();
+    loader.present();
+    const name = this.form.get('name').value;
+    const username = this.form.get('username').value;
+    const bio = this.form.get('bio').value;
+    const uid = this.authService.getActiveUser().uid;
+    if (this.userProfile.userName !== username) {
+      this.authService
+        .checkUsername(username)
+        .once('value')
+        .then(snapshot => {
+          if (snapshot.val()) {
+            loader.dismissAll();
+            this.presentMessage.showToast(`Username ${username} is already taken!`, 'fail-toast');
+            return;
+          } else {
+            this.updateUserProfile(name, username, bio, uid);
+          }
+        });
+    } else {
+      this.updateUserProfile(name, username, bio, uid);
     }
   }
 
@@ -145,10 +156,7 @@ export class EditProfilePage {
     return this.cameraService.getPictureFromCamera(true).then(
       picture => {
         if (picture) {
-          const quality =
-            6 < parseFloat(this.cameraService.getImageSize(picture))
-              ? 0.5
-              : 0.8;
+          const quality = 6 < parseFloat(this.cameraService.getImageSize(picture)) ? 0.5 : 0.8;
           this.cameraService.generateFromImage(picture, quality, data => {
             this.chosenPicture =
               parseFloat(this.cameraService.getImageSize(picture)) >
@@ -172,10 +180,7 @@ export class EditProfilePage {
     return this.cameraService.getPictureFromPhotoLibrary(true).then(
       picture => {
         if (picture) {
-          const quality =
-            6 < parseFloat(this.cameraService.getImageSize(picture))
-              ? 0.5
-              : 0.8;
+          const quality = 6 < parseFloat(this.cameraService.getImageSize(picture)) ? 0.5 : 0.8;
           this.cameraService.generateFromImage(picture, quality, data => {
             this.chosenPicture =
               parseFloat(this.cameraService.getImageSize(picture)) >

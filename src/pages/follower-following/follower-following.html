@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-navbar color="nav"> <ion-title>List</ion-title> </ion-navbar>
-  <ion-toolbar color="light" mode="md" no-border>
-    <ion-segment [(ngModel)]="type" color="light" mode="md">
+  <ion-navbar color="primary"> <ion-title>List</ion-title> </ion-navbar>
+  <ion-toolbar color="primary" no-border>
+    <ion-segment [(ngModel)]="type" color="light">
       <ion-segment-button value="Dropers" (ionSelect)="fetchFollowers()">
         Dropers
         <div class="vertical-line"></div>
@@ -15,17 +15,10 @@
 
 <ion-content>
   <div [ngSwitch]="type">
-    <ion-list *ngSwitchCase="'Dropers'">
-      <ion-item
-        class="click"
-        *ngFor="let user of followers"
-        (click)="goToProfilePage(user)"
-      >
+    <ion-list *ngSwitchCase="'Dropers'" no-lines>
+      <ion-item class="click" *ngFor="let user of followers" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
-          <img
-            class="cover-image animated fadeIn delay-3s"
-            [src]="user.profilePhoto"
-          />
+          <img class="cover-image animated fadeIn" [src]="user.profilePhoto" />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>
         <p>{{ user.displayName }}</p>
@@ -38,17 +31,10 @@
       </ion-infinite-scroll>
     </ion-list>
 
-    <ion-list *ngSwitchCase="'Droping'">
-      <ion-item
-        class="click"
-        *ngFor="let user of following"
-        (click)="goToProfilePage(user)"
-      >
+    <ion-list *ngSwitchCase="'Droping'" no-lines>
+      <ion-item class="click" *ngFor="let user of following" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
-          <img
-            class="cover-image animated fadeIn delay-3s"
-            [src]="user.profilePhoto"
-          />
+          <img class="cover-image animated fadeIn" [src]="user.profilePhoto" />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>
         <p>{{ user.displayName }}</p>

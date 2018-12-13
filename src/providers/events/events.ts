@@ -26,7 +26,6 @@ export class EventsProvider {
         endTime: event.endTime,
         startDateAndTime: event.startDateAndTime,
         endDateAndTime: event.endDateAndTime,
-        eventShowcases: event.eventShowcases,
         eventImage: eventImage,
         imageId: imageId,
         eventCategories: event.eventCategories,
@@ -35,6 +34,7 @@ export class EventsProvider {
       console.log(e);
     }
   }
+
   updateEvent(event, eventImage, key, imageId) {
     try {
       return this.db.object(`events/${key}`).update({
@@ -51,7 +51,6 @@ export class EventsProvider {
         endTime: event.endTime,
         startDateAndTime: event.startDateAndTime,
         endDateAndTime: event.endDateAndTime,
-        eventShowcases: event.eventShowcases,
         eventImage: eventImage,
         imageId: imageId,
         eventCategories: event.eventCategories,
@@ -66,9 +65,7 @@ export class EventsProvider {
       return this.db
         .list('events')
         .snapshotChanges()
-        .pipe(
-          map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() })))
-        );
+        .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
     } catch (e) {
       console.log(e);
     }
@@ -87,30 +84,12 @@ export class EventsProvider {
     }
   }
 
-  submitVote(event) {
-    try {
-      this.eventData
-        .child(`${event.key}/eventShowcases/${event.showcaseId}`)
-        .once('value', snapshot => {
-          return this.db
-            .object(`events/${event.key}/eventShowcases/${event.showcaseId}`)
-            .update({
-              totalVotes: snapshot.val().totalVotes + 1,
-            });
-        });
-    } catch (e) {
-      return e;
-    }
-  }
-
   fetchInterestedOrGoingUsers(eventKey, type) {
     try {
       return this.db
         .list(`events/${eventKey}/${type}/users`)
         .snapshotChanges()
-        .pipe(
-          map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() })))
-        );
+        .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
     } catch (e) {
       console.log(e);
     }
@@ -119,20 +98,18 @@ export class EventsProvider {
   async handleInterestOrGoing(eventKey, user, type) {
     let check = true;
     try {
-      await this.eventData
-        .child(`${eventKey}/${type}/users`)
-        .once('value', snapshot => {
-          if (!snapshot.val()) {
-            this.incrementInterestOrGoing(eventKey, user, type);
-          } else {
-            snapshot.forEach(childSnapshot => {
-              if (childSnapshot.key === user.uid) {
-                this.decrementInterestOrGoing(eventKey, user, type);
-                check = false;
-              }
-            });
-          }
-        });
+      await this.eventData.child(`${eventKey}/${type}/users`).once('value', snapshot => {
+        if (!snapshot.val()) {
+          this.incrementInterestOrGoing(eventKey, user, type);
+        } else {
+          snapshot.forEach(childSnapshot => {
+            if (childSnapshot.key === user.uid) {
+              this.decrementInterestOrGoing(eventKey, user, type);
+              check = false;
+            }
+          });
+        }
+      });
       if (check) {
         this.incrementInterestOrGoing(eventKey, user, type);
       }

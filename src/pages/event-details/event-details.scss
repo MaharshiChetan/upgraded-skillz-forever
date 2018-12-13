@@ -8,28 +8,14 @@ event-details-page {
   .eventImage {
     width: 100%;
     height: auto;
-    max-height: 300px;
-    margin-top: 56px;
+    max-height: 245px;
+    margin-top: 111px;
   }
 
   .scroll-content {
     top: -56px !important;
     padding-top: 55px !important;
   }
-
-  .hide-header {
-    transition: top 0.25s ease;
-    top: -56px;
-  }
-  .show-header {
-    transition: top 0.25s ease;
-    top: 0px;
-  }
-
-  .vote {
-    float: right;
-  }
-
   /* Image */
   .housing-image {
     background-size: cover;
@@ -81,12 +67,7 @@ event-details-page {
   .location {
     color: gray;
   }
-  .categories-card {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  }
+
   /* Content */
   .content {
     background: $content-color;
@@ -128,11 +109,6 @@ event-details-page {
     height: 1.5px;
   }
 
-  .card-md {
-    width: 100%;
-    margin: 3px 0px;
-  }
-
   .hr {
     margin-bottom: 0px;
   }
@@ -155,9 +131,6 @@ event-details-page {
   .profile-avatar ion-avatar img {
     border-radius: 0%;
   }
-  .click:active {
-    background: rgba(0, 0, 0, 0.2);
-  }
 
   .segment-button.segment-activated {
     font-weight: bold;
@@ -177,6 +150,7 @@ event-details-page {
   .textual-content-image {
     font-size: 1.1em;
   }
+
   .options {
     .button-large-md {
       position: absolute;

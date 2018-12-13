@@ -1,11 +1,6 @@
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Component } from '@angular/core';
-import {
-  LoadingController,
-  IonicPage,
-  NavController,
-  ToastController,
-} from 'ionic-angular';
+import { LoadingController, IonicPage, NavController, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
@@ -43,7 +38,6 @@ export class LoginPage {
       .loginwithEmail(this.email.trim(), this.password)
       .then(res => {
         loader.dismiss();
-        console.log(res);
         if (res === true) {
           this.navCtrl.setRoot('TabsPage');
         } else if (res === 'verify') {
@@ -85,7 +79,6 @@ export class LoginPage {
             cssClass: 'fail-toast',
           })
           .present();
-        console.error(err);
       });
   }
 

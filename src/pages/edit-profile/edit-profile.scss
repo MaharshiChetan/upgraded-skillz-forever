@@ -9,35 +9,18 @@ edit-profile-page {
     display: block;
   }
 
-  .card-md {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    margin: 4px;
-    width: 97%;
-    padding-bottom: 26px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  }
-
   .button-inner {
     font-weight: bold;
   }
+
   .save-btn {
     float: right;
     left: -12px;
     top: 11px;
-    color: #008000;
+    color: #414e53;
   }
 
-  .item-input-has-focus .label-md[stacked],
-  .input-has-focus .label-md[stacked],
-  .item-input-has-focus .label-md[floating],
-  .input-has-focus .label-md[floating] {
-    color: #008000;
-  }
-
-  .label-md[stacked],
-  .label-md[floating] {
-    color: gray;
+  .card-md {
+    padding-bottom: 26px;
   }
 }

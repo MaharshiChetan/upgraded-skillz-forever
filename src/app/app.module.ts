@@ -36,7 +36,7 @@ import { HeaderColor } from '@ionic-native/header-color';
 import { SuperTabsModule } from 'ionic2-super-tabs';
 import { TitlesProvider } from '../providers/titles/titles';
 import { NewPopoverComponent } from '../components/new-popover/new-popover';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [MyApp, PopoverComponent, NewPopoverComponent],
   imports: [
@@ -46,11 +46,13 @@ import { NewPopoverComponent } from '../components/new-popover/new-popover';
     AngularFireModule.initializeApp(config),
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: true,
+      animate: false,
     }),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     IonicImageViewerModule,
     SuperTabsModule.forRoot(),
+    BrowserAnimationsModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, PopoverComponent, NewPopoverComponent],

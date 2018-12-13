@@ -1,26 +1,19 @@
 home-page {
-  .card-md {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    margin: 4px;
-    width: 98%;
-  }
-
   .item-md ion-avatar img {
     width: 54px;
     height: 54px;
   }
 
   .card-header-md {
-    padding: 6px;
-    color: #646464;
+    padding: 6px 11px;
+    color: #414e53;
     font-weight: bold;
   }
 
   .share-post-text {
-    color: #008000;
+    color: #119081;
     font-weight: bold;
+    display: initial;
   }
 
   .label-md {
@@ -28,7 +21,7 @@ home-page {
   }
 
   hr {
-    height: 2px;
+    height: 1.5px;
     margin-bottom: 0.5px;
   }
 
@@ -41,7 +34,7 @@ home-page {
   }
 
   .card-content-md {
-    padding: 6px 6px 0px;
+    padding: 6px 11px 0px;
   }
 
   .item-md {
@@ -52,5 +45,14 @@ home-page {
   .item-md ion-avatar[item-start],
   .item-md ion-thumbnail[item-start] {
     margin: 0px;
+  }
+
+  .profile-avatar ion-avatar img {
+    border-radius: 0%;
+  }
+
+  .card-profile-photo {
+    height: 42px;
+    width: 42px;
   }
 }

@@ -31,17 +31,19 @@ register-page {
     background-image: none;
     position: fixed;
   }
-  // Fullscreen animated rainbow gradient
-  // #1de840,
-  // #1ddde8,
+
   ion-content {
     background: linear-gradient(
       316deg,
       #ff2400,
+      #dd00f3,
       #e81d1d,
       #2b1de8,
+      #19dcea,
+      #b22cff,
       #dd00f3,
-      #dd00f3
+      #19dcea,
+      #b22cff
     );
     background-size: 1800% 1800%;
     animation: rainbow 30s linear infinite;
@@ -57,12 +59,6 @@ register-page {
       background-position: 0% 0%;
     }
   }
-  // Content
-  // .scroll-content {
-  // display: flex;
-  // flex-direction: column;
-  // overflow: hidden;
-  // }
   .logo {
     width: 50%;
     height: auto;
@@ -127,12 +123,10 @@ register-page {
     left: 100%;
     margin-left: 15px;
   }
-
   .legal-stuff {
     color: $white-d;
     text-align: center;
     margin: 10px 12px;
-
     .legal-action {
       font-weight: bolder;
       color: #ffffff;

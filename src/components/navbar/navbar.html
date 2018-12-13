@@ -1,11 +1,7 @@
-<ion-navbar color="nav">
+<ion-navbar color="primary">
   <ion-title *ngIf="navbarTitle !== 'Events'"> {{ navbarTitle }} </ion-title>
   <ion-title *ngIf="navbarTitle === 'Events'">
-    <ion-select
-      interface="popover"
-      [(ngModel)]="options"
-      (ionChange)="changeOption($event)"
-    >
+    <ion-select interface="popover" [(ngModel)]="options" (ionChange)="changeOption($event)">
       <ion-label>Category</ion-label>
       <ion-option value="all">All</ion-option>
       <ion-option value="events">Events</ion-option>

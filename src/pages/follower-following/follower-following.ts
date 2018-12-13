@@ -36,21 +36,15 @@ export class FollowerFollowingPage {
   }
 
   initializeFollowersLoader() {
-    this.followerLoader =
-      this.followers.length >= this.followerKeys.length ? 'false' : '';
+    this.followerLoader = this.followers.length >= this.followerKeys.length ? 'false' : '';
     this.followerLoadingText =
-      this.followers.length >= this.followerKeys.length
-        ? 'Completed'
-        : 'Loading more users...';
+      this.followers.length >= this.followerKeys.length ? 'Completed' : 'Loading more users...';
   }
 
   initializeFollowingLoader() {
-    this.followingLoader =
-      this.following.length >= this.followingKeys.length ? 'false' : '';
+    this.followingLoader = this.following.length >= this.followingKeys.length ? 'false' : '';
     this.followingLoadingText =
-      this.following.length >= this.followingKeys.length
-        ? 'Completed'
-        : 'Loading more users...';
+      this.following.length >= this.followingKeys.length ? 'Completed' : 'Loading more users...';
   }
 
   fetchFollowers() {
@@ -123,7 +117,7 @@ export class FollowerFollowingPage {
     if (firebase.auth().currentUser.uid === user.uid) {
       this.navCtrl.push('ProfilePage', { currentUser: user });
     } else {
-      this.navCtrl.push('ProfilePage', { user: user });
+      this.navCtrl.push('ProfilePage', { otherUser: user });
     }
   }
 }

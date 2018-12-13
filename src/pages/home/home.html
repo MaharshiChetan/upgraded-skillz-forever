@@ -2,30 +2,55 @@
   <ion-refresher (ionRefresh)="fetchCurrentUserProfile($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div *ngIf="!userDetails" class="spinner-container">
-    <ion-spinner></ion-spinner>
-  </div>
+  <div *ngIf="!userDetails" class="spinner-container"><ion-spinner></ion-spinner></div>
   <ion-card *ngIf="userDetails" (click)="goToProfilePage()" class="click">
     <ion-list>
       <ion-item>
         <ion-row>
           <ion-col>
-            <ion-avatar item-start>
-              <img [src]="userDetails.profilePhoto" />
-            </ion-avatar>
+            <ion-avatar item-start> <img [src]="userDetails.profilePhoto" /> </ion-avatar>
           </ion-col>
           <ion-col col-10>
             <ion-card-header>{{ userDetails.displayName }}</ion-card-header>
             <ion-card-content class="share-post-text click">
-              Share your thoughts
+              What's on your mind?
             </ion-card-content>
             <hr />
-            <button ion-button color="nav" class="discover-btn">
-              DISCOVER PEERS
-            </button>
+            <button ion-button color="secondary" class="discover-btn">DISCOVER PEERS</button>
           </ion-col>
         </ion-row>
       </ion-item>
     </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let card of cards">
+    <ion-item>
+      <ion-avatar item-start>
+        <img class="card-profile-photo" [src]="card.avatarImageUrl" (click)="avatarTapped(card)" />
+      </ion-avatar>
+      <h2>{{ card.name }}</h2>
+      <p>{{ card.date }}</p>
+    </ion-item>
+    <img [src]="card.postImageUrl" (click)="imageTapped(card)" />
+    <ion-card-content>
+      <p>{{ card.postText }}</p>
+    </ion-card-content>
+    <ion-row>
+      <ion-col>
+        <button ion-button color="primary" clear small icon-left (click)="like(card)">
+          <ion-icon name="thumbs-up"></ion-icon>
+          {{ card.likes }} Likes
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="primary" clear small icon-left (click)="comment(card)">
+          <ion-icon name="text"></ion-icon>
+          {{ card.comments }} Comments
+        </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note> {{ card.timestamp }} </ion-note>
+      </ion-col>
+    </ion-row>
   </ion-card>
 </ion-content>

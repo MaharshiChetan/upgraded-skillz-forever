@@ -2,7 +2,7 @@
   <ion-refresher (ionRefresh)="fetchDisplayMessages($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list>
+  <ion-list no-lines>
     <ion-searchbar
       [(ngModel)]="searchTerm"
       [showCancelButton]="shouldShowCancel"
@@ -10,9 +10,7 @@
       (ionCancel)="onCancel($event)"
     >
     </ion-searchbar>
-    <div *ngIf="!displayMessages" class="spinner-container">
-      <ion-spinner></ion-spinner>
-    </div>
+    <div *ngIf="!displayMessages" class="spinner-container"><ion-spinner></ion-spinner></div>
     <ion-item
       tappable
       class="click"
@@ -20,11 +18,7 @@
       (click)="goToChatPage(message.userDetails)"
       (press)="presentPopover(message)"
     >
-      <ion-avatar
-        item-start
-        *ngIf="message.userDetails"
-        class="image-container"
-      >
+      <ion-avatar item-start *ngIf="message.userDetails" class="image-container">
         <img [src]="message?.userDetails.profilePhoto" />
         <img
           *ngIf="message.userDetails.status == 'online'"
@@ -39,10 +33,8 @@
       </ion-avatar>
       <h2 *ngIf="message.userDetails">{{ message?.userDetails.userName }}</h2>
       <p *ngIf="message.userDetails">{{ message?.message }}</p>
-      <ion-note item-end>{{
-        message.timeStamp | date: 'h:mm
-        a'
-      }}</ion-note>
+      <ion-note item-end>{{ message.timeStamp | date: 'h:mm
+        a' }}</ion-note>
     </ion-item>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content

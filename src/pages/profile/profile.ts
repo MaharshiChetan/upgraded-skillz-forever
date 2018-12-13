@@ -9,7 +9,6 @@ import {
   PopoverController,
   App,
   FabContainer,
-  AlertController,
 } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { CameraProvider } from '../../providers/camera/camera';
@@ -27,12 +26,14 @@ import { PopoverComponent } from '../../components/popover/popover';
 })
 export class ProfilePage {
   start = 0;
+  fabIcon: any = 'collections';
   dropParentButton = 'post';
   usersdata = firebase.database().ref('/users');
   drop = false;
   userDetails: any;
   chosenPicture: string;
-
+  defaultUserImage = 'assets/default-user.jpeg';
+  animate: boolean = true;
   followerCount: number;
   followingCount: number;
   isFollowing: boolean = false;
@@ -41,8 +42,6 @@ export class ProfilePage {
   isFollowingSubscription;
   followerSubscription;
   followingSubscription;
-
-  animate: boolean = true;
 
   otherUser;
   currentUser;
@@ -59,8 +58,7 @@ export class ProfilePage {
     private presentMessage: Message,
     private followService: FollowProvider,
     private popoverCtrl: PopoverController,
-    private app: App,
-    private alertCtrl: AlertController
+    private app: App
   ) {}
 
   ionViewDidLeave() {
@@ -68,7 +66,7 @@ export class ProfilePage {
   }
 
   ionViewWillEnter() {
-    this.otherUser = this.navParams.get('user');
+    this.otherUser = this.navParams.get('otherUser');
     this.currentUser = this.navParams.get('currentUser');
 
     if (this.otherUser) {
@@ -141,7 +139,8 @@ export class ProfilePage {
     // imageViewer.onDidDismiss(() => alert('Viewer dismissed'));
   }
 
-  changePicture() {
+  changePicture(fab?: FabContainer) {
+    if (fab) fab.close();
     const actionsheet = this.actionsheetCtrl.create({
       title: 'Upload Picture',
       buttons: [
@@ -223,6 +222,7 @@ export class ProfilePage {
 
   fetchCurrentUserProfile(refresher) {
     this.authService.getUserDetails().then(user => {
+      this.currentUser = user;
       this.userDetails = user;
       this.fetchFollowings();
       this.fetchFollowers();
@@ -234,10 +234,6 @@ export class ProfilePage {
     if (this.userDetails.uid === firebase.auth().currentUser.uid) {
       this.navCtrl.push('EditProfilePage', { userDetails: this.userDetails });
     }
-  }
-
-  logout() {
-    this.authService.logout();
   }
 
   goToOneToOneChatPage(userDetails) {
@@ -269,19 +265,29 @@ export class ProfilePage {
   }
 
   presentPopover(ev) {
-    let popover = this.popoverCtrl.create(PopoverComponent);
+    let type = '';
+    if (this.currentUser) {
+      type = 'currentUser';
+    } else {
+      type = 'otherUser';
+    }
+    let popover = this.popoverCtrl.create(PopoverComponent, { type: type });
     popover.present({
       ev: ev,
     });
 
     popover.onDidDismiss(selectedOption => {
       if (selectedOption) {
-        if (selectedOption.id === 4) {
-          this.navCtrl.push('EditProfilePage', {
-            userDetails: this.userDetails,
-          });
-        } else if (selectedOption.id === 5) {
+        if (selectedOption.name === 'Edit Profile') {
+          this.editUserProfile();
+        } else if (selectedOption.name === 'Settings') {
           this.navCtrl.push('SettingsPage');
+        } else if (selectedOption.name === 'My Events') {
+          this.navCtrl.push('MyEventsPage');
+        } else if (selectedOption.name === 'My Tutorials') {
+          this.navCtrl.push('MyTutorialsPage');
+        } else if (selectedOption.name === 'Message') {
+          this.navCtrl.push('OneToOneChatPage', { userDetails: this.otherUser });
         }
       }
     });
@@ -300,25 +306,18 @@ export class ProfilePage {
     this.app.getRootNav().push('TitlesFormPage');
   }
 
-  createPost() {
-    let alertPopup = this.alertCtrl.create({
-      title: 'Attach photo?',
-      message: 'Would you like to attached one photo with your post?',
-      buttons: [
-        {
-          text: 'Yes, attach photo',
-          handler: () => {
-            this.changePicture();
-          },
-        },
-        // {
-        //   text: 'No, Just text',
-        //   handler: () => {
-        //     this.navCtrl.push('CreatePostPage', {});
-        //   },
-        // },
-      ],
-    });
-    alertPopup.present();
+  goToCreateEventPage(fab: FabContainer) {
+    fab.close();
+    this.app.getRootNav().push('CreateEventPage');
+  }
+
+  onTabSelect(event) {
+    if (event.index === 2) {
+      this.fabIcon = 'titles';
+    } else if (event.index === 1) {
+      this.fabIcon = 'collections';
+    } else {
+      this.fabIcon = false;
+    }
   }
 }

@@ -11,7 +11,6 @@ import {
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { TitlesProvider } from '../../providers/titles/titles';
 import firebase from 'firebase';
-import { Message } from '../../providers/message/message';
 import { CameraProvider } from '../../providers/camera/camera';
 import { AngularFireDatabase } from 'angularfire2/database';
 
@@ -56,8 +55,6 @@ export class TitlesFormPage {
 
   createForm() {
     if (this.type === 'edit') {
-      console.log(this.title);
-
       this.form = new FormGroup({
         title: new FormControl(this.title.title.title.title, Validators.required),
         description: new FormControl(this.title.title.title.description, Validators.required),
@@ -113,7 +110,6 @@ export class TitlesFormPage {
           text: 'Perfect',
           handler: data => {
             this.otherCategory = data.category;
-            console.log(data);
           },
         },
       ],
@@ -176,7 +172,7 @@ export class TitlesFormPage {
       type: this.form.get('type').value,
       year: this.form.get('year').value,
       image: imageUrl || this.defaultPicture,
-      imageId: imageId,
+      imageId: imageId || null,
     };
   }
 

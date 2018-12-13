@@ -1,7 +1,21 @@
 <ion-header no-shadow no-border>
-  <ion-navbar color="nav">
+  <ion-navbar color="primary">
     <ion-buttons end>
-      <button ion-button icon-only><ion-icon name="person-add"></ion-icon></button>
+      <button ion-button icon-only *ngIf="currentUser">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+      <button ion-button icon-only *ngIf="otherUser && !isFollowing" (click)="follow()">
+        <ion-icon name="ios-water"></ion-icon>
+      </button>
+      <button
+        ion-button
+        icon-only
+        *ngIf="otherUser && isFollowing"
+        color="drop"
+        (click)="unfollow()"
+      >
+        <ion-icon name="ios-water" class="animated bounce delay-2s"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>
       </button>
@@ -11,47 +25,57 @@
 </ion-header>
 
 <ion-content>
-  <shrinking-segment-header *ngIf="userDetails" class="profile-background">
+  <div class="profile profile-background">
     <div>
-      <ion-avatar>
+      <ion-avatar *ngIf="!userDetails">
+        <img (click)="presentImage(image)" #image [src]="defaultUserImage" class="cover-image" />
+      </ion-avatar>
+      <ion-avatar *ngIf="userDetails">
         <img
           (click)="presentImage(image)"
+          #image
           [src]="userDetails.profilePhoto"
           class="cover-image"
-          #image
+          [ngClass]="{ 'animated fadeIn delay-3s': animate }"
         />
       </ion-avatar>
-      <div>
+      <div *ngIf="userDetails">
         <h3>{{ userDetails.displayName }}</h3>
         <button class="follow-btn" (click)="goToFollowersPage()">
           <ion-icon name="person"></ion-icon> {{ followerCount }}
         </button>
       </div>
-      <p>{{ userDetails.bio }}</p>
+      <p>{{ userDetails?.bio }}</p>
     </div>
-  </shrinking-segment-header>
-  <ion-fab bottom right #fab>
-    <button ion-fab color="nav"><ion-icon name="add"></ion-icon></button>
+  </div>
+  <ion-fab bottom right #fab *ngIf="currentUser && fabIcon === 'collections'">
+    <button ion-fab color="secondary"><ion-icon name="add"></ion-icon></button>
     <ion-fab-list side="left">
-      <button ion-fab><ion-icon name="md-calendar"></ion-icon></button>
-      <button ion-fab><ion-icon name="md-grid"></ion-icon></button>
       <button ion-fab (click)="goToTitlesFormPage(fab)">
-        <ion-icon name="md-trophy"></ion-icon>
+        <ion-icon name="md-musical-notes"></ion-icon>
       </button>
+      <button ion-fab (click)="goToCreateEventPage(fab)">
+        <ion-icon name="md-videocam"></ion-icon>
+      </button>
+      <button ion-fab (click)="changePicture(fab)"><ion-icon name="md-images"></ion-icon></button>
     </ion-fab-list>
+  </ion-fab>
+  <ion-fab bottom right #fab *ngIf="currentUser && fabIcon === 'titles'">
+    <button ion-fab color="secondary" (click)="goToTitlesFormPage(fab)">
+      <ion-icon name="md-create"></ion-icon>
+    </button>
   </ion-fab>
 
   <super-tabs
-    selectedTabIndex="2"
-    toolbarBackground="nav"
+    selectedTabIndex="1"
+    toolbarBackground="primary"
     toolbarColor="white"
-    indicatorColor="white"
+    indicatorColor="secondary"
     shortSwipeDuration="0"
+    (tabSelect)="onTabSelect($event)"
   >
-    <super-tab root="MyEventsPage" title="MY EVENTS" icon="md-calendar"></super-tab>
-    <super-tab root="CollectionsPage" title="COLL" icon="md-grid"></super-tab>
-    <super-tab root="ActivityPage" title="ACTIVITY" icon="md-menu"></super-tab>
     <super-tab root="SkillsPage" title="SKILLS" icon="md-snow"></super-tab>
+    <super-tab root="CollectionsPage" title="COLLECTIONS" icon="md-grid"></super-tab>
     <super-tab root="TitlesPage" title="TITLES" icon="md-trophy"></super-tab>
   </super-tabs>
 </ion-content>

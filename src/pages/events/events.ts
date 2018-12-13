@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, App } from 'ionic-angular';
 import { EventsProvider } from '../../providers/events/events';
-import { AuthProvider } from '../../providers/auth/auth';
 import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
@@ -18,7 +17,6 @@ export class EventsPage {
   constructor(
     public navCtrl: NavController,
     private eventService: EventsProvider,
-    private authService: AuthProvider,
     private tabsPage: TabsPage,
     private app: App
   ) {}
@@ -52,7 +50,7 @@ export class EventsPage {
     alert(card.title + ' was shared.');
   }
 
-  goToCreateEvent() {
-    this.navCtrl.push('CreateEventPage');
+  goToCreateEventPage() {
+    this.app.getRootNav().push('CreateEventPage');
   }
 }

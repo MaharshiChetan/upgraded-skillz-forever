@@ -33,7 +33,6 @@ export class EventDetailsPage {
 
   fileTransfer: FileTransferObject = this.transfer.create();
   start = 0;
-  threshold = 100;
   usersdata = firebase.database().ref('/users');
   slideHeaderPrevious = 0;
   ionScroll: any;
@@ -156,10 +155,7 @@ export class EventDetailsPage {
     const loading = this.createLoading();
     loading.present();
     this.fileTransfer
-      .download(
-        this.event.eventImage,
-        this.file.dataDirectory + 'this.event.eventName' + '.jpeg'
-      )
+      .download(this.event.eventImage, this.file.dataDirectory + 'this.event.eventName' + '.jpeg')
       .then(image => {
         loading.dismiss();
         this.socialSharing
@@ -193,10 +189,7 @@ export class EventDetailsPage {
       'Event details are copied just paste in your instagram post.'
     );
     this.fileTransfer
-      .download(
-        this.event.eventImage,
-        this.file.dataDirectory + 'this.event.eventName' + '.jpeg'
-      )
+      .download(this.event.eventImage, this.file.dataDirectory + 'this.event.eventName' + '.jpeg')
       .then(image => {
         loading.dismiss();
         this.socialSharing
@@ -269,43 +262,34 @@ export class EventDetailsPage {
   fetchDiscussionPosts() {
     this.postService.getEventPosts(this.event.key).subscribe(eventPosts => {
       this.posts = eventPosts.reverse();
+
       this.posts.forEach((post, i) => {
-        this.usersdata
-          .child(`${post.uid}/personalData`)
-          .once('value', snapshot => {
-            this.posts[i].userDetails = snapshot.val();
-            if (post.uid === firebase.auth().currentUser.uid) {
-              this.posts[i].myPost = true;
+        this.usersdata.child(`${post.uid}/personalData`).once('value', snapshot => {
+          this.posts[i].userDetails = snapshot.val();
+          if (post.uid === firebase.auth().currentUser.uid) {
+            this.posts[i].myPost = true;
+          }
+          this.postService.getTotalLikes(post.key, this.event.key).subscribe(likes => {
+            if (this.posts.length > 0) {
+              this.posts[i].likes = likes;
+              this.posts[i].totalLikes = likes.length;
             }
-            this.postService
-              .getTotalLikes(post.key, this.event.key)
-              .subscribe(likes => {
-                if (this.posts.length > 0) {
-                  this.posts[i].likes = likes;
-                  this.posts[i].totalLikes = likes.length;
-                }
-              });
-            this.postService
-              .getTotalComments(post.key, this.event.key)
-              .subscribe(comments => {
-                if (this.posts.length > 0) {
-                  this.posts[i].totalComments = comments.length;
-                }
-              });
-            this.postService
-              .checkLike(
-                post.key,
-                firebase.auth().currentUser.uid,
-                this.event.key
-              )
-              .subscribe(data => {
-                if (data.key && this.posts.length > 0) {
-                  this.posts[i].isLiking = true;
-                } else if (this.posts.length > 0) {
-                  this.posts[i].isLiking = false;
-                }
-              });
           });
+          this.postService.getTotalComments(post.key, this.event.key).subscribe(comments => {
+            if (this.posts.length > 0) {
+              this.posts[i].totalComments = comments.length;
+            }
+          });
+          this.postService
+            .checkLike(post.key, firebase.auth().currentUser.uid, this.event.key)
+            .subscribe(data => {
+              if (data.key && this.posts.length > 0) {
+                this.posts[i].isLiking = true;
+              } else if (this.posts.length > 0) {
+                this.posts[i].isLiking = false;
+              }
+            });
+        });
       });
     });
   }
@@ -348,10 +332,7 @@ export class EventDetailsPage {
     return this.cameraService.getPictureFromCamera(false).then(
       picture => {
         if (picture) {
-          const quality =
-            6 < parseFloat(this.cameraService.getImageSize(picture))
-              ? 0.5
-              : 0.8;
+          const quality = 6 < parseFloat(this.cameraService.getImageSize(picture)) ? 0.5 : 0.8;
           this.cameraService.generateFromImage(picture, quality, data => {
             const image =
               parseFloat(this.cameraService.getImageSize(picture)) >
@@ -380,10 +361,7 @@ export class EventDetailsPage {
     return this.cameraService.getPictureFromPhotoLibrary(false).then(
       picture => {
         if (picture) {
-          const quality =
-            6 < parseFloat(this.cameraService.getImageSize(picture))
-              ? 0.5
-              : 0.8;
+          const quality = 6 < parseFloat(this.cameraService.getImageSize(picture)) ? 0.5 : 0.8;
 
           this.cameraService.generateFromImage(picture, quality, data => {
             const image =
@@ -442,19 +420,11 @@ export class EventDetailsPage {
   }
 
   like(post) {
-    this.postService.likeEventPost(
-      post.key,
-      firebase.auth().currentUser.uid,
-      this.event.key
-    );
+    this.postService.likeEventPost(post.key, firebase.auth().currentUser.uid, this.event.key);
   }
 
   unlike(post) {
-    this.postService.unlikeEventPost(
-      post.key,
-      firebase.auth().currentUser.uid,
-      this.event.key
-    );
+    this.postService.unlikeEventPost(post.key, firebase.auth().currentUser.uid, this.event.key);
   }
 
   openCommentsModal(post, eventId) {

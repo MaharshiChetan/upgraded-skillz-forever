@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, AlertController, ToastController, App } from 'ionic-angular';
+import { IonicPage, AlertController, App } from 'ionic-angular';
 import { TitlesProvider } from '../../providers/titles/titles';
 import firebase from 'firebase';
 
@@ -10,27 +10,30 @@ import firebase from 'firebase';
 })
 export class TitlesPage {
   titles;
-  uid: string;
   chosenPicture: any;
-  view: boolean = false;
+
   constructor(
-    private navParams: NavParams,
     private titlesService: TitlesProvider,
     private alertCtrl: AlertController,
-    private toastCtrl: ToastController,
     private app: App
-  ) {
-    this.uid = firebase.auth().currentUser.uid;
-  }
+  ) {}
 
   ionViewWillLoad() {
-    this.titlesService.getTitles(this.uid).subscribe(titles => {
+    this.getTitles();
+  }
+
+  getTitles(event?) {
+    const uid: string = firebase.auth().currentUser.uid;
+    this.titlesService.getTitles(uid).subscribe(titles => {
       this.titles = titles;
+      console.log(this.titles);
+      if (event) event.complete();
     });
   }
 
   removeTitle(key: string) {
-    this.titlesService.removeTitle(this.uid, key);
+    const uid: string = firebase.auth().currentUser.uid;
+    this.titlesService.removeTitle(uid, key);
   }
 
   showConfirm(key) {
@@ -53,22 +56,6 @@ export class TitlesPage {
       ],
     });
     confirm.present();
-  }
-
-  changeView() {
-    this.view = !this.view;
-  }
-
-  showToast() {
-    setTimeout(() => {
-      this.toastCtrl
-        .create({
-          message: 'Slide left for more options',
-          position: 'top',
-          duration: 3000,
-        })
-        .present();
-    }, 500);
   }
 
   goToTitlesFormPage(title) {

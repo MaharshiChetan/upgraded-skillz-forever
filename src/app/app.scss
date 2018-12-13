@@ -86,3 +86,33 @@
   background-color: #f7f7f7;
   // color: #f2f2f2;
 }
+
+.item-input-has-focus .label-md[stacked],
+.input-has-focus .label-md[stacked],
+.item-input-has-focus .label-md[floating],
+.input-has-focus .label-md[floating] {
+  color: #008000;
+}
+
+.label-md[stacked],
+.label-md[floating] {
+  color: gray;
+}
+
+.card-md {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  margin: 4px;
+  width: calc(100% - 8px);
+  // box-shadow: rgba(58, 78, 95, 0.2) 0 10px 16px, rgba(58, 78, 95, 0.05) 0 -5px 16px;
+  border-radius: 10px;
+}
+
+[_nghost-c0] {
+  border-radius: 10px;
+}
+
+.popover-md .popover-content {
+  border-radius: 10px;
+}

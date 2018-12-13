@@ -1,12 +1,10 @@
 <ion-header>
-  <ion-navbar color="nav">
+  <ion-navbar color="primary">
     <ion-title>{{ otherUserDetails?.userName }}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <div *ngIf="!messages" class="spinner-container">
-    <ion-spinner></ion-spinner>
-  </div>
+  <div *ngIf="!messages" class="spinner-container"><ion-spinner></ion-spinner></div>
   <div *ngFor="let message of messages" class="message-wrapper">
     <div *ngIf="message.sentBy === otherUserDetails.uid">
       <img

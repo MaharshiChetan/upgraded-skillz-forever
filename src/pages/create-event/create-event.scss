@@ -9,4 +9,50 @@ create-event-page {
   .item-divider-md-light {
     font-weight: bold;
   }
+
+  .card-md {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 4px;
+    width: 97%;
+    padding-bottom: 26px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  .item-input-has-focus .label-md[stacked],
+  .input-has-focus .label-md[stacked],
+  .item-input-has-focus .label-md[floating],
+  .input-has-focus .label-md[floating] {
+    color: #008000;
+  }
+
+  .label-md[stacked],
+  .label-md[floating] {
+    color: gray;
+  }
+
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+  }
+
+  .img-placeholder {
+    background: black;
+    height: 200px;
+  }
+
+  img {
+    max-height: 190px;
+  }
+
+  .container {
+    opacity: 0.8;
+    position: relative;
+    text-align: center;
+    color: white;
+  }
 }

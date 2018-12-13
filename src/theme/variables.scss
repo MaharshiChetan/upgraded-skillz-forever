@@ -36,18 +36,19 @@ $theme-color-3: #5e5874;
 $popover-md-width: 200px;
 
 $colors: (
-  primary: #242424,
+  primary: #414e53,
   primary-one: #387ef5,
-  secondary: #008000,
+  secondary: #6ec30c,
   danger: #f53d3d,
   post: #545454,
   light: #f4f4f4,
   dark: #222,
   favorite: #69bb7b,
-  nav: #60af00,
-  white: #fff,
+  // nav: #60af00,
+    white: #fff,
   gray: gray,
   btn: #49b7f0,
+  drop: #89ff00,
   walkthrough: (
     base: $theme-color-1,
     contrast: $white,
@@ -78,6 +79,10 @@ $colors: (
   ),
   instagram: (
     base: #e4405f,
+    contrast: $white,
+  ),
+  whatsapp: (
+    base: #075e54,
     contrast: $white,
   ),
   twitter: (

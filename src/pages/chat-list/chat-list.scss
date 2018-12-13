@@ -22,7 +22,12 @@ chat-list-page {
     padding: 2px 0px 4px 0px;
   }
 
+  .item-md {
+    display: -webkit-inline-box;
+    border-radius: 10px;
+  }
   .searchbar-md .searchbar-input {
     padding: 6px 22px 6px 42px;
+    border-radius: 8px;
   }
 }

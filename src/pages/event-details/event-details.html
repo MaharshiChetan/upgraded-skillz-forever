@@ -1,16 +1,14 @@
-<ion-header
-  [ngClass]="{ 'hide-header': showheader, 'show-header': hideheader }"
->
-  <ion-navbar color="nav">
+<ion-header [elasticHeader]="myContent">
+  <ion-navbar color="primary">
     <ion-title> {{ event.eventName }} </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen #myContent>
   <section class="housing-image click">
     <img
       tappable
-      class="eventImage animated fadeIn"
+      class="eventImage cover-image animated fadeIn"
       [src]="event.eventImage"
       alt=""
       #myImage
@@ -32,23 +30,16 @@
         </div>
       </ion-col>
       <ion-col class="vertical-align-content book" text-center>
-        <button ion-button color="danger" (click)="bookTicket()">
-          {{ bookingTitle }}
-        </button>
+        <button ion-button color="danger" (click)="bookTicket()">{{ bookingTitle }}</button>
       </ion-col>
     </ion-row>
   </ion-grid>
   <hr />
   <ion-grid>
     <ion-row text-center icon-only class="interested-going">
-      <ion-col
-        tappable
-        (click)="handleInterestedOrGoing(event.key, 'interested')"
-        class="click"
-      >
+      <ion-col tappable (click)="handleInterestedOrGoing(event.key, 'interested')" class="click">
         <div *ngIf="!interested">
-          <ion-icon color="gray" ios="ios-star-outline" md="md-star-outline">
-          </ion-icon>
+          <ion-icon color="gray" ios="ios-star-outline" md="md-star-outline"> </ion-icon>
           <p class="responsive-font">Interested</p>
         </div>
         <div *ngIf="interested">
@@ -56,11 +47,7 @@
           <p class="responsive-font active">Interested</p>
         </div>
       </ion-col>
-      <ion-col
-        tappable
-        (click)="handleInterestedOrGoing(event.key, 'going')"
-        class="click"
-      >
+      <ion-col tappable (click)="handleInterestedOrGoing(event.key, 'going')" class="click">
         <div *ngIf="!going">
           <ion-icon color="gray" name="ios-checkmark-circle-outline"></ion-icon>
           <p class="responsive-font">Going</p>
@@ -75,18 +62,14 @@
   <hr />
   <ion-grid>
     <ion-row class="time-location" icon-only>
-      <ion-col col-2>
-        <ion-icon ios="ios-time" md="md-time"></ion-icon>
-      </ion-col>
+      <ion-col col-2> <ion-icon ios="ios-time" md="md-time"></ion-icon> </ion-col>
       <ion-col>
         {{ event.startDateAndTime | date: 'mediumDate' }} -
         {{ event.endDateAndTime | date: 'mediumDate' }}
       </ion-col>
     </ion-row>
     <ion-row class="time-location" icon-only>
-      <ion-col col-2>
-        <ion-icon ios="ios-locate" md="md-locate"></ion-icon>
-      </ion-col>
+      <ion-col col-2> <ion-icon ios="ios-locate" md="md-locate"></ion-icon> </ion-col>
       <ion-col>
         {{ event.eventCity }} <br />
         <div class="location">{{ event.eventLocation }}</div>
@@ -95,25 +78,13 @@
   </ion-grid>
   <hr />
   <ion-row text-center style="font-weight: bold">
-    <ion-col
-      tappable
-      class="click"
-      (click)="goToInterestedOrGoingUsersPage('interested')"
-    >
+    <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('interested')">
       Interested ({{ interestedCount }})
     </ion-col>
-    <ion-col
-      tappable
-      class="click"
-      (click)="goToInterestedOrGoingUsersPage('going')"
-    >
+    <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('going')">
       Going ({{ goingCount }})
     </ion-col>
-    <ion-col
-      tappable
-      class="click"
-      (click)="goToInterestedOrGoingUsersPage('Buyed')"
-    >
+    <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('Buyed')">
       Buyed (0)
     </ion-col>
   </ion-row>
@@ -125,11 +96,7 @@
       About
       <div class="vertical-line full-line"></div>
     </ion-segment-button>
-    <ion-segment-button
-      class="click"
-      value="discussion"
-      (ionSelect)="fetchDiscussionPosts()"
-    >
+    <ion-segment-button class="click" value="discussion" (ionSelect)="fetchDiscussionPosts()">
       Discussion
     </ion-segment-button>
   </ion-segment>
@@ -142,42 +109,15 @@
             <ion-col class="categories-card click">
               <ion-icon name="pin"></ion-icon>{{ event.eventCity }}
             </ion-col>
-            <ion-col
-              tappable
-              class="categories-card click"
-              (click)="goToReviewsPage()"
-            >
+            <ion-col tappable class="categories-card click" (click)="goToReviewsPage()">
               <ion-icon ios="ios-star" md="md-star"></ion-icon>
               Reviews
             </ion-col>
           </ion-row>
         </ion-grid>
-        <ion-card class="categories-card" *ngIf="event.eventShowcases">
-          <ion-card-header>
-            <strong>VOTE FOR Showcase</strong>
-          </ion-card-header>
-
-          <ion-card-content>
-            <p *ngFor="let showcase of event.eventShowcases">
-              {{ showcase.name }}
-              <strong class="vote"> {{ showcase.totalVotes }} </strong>
-            </p>
-            <button
-              ion-button
-              block
-              clear
-              color="primary-one"
-              (click)="goToSubmitVotePage()"
-            >
-              Submit Vote
-            </button>
-          </ion-card-content>
-        </ion-card>
 
         <ion-card class="categories-card">
-          <ion-card-header>
-            <strong>EVENT DESCRIPTION</strong>
-          </ion-card-header>
+          <ion-card-header> <strong>EVENT DESCRIPTION</strong> </ion-card-header>
 
           <ion-card-content>
             <pre class="description">{{ event.eventDescription }}</pre>
@@ -195,16 +135,10 @@
           <h2 style="color: gray">Write something...</h2>
         </ion-item>
       </ion-card>
-      <div *ngIf="!posts" class="spinner-container">
-        <ion-spinner></ion-spinner>
-      </div>
+      <div *ngIf="!posts" class="spinner-container"><ion-spinner></ion-spinner></div>
       <ion-card *ngFor="let post of posts" class="categories-card">
         <ion-item *ngIf="post.userDetails">
-          <ion-avatar
-            tappable
-            item-start
-            (click)="goToProfilePage(post.userDetails)"
-          >
+          <ion-avatar tappable item-start (click)="goToProfilePage(post.userDetails)">
             <img
               class="cover-image animated fadeIn delay-3s"
               [src]="post.userDetails.profilePhoto"
@@ -225,10 +159,7 @@
               <ion-icon name="ios-more"></ion-icon>
             </button>
           </div>
-          <p>
-            {{ post.date | date: 'mediumDate' }} at
-            {{ post.date | date: 'shortTime' }}
-          </p>
+          <p>{{ post.date | date: 'mediumDate' }} at {{ post.date | date: 'shortTime' }}</p>
         </ion-item>
         <div *ngIf="post.imageUrl">
           <img
@@ -303,10 +234,7 @@
               (click)="like(post)"
               *ngIf="!post.isLiking"
             >
-              <ion-icon
-                class="animated bounceIn"
-                name="md-heart-outline"
-              ></ion-icon>
+              <ion-icon class="animated bounceIn" name="md-heart-outline"></ion-icon>
               {{ post.totalLikes }} Likes
             </button>
             <button
@@ -318,11 +246,7 @@
               (click)="unlike(post)"
               *ngIf="post.isLiking"
             >
-              <ion-icon
-                class="animated bounceIn"
-                name="ios-heart"
-                color="danger"
-              ></ion-icon>
+              <ion-icon class="animated bounceIn" name="ios-heart" color="danger"></ion-icon>
               {{ post.totalLikes }} Likes
             </button>
           </ion-col>
@@ -351,22 +275,17 @@
   </div>
 
   <ion-fab bottom right #fab>
-    <button ion-fab [hideFabOnscroll]="content" color="nav">
+    <button ion-fab [hideFabOnscroll]="content" color="secondary">
       <ion-icon name="share"></ion-icon>
     </button>
     <ion-fab-list side="top">
-      <button color="twitter" ion-fab>
-        <ion-icon name="logo-twitter"></ion-icon>
-      </button>
       <button color="instagram" (click)="shareOnInstagram(fab)" ion-fab>
         <ion-icon name="logo-instagram"></ion-icon>
       </button>
-      <button color="secondary" (click)="shareOnWhatsApp(fab)" ion-fab>
+      <button color="whatsapp" (click)="shareOnWhatsApp(fab)" ion-fab>
         <ion-icon name="logo-whatsapp"></ion-icon>
       </button>
-      <button color="facebook" ion-fab>
-        <ion-icon name="logo-facebook"></ion-icon>
-      </button>
+      <button color="facebook" ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
     </ion-fab-list>
   </ion-fab>
 </ion-content>

@@ -5,13 +5,18 @@ import firebase from 'firebase';
 
 @Injectable()
 export class PostProvider {
+  node;
+  uid = firebase.auth().currentUser.uid;
   constructor(private db: AngularFireDatabase) {}
 
-  createEventPost(post, eventId: string) {
-    return this.db.list(`eventPosts/${eventId}`).push({
+  createEventPost(post, eventId?: string) {
+    if (eventId) this.node = this.db.list(`eventPosts/${eventId}`);
+    else this.node = this.db.list(`userPosts/${this.uid}`);
+
+    return this.node.push({
       imageUrl: post.imageUrl,
       date: '' + new Date(),
-      uid: firebase.auth().currentUser.uid,
+      uid: this.uid,
       imageId: post.imageId,
       textualContent: post.textualContent,
     });
@@ -21,7 +26,7 @@ export class PostProvider {
     return this.db.object(`eventPosts/${eventId}/${postId}`).update({
       imageUrl: post.imageUrl,
       date: '' + new Date(),
-      uid: firebase.auth().currentUser.uid,
+      uid: this.uid,
       imageId: post.imageId,
       textualContent: post.textualContent,
     });
@@ -70,9 +75,7 @@ export class PostProvider {
     return this.db
       .list(`eventPosts/${eventId}`)
       .snapshotChanges()
-      .pipe(
-        map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() })))
-      );
+      .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
   }
 
   deleteAllLikes(eventId: string) {
@@ -80,15 +83,11 @@ export class PostProvider {
   }
 
   likeEventPost(postId: string, uid: string, eventId: string) {
-    this.db
-      .object(`eventPostLikes/${eventId}/${postId}`)
-      .update({ [uid]: true });
+    this.db.object(`eventPostLikes/${eventId}/${postId}`).update({ [uid]: true });
   }
 
   checkLike(postId: string, uid: string, eventId: string) {
-    return this.db
-      .object(`eventPostLikes/${eventId}/${postId}/${uid}`)
-      .snapshotChanges();
+    return this.db.object(`eventPostLikes/${eventId}/${postId}/${uid}`).snapshotChanges();
   }
 
   getTotalLikes(postId: string, eventId: string) {
@@ -119,9 +118,7 @@ export class PostProvider {
     return this.db
       .list(`eventPostComments/${eventId}/${postId}`)
       .snapshotChanges()
-      .pipe(
-        map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() })))
-      );
+      .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
   }
 
   getTotalComments(postId: string, eventId: string) {
@@ -133,9 +130,7 @@ export class PostProvider {
   }
 
   deleteComment(postId: string, eventId: string, commentId) {
-    this.db
-      .object(`eventPostComments/${eventId}/${postId}/${commentId}`)
-      .remove();
+    this.db.object(`eventPostComments/${eventId}/${postId}/${commentId}`).remove();
   }
 
   deleteAllEventPostImages(eventId, posts) {

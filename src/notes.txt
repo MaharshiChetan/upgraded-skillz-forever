@@ -6,3 +6,61 @@ NOTES
     this.navParams.get('rootNavCtrl').push('ChatListPage', { currentUser: this.userDetails });
 2. Use below syntax for navigating between pages inside super-tabs
     this.navCtrl.push('ProfilePage');
+
+====================================================================================================
+
+create
+  event post
+    single              function => createPost(event, uid)
+  user post
+    single              function => createPost()
+update
+  event post
+    single
+  user post
+    single
+delete
+  event post
+    all
+    single
+  user post
+    all
+    single
+read
+  event post
+    all
+    single
+  user post
+    all
+    single
+
+
+eventPost
+  eventId
+    post
+
+
+
+
+
+where we wants to display
+
+fetch data in segment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

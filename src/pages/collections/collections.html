@@ -1,1 +1,48 @@
-<ion-content> </ion-content>
+<ion-content>
+  <ion-card>
+    <ion-list-header>Photos <span>25+</span></ion-list-header>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-xl-3 *ngFor="let i of [1, 2, 3]">
+          <img
+            (click)="presentImage(image)"
+            #image
+            class="image-container"
+            src="
+              https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg
+            "
+          />
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-card>
+    <ion-list-header> Videos <span>28+</span></ion-list-header>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col col-xl-3 *ngFor="let i of [1, 2, 3]">
+          <img
+            class="image-container"
+            src="https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg"
+          />
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <ion-card>
+    <ion-list-header> Tracks <span>34+</span></ion-list-header>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col col-xl-3 *ngFor="let i of [1, 2, 3]">
+          <img
+            class="image-container"
+            src="https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg"
+          />
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>

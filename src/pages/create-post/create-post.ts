@@ -87,9 +87,7 @@ export class CreatePostPage {
   }
 
   adjust(): void {
-    let textArea = this.element.nativeElement.getElementsByTagName(
-      'textarea'
-    )[0];
+    let textArea = this.element.nativeElement.getElementsByTagName('textarea')[0];
     textArea.style.overflow = 'hidden';
     textArea.style.height = 'auto';
     textArea.style.height = textArea.scrollHeight + 5 + 'px';
@@ -97,7 +95,6 @@ export class CreatePostPage {
 
   presentImage(myImage) {
     this.imageViewerCtrl.create(myImage).present();
-    // imageViewer.onDidDismiss(() => alert('Viewer dismissed'));
   }
   createPost(text) {
     const loader = this.loadingCtrl.create();
@@ -120,10 +117,7 @@ export class CreatePostPage {
 
           this.postService.createEventPost(post, this.event.id).then(res => {
             loader.dismiss();
-            this.presentMessage.showToast(
-              'Successfully created a post!',
-              'success-toast'
-            );
+            this.presentMessage.showToast('Successfully created a post!', 'success-toast');
             this.showAlertMessage = false;
             this.navCtrl.pop();
           });
@@ -137,10 +131,7 @@ export class CreatePostPage {
       };
       this.postService.createEventPost(post, this.event.id).then(res => {
         loader.dismiss();
-        this.presentMessage.showToast(
-          'Successfully created a post!',
-          'success-toast'
-        );
+        this.presentMessage.showToast('Successfully created a post!', 'success-toast');
         this.showAlertMessage = false;
         this.navCtrl.pop();
       });
@@ -159,34 +150,24 @@ export class CreatePostPage {
         imageUrl: this.post.imageUrl,
         imageId: imageId,
       };
-      this.postService
-        .updateEventPost(post, this.event.id, this.post.key)
-        .then(res => {
-          loader.dismiss();
-          this.presentMessage.showToast(
-            'Successfully updated a post!',
-            'success-toast'
-          );
-          this.showAlertMessage = false;
-          this.navCtrl.pop();
-        });
+      this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
+        loader.dismiss();
+        this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
+        this.showAlertMessage = false;
+        this.navCtrl.pop();
+      });
     } else {
       const post = {
         textualContent: text.value,
         imageUrl: null,
         imageId: null,
       };
-      this.postService
-        .updateEventPost(post, this.event.id, this.post.key)
-        .then(res => {
-          loader.dismiss();
-          this.presentMessage.showToast(
-            'Successfully updated a post!',
-            'success-toast'
-          );
-          this.showAlertMessage = false;
-          this.navCtrl.pop();
-        });
+      this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
+        loader.dismiss();
+        this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
+        this.showAlertMessage = false;
+        this.navCtrl.pop();
+      });
     }
   }
 }

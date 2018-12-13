@@ -1,11 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import {
-  Platform,
-  ToastController,
-  NavController,
-  MenuController,
-  AlertController,
-} from 'ionic-angular';
+import { Platform, ToastController, MenuController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -22,8 +16,6 @@ import { HeaderColor } from '@ionic-native/header-color';
 export class MyApp {
   rootPage: string = '';
   isAuthenticated = false;
-  @ViewChild('nav')
-  nav: NavController;
 
   constructor(
     public platform: Platform,
@@ -37,7 +29,7 @@ export class MyApp {
     private presentMessage: Message,
     private headerColor: HeaderColor
   ) {
-    this.headerColor.tint('#60af00');
+    this.headerColor.tint('#414e53');
     //INITIALIZES FIREBASE WITH THE APP
     firebase.initializeApp(config);
 
@@ -75,20 +67,5 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
     });
-  }
-
-  goToCreateEvent() {
-    this.nav.push('CreateEventPage');
-    this.menuCtrl.close();
-  }
-
-  goToMyEvents() {
-    this.nav.push('MyEventsPage');
-    this.menuCtrl.close();
-  }
-
-  goToChatListPage() {
-    this.nav.push('ChatListPage');
-    this.menuCtrl.close();
   }
 }

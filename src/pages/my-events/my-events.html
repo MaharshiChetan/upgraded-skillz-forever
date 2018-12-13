@@ -1,19 +1,22 @@
+<ion-header>
+  <ion-navbar color="primary"> <ion-title> My Events </ion-title> </ion-navbar>
+</ion-header>
+
 <ion-content>
   <ion-refresher (ionRefresh)="getMyEvents($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
-  <ion-row class="help" *ngIf="events?.length > 0">
-    <ion-col>
-      <ion-icon name="arrow-round-back"></ion-icon>
-      Slide LEFT or RIGHT for more options
-      <ion-icon name="arrow-round-forward"></ion-icon>
-    </ion-col>
-  </ion-row>
-
+  <div *ngIf="!events" class="spinner-container"><ion-spinner></ion-spinner></div>
   <ion-list>
     <ion-item-sliding *ngFor="let event of events">
-      <ion-item>
+      <ion-item
+        class="click animated fadeIn"
+        tooltip="Slide left for more options"
+        positionV="top"
+        leftOffset="50"
+        arrow
+        duration="2000"
+      >
         <ion-thumbnail item-start> <img [src]="event.eventImage" /> </ion-thumbnail>
         <h2>{{ event.eventName }}</h2>
         <p>{{ event.eventCity }}</p>

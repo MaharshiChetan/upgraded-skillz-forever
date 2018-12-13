@@ -30,12 +30,8 @@ export class ChatProvider {
   }
 
   deleteMessage(senderId, receiverId, messageId) {
-    this.db
-      .list(`chats/${senderId}/${receiverId}/messages/${messageId}`)
-      .remove();
-    this.db
-      .list(`chats/${receiverId}/${senderId}/messages/${messageId}`)
-      .remove();
+    this.db.list(`chats/${senderId}/${receiverId}/messages/${messageId}`).remove();
+    this.db.list(`chats/${receiverId}/${senderId}/messages/${messageId}`).remove();
   }
 
   deleteAllMessages(senderId, receiverId) {
@@ -47,17 +43,13 @@ export class ChatProvider {
     return this.db
       .list(`displayChats/${senderId}`, ref => ref.orderByChild('timeStamp'))
       .snapshotChanges()
-      .pipe(
-        map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() })))
-      );
+      .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
   }
 
   getMessages(senderId, receiverId) {
     return this.db
       .list(`chats/${senderId}/${receiverId}/messages`)
       .snapshotChanges()
-      .pipe(
-        map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() })))
-      );
+      .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
   }
 }

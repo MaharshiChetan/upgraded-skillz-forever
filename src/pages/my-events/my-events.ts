@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  IonicPage,
-  NavController,
-  AlertController,
-  LoadingController,
-} from 'ionic-angular';
+import { IonicPage, NavController, AlertController, LoadingController } from 'ionic-angular';
 import { EventsProvider } from '../../providers/events/events';
 import firebase from 'firebase';
 import { PostProvider } from '../../providers/post/post';
@@ -50,8 +45,6 @@ export class MyEventsPage {
   }
 
   deleteEvent(event) {
-    const loader = this.loadingCtrl.create();
-    loader.present();
     try {
       const eventInfo = {
         imageId: event.imageId,
@@ -65,6 +58,8 @@ export class MyEventsPage {
             text: 'Delete',
             handler: () => {
               alertPopup.dismiss().then(() => {
+                const loader = this.loadingCtrl.create();
+                loader.present();
                 this.postService.deleteAllLikes(eventInfo.key);
                 this.postService.deleteAllPost(eventInfo.key);
                 this.eventService.deleteEvent(eventInfo);

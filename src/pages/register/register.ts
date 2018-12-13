@@ -46,53 +46,81 @@ export class RegisterPage {
   }
 
   emailRegister() {
-    var loader = this.loadingCtrl.create({
+    const loader = this.loadingCtrl.create({
       spinner: 'dots',
       content: 'Creating Account',
     });
     const { name, username, email } = this.trimValues();
-    if (name && username && email) {
-      loader.present();
-      this.authService
-        .registerWithEmail(email, this.password, name, username)
-        .then(res => {
-          loader.dismiss();
-          if (res === true) {
-            this.navCtrl.setRoot('TabsPage');
-          } else if (res === 'verify') {
-            this.toastCtrl
-              .create({
-                message: 'Verify your email before logging in',
-                position: 'top',
-                duration: 2000,
-                cssClass: 'fail-toast',
-              })
-              .present();
-            this.navCtrl.setRoot('LoginPage');
-          } else {
-            this.toastCtrl
-              .create({
-                message: 'There was an error. Please try again',
-                position: 'top',
-                duration: 2000,
-                cssClass: 'fail-toast',
-              })
-              .present();
-          }
-        })
-        .catch(err => {
+    this.authService
+      .checkUsername(username)
+      .once('value')
+      .then(snapshot => {
+        if (snapshot.val()) {
           loader.dismiss();
           this.toastCtrl
             .create({
-              message: 'There was an error. Please try again',
+              message: 'Username already exists!',
               position: 'top',
               duration: 2000,
               cssClass: 'fail-toast',
             })
             .present();
-          console.error(err);
-        });
-    }
+          return;
+        } else if (name && username && email) {
+          loader.present();
+          this.authService
+            .registerWithEmail(email, this.password, name, username)
+            .then(res => {
+              loader.dismiss();
+              console.log('res: ', res);
+
+              if (res === true) {
+                this.navCtrl.setRoot('TabsPage');
+              } else if (res === 'verify') {
+                this.toastCtrl
+                  .create({
+                    message: 'Verify your email before logging in',
+                    position: 'top',
+                    duration: 2000,
+                    cssClass: 'fail-toast',
+                  })
+                  .present();
+                this.navCtrl.setRoot('LoginPage');
+              } else if (res === 'email') {
+                loader.dismiss();
+                this.toastCtrl
+                  .create({
+                    message: 'This Email Already Exists',
+                    position: 'top',
+                    duration: 2000,
+                    cssClass: 'fail-toast',
+                  })
+                  .present();
+              } else {
+                loader.dismiss();
+                this.toastCtrl
+                  .create({
+                    message: 'There was an error. Please try again',
+                    position: 'top',
+                    duration: 2000,
+                    cssClass: 'fail-toast',
+                  })
+                  .present();
+              }
+            })
+            .catch(err => {
+              loader.dismiss();
+              this.toastCtrl
+                .create({
+                  message: 'There was an error. Please try again',
+                  position: 'top',
+                  duration: 2000,
+                  cssClass: 'fail-toast',
+                })
+                .present();
+            });
+        }
+      });
   }
 
   googleRegister() {

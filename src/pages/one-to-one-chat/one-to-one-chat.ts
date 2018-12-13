@@ -1,11 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import {
-  IonicPage,
-  NavController,
-  NavParams,
-  Content,
-  AlertController,
-} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content, AlertController } from 'ionic-angular';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ChatProvider } from '../../providers/chat/chat';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -131,7 +125,7 @@ export class OneToOneChatPage {
     if (firebase.auth().currentUser.uid === user.uid) {
       this.navCtrl.push('ProfilePage', { currentUser: user });
     } else {
-      this.navCtrl.push('ProfilePage', { user: user });
+      this.navCtrl.push('ProfilePage', { otherUser: user });
     }
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ImageViewerController } from 'ionic-img-viewer';
 
 @IonicPage()
 @Component({
@@ -7,9 +8,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'collections.html',
 })
 export class CollectionsPage {
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private imageViewerCtrl: ImageViewerController
+  ) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CollectionsPage');
+  }
+
+  presentImage(myImage) {
+    const imageViewer = this.imageViewerCtrl.create(myImage);
+    imageViewer.present();
   }
 }

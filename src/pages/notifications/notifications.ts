@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
@@ -8,9 +7,7 @@ import { TabsPage } from '../tabs/tabs';
   templateUrl: 'notifications.html',
 })
 export class NotificationsPage {
-  constructor(public navCtrl: NavController, private tabsPage: TabsPage) {}
+  constructor(public navCtrl: NavController) {}
 
-  ionViewWillEnter() {
-    this.tabsPage.showFabButton();
-  }
+  ionViewWillEnter() {}
 }

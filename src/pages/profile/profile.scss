@@ -3,7 +3,7 @@ profile-page {
     width: auto;
     height: 19px;
     margin-top: 6px;
-    background: #8cff00c2;
+    background: #89ff00;
   }
 
   .bar-button-md[icon-only] ion-icon {
@@ -11,8 +11,8 @@ profile-page {
     font-size: 1.6em;
   }
 
-  shrinking-segment-header {
-    background-color: #60af00;
+  .profile {
+    background-color: #414e53;
     color: #fff;
     display: flex;
     align-items: center;
@@ -37,7 +37,7 @@ profile-page {
       color: #ffffff;
     }
     p {
-      color: #eeffd9fc;
+      color: #ffffff;
       margin: 0px 0px 10px;
       text-align: center;
       padding: 0px 15px;
@@ -52,30 +52,27 @@ profile-page {
     font-size: 11.5px;
     padding: 0px;
   }
-  ion-toolbar.toolbar
-    .tab-buttons-container
-    .tab-buttons
-    super-tab-button.title-and-icon {
+  ion-toolbar.toolbar .tab-buttons-container .tab-buttons super-tab-button.title-and-icon {
     height: 46px;
     padding-top: 0px;
   }
 
-  ion-toolbar.toolbar
-    .tab-buttons-container
-    .tab-buttons
-    super-tab-button.title-and-icon
-    ion-icon {
+  ion-toolbar.toolbar .tab-buttons-container .tab-buttons super-tab-button.title-and-icon ion-icon {
     margin-bottom: 4px;
   }
 
-  ion-toolbar.toolbar
-    .tab-buttons-container
-    .tab-buttons
-    super-tab-button.selected {
+  ion-toolbar.toolbar .tab-buttons-container .tab-buttons super-tab-button.selected {
     font-weight: bold;
   }
 
   ion-fab[bottom] {
     bottom: -63px;
+  }
+
+  .drop-icon {
+    font-size: 33px;
+    position: absolute;
+    top: 61px;
+    right: 134px;
   }
 }

@@ -1,12 +1,19 @@
 <ion-content>
+  <ion-refresher (ionRefresh)="getTitles($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list no-lines>
     <ion-list-header> 1st (First) </ion-list-header>
 
     <ion-item-sliding *ngFor="let title of titles">
       <ion-item
-        (press)="showToast()"
         *ngIf="title.title.title.winningPosition === 'first'"
         class="click animated fadeIn"
+        tooltip="Slide left for more options"
+        positionV="top"
+        leftOffset="50"
+        arrow
+        duration="2000"
       >
         <ion-avatar item-start>
           <img
@@ -36,9 +43,13 @@
     <ion-list-header> 2nd (Runner Up) </ion-list-header>
     <ion-item-sliding *ngFor="let title of titles">
       <ion-item
-        (press)="showToast()"
         *ngIf="title.title.title.winningPosition === 'second'"
         class="click animated fadeIn"
+        tooltip="Slide left for more options"
+        positionV="top"
+        leftOffset="50"
+        arrow
+        duration="2000"
       >
         <ion-avatar item-start>
           <img
@@ -67,9 +78,13 @@
     <ion-list-header> 3rd (Second Runner Up) </ion-list-header>
     <ion-item-sliding *ngFor="let title of titles">
       <ion-item
-        (press)="showToast()"
         *ngIf="title.title.title.winningPosition === 'third'"
         class="click animated fadeIn"
+        tooltip="Slide left for more options"
+        positionV="top"
+        leftOffset="50"
+        arrow
+        duration="2000"
       >
         <ion-avatar item-start>
           <img
