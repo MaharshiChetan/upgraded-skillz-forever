@@ -1,62 +1,119 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>{{ otherUserDetails?.userName }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="goToChatSettingsPage()">
+        <ion-icon name="md-settings"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content>
+
+<ion-content
+  fixed
+  scrollDownOnLoad="true"
+  (tap)="contentMouseDown($event)"
+  ionScrollEnd="hideKeybaord()"
+>
   <div *ngIf="!messages" class="spinner-container"><ion-spinner></ion-spinner></div>
+
   <div *ngFor="let message of messages" class="message-wrapper">
+    <!--
+      <div class="date-container">
+        <p class="date">{{ message.timestamp | chatDate }}</p>
+      </div>
+    -->
+
     <div *ngIf="message.sentBy === otherUserDetails.uid">
       <img
         tappable
         (click)="goToProfilePage(otherUserDetails)"
-        class="profile-pic left"
+        class="profile-pic left cover-image"
         [src]="otherUserDetails.profilePhoto"
-        onerror="onProfilePicError(this)"
+        onerror="this.onerror=null;this.src='assets/default-user.jpeg';"
       />
 
-      <div class="chat-bubble left" (press)="presentPopover(message)">
+      <div *ngIf="message.message" class="chat-bubble left" (press)="presentPopover(message)">
         <div class="message" [innerHTML]="message.message" autolinker></div>
 
         <div class="message-detail left">
-          <!--
-            <span (click)="viewProfile(message)" class="bold">{{otherUserDetails?.userName}}</span>,
-          -->
+          <span>{{ message.timeStamp | amCalendar }}</span>
+        </div>
+      </div>
+      <div *ngIf="message.imageUrl" class="chat-bubble-img  left" (press)="presentPopover(message)">
+        <img
+          [src]="message.imageUrl"
+          class="cover-image"
+          (click)="presentImage(imageLeft)"
+          #imageLeft
+        />
+        <div class="message-detail-img left">
           <span>{{ message.timeStamp | amCalendar }}</span>
         </div>
       </div>
     </div>
 
     <div *ngIf="message.sentBy !== otherUserDetails.uid">
-      <div class="chat-bubble right" (press)="presentPopover(message)">
+      <div *ngIf="message.message" class="chat-bubble right" (press)="presentPopover(message)">
         <div class="message" [innerHTML]="message.message" autolinker></div>
 
         <div class="message-detail right">
-          <!--
-            <span (click)="viewProfile(message)" class="bold">{{currentUserDetails?.userName}}</span>,
-          -->
+          <span>{{ message.timeStamp | amCalendar }}</span>
+        </div>
+      </div>
+      <div
+        *ngIf="message.imageUrl"
+        class="chat-bubble-img  right"
+        (press)="presentPopover(message)"
+      >
+        <img
+          [src]="message.imageUrl"
+          class="cover-image"
+          (click)="presentImage(imageRight)"
+          #imageRight
+        />
+        <div class="message-detail-img right">
           <span>{{ message.timeStamp | amCalendar }}</span>
         </div>
       </div>
     </div>
-
     <div class="cf"></div>
   </div>
-
-  <!--
-    <button ion-fab [hideFabOnscroll]='content' mini>
-      <ion-icon ios="ios-arrow-dropdown-circle" md="md-arrow-dropdown-circle"></ion-icon>
-    </button>
-  -->
 </ion-content>
-<ion-footer>
-  <ion-item>
-    <ion-input
-      [(ngModel)]="chatBox"
-      placeholder="Send {{otherUserDetails?.userName}} a message..."
-    ></ion-input>
-    <button ion-button clear (click)="send(chatBox)" item-end>
-      <ion-icon class="footer-btn" name="send"></ion-icon>
-    </button>
-  </ion-item>
+
+<ion-footer (touchstart)="footerTouchStart($event)">
+  <ion-toolbar>
+    <ion-buttons left>
+      <button class="add-image-button" item-right (touchstart)="showActionSheet($event)">
+        <ion-icon class="add-image-icon" name="images"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <textarea
+      spellcheck="true"
+      autocomplete="on"
+      autocorrect="on"
+      (ngModelChange)="textAreaChange()"
+      rows="1"
+      fz-elastic
+      [(ngModel)]="message"
+      placeholder="Write your message"
+    >
+    </textarea>
+
+    <ion-buttons right>
+      <button
+        class="send-button"
+        [disabled]="!message"
+        clear
+        ion-button
+        icon-only
+        item-right
+        color="primary"
+        (touchstart)="touchSendButton($event)"
+      >
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-footer>

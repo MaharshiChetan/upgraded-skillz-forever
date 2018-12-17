@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { App, PopoverController } from 'ionic-angular';
 import { NewPopoverComponent } from '../new-popover/new-popover';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -8,7 +8,7 @@ import { NavController } from 'ionic-angular/navigation/nav-controller';
   selector: 'navbar',
   templateUrl: 'navbar.html',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   @Input('navbarTitle') navbarTitle: string;
 
   options = 'all';
@@ -20,14 +20,13 @@ export class NavbarComponent {
     private authService: AuthProvider
   ) {}
 
-  ionViewWillLoad() {
-    this.fetchCurrentUserProfile(null);
+  ngOnInit() {
+    this.fetchCurrentUserProfile();
   }
 
-  fetchCurrentUserProfile(refresher) {
+  fetchCurrentUserProfile(refresher?) {
     this.authService.getUserDetails().then(user => {
       this.userDetails = user;
-      console.log(this.userDetails);
       if (refresher) refresher.complete();
     });
   }
@@ -37,16 +36,7 @@ export class NavbarComponent {
   }
 
   goToNotificationPage() {
-    this.navCtrl.push(
-      'NotificationsPage',
-      {},
-      {
-        animate: true,
-        animation: 'ios-transition',
-        direction: 'forward',
-        duration: 500,
-      }
-    );
+    this.navCtrl.push('NotificationsPage');
   }
 
   presentPopover(event) {

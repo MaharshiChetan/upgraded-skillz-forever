@@ -60,7 +60,6 @@ export class HomePage {
   fetchCurrentUserProfile(refresher) {
     this.authService.getUserDetails().then(user => {
       this.userDetails = user;
-      console.log(this.userDetails);
       if (refresher) refresher.complete();
     });
   }

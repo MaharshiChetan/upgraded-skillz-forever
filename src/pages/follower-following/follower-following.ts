@@ -11,28 +11,22 @@ export class FollowerFollowingPage {
   followingKeys = [];
   followers = [];
   following = [];
-  type;
   followerLoader: any = '';
   followingLoader: any = '';
   followerLoadingText: string;
   followingLoadingText: string;
-
+  userDetails: any;
+  type: string = 'Dropers';
   usersdata = firebase.database().ref('/users');
 
   constructor(private navCtrl: NavController, private navParams: NavParams) {}
 
   ionViewWillEnter() {
+    this.userDetails = this.navParams.get('userDetails');
     this.followerKeys = this.navParams.get('followers');
     this.followingKeys = this.navParams.get('followings');
-    this.type = this.navParams.get('type');
-
-    if (this.type === 'Dropers') {
-      this.initializeFollowersLoader();
-      this.fetchFollowers();
-    } else if (this.type === 'Droping') {
-      this.initializeFollowingLoader();
-      this.fetchFollowings();
-    }
+    this.initializeFollowersLoader();
+    this.fetchFollowers();
   }
 
   initializeFollowersLoader() {

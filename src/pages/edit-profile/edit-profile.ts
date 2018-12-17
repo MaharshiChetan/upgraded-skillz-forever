@@ -37,12 +37,7 @@ export class EditProfilePage {
   }
 
   ionViewWillEnter() {
-    const loader = this.loadingCtrl.create();
-    loader.present();
     this.userProfile = this.navParams.get('userDetails');
-    console.log(this.userProfile);
-
-    loader.dismiss();
   }
 
   createForm() {
@@ -117,7 +112,10 @@ export class EditProfilePage {
       this.updateUserProfile(name, username, bio, uid);
     }
   }
-
+  removeSpaceFromUsername() {
+    const username = this.form.get('username').value.trim();
+    this.form.get('username').setValue(username);
+  }
   changePicture() {
     const actionsheet = this.actionsheetCtrl.create({
       title: 'upload picture',

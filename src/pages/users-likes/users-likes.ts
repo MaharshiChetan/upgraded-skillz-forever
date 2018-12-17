@@ -26,9 +26,7 @@ export class UsersLikesPage {
   initializeLoader() {
     this.loader = this.users.length >= this.userKeys.length ? 'false' : '';
     this.loadingText =
-      this.users.length >= this.userKeys.length
-        ? 'Completed'
-        : 'Loading more users...';
+      this.users.length >= this.userKeys.length ? 'Completed' : 'Loading more users...';
   }
 
   fetchUsers() {
@@ -67,7 +65,7 @@ export class UsersLikesPage {
     if (firebase.auth().currentUser.uid === user.uid) {
       this.navCtrl.push('ProfilePage', { currentUser: user });
     } else {
-      this.navCtrl.push('ProfilePage', { user: user });
+      this.navCtrl.push('ProfilePage', { otherUser: user });
     }
   }
 }

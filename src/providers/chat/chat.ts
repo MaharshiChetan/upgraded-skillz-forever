@@ -6,25 +6,67 @@ import { map } from 'rxjs/operators';
 export class ChatProvider {
   constructor(private db: AngularFireDatabase) {}
 
-  sendMessage(senderId, receiverId, message) {
-    this.db.list(`chats/${senderId}/${receiverId}/messages`).push({
-      message: message,
-      sentBy: senderId,
+  sendImageMessage(sender, receiver, image) {
+    this.db.list(`chats/${sender.uid}/${receiver.uid}/messages`).push({
+      imageUrl: image.imageUrl,
+      imageId: image.imageId,
+      sentBy: sender.uid,
       timeStamp: '' + new Date(),
     });
-    this.db.object(`displayChats/${senderId}/${receiverId}`).update({
-      message: message,
-      sentBy: senderId,
+    this.db.object(`displayChats/${sender.uid}/${receiver.uid}`).update({
+      imageUrl: image.imageUrl,
+      imageId: image.imageId,
+      sentBy: sender.uid,
+      userName: receiver.userName,
+      profilePhoto: receiver.profilePhoto,
+      displayName: receiver.displayName,
+      bio: receiver.bio || '',
       timeStamp: '' + new Date(),
     });
-    this.db.list(`chats/${receiverId}/${senderId}/messages`).push({
-      message: message,
-      sentBy: senderId,
+    this.db.list(`chats/${receiver.uid}/${sender.uid}/messages`).push({
+      imageUrl: image.imageUrl,
+      imageId: image.imageId,
+      sentBy: sender.uid,
       timeStamp: '' + new Date(),
     });
-    this.db.object(`displayChats/${receiverId}/${senderId}`).update({
+    this.db.object(`displayChats/${receiver.uid}/${sender.uid}`).update({
+      imageUrl: image.imageUrl,
+      imageId: image.imageId,
+      sentBy: sender.uid,
+      userName: sender.userName,
+      profilePhoto: sender.profilePhoto,
+      displayName: sender.displayName,
+      bio: sender.bio || '',
+      timeStamp: '' + new Date(),
+    });
+  }
+  sendMessage(sender, receiver, message) {
+    this.db.list(`chats/${sender.uid}/${receiver.uid}/messages`).push({
       message: message,
-      sentBy: senderId,
+      sentBy: sender.uid,
+      timeStamp: '' + new Date(),
+    });
+    this.db.object(`displayChats/${sender.uid}/${receiver.uid}`).update({
+      message: message,
+      sentBy: sender.uid,
+      userName: receiver.userName,
+      profilePhoto: receiver.profilePhoto,
+      displayName: receiver.displayName,
+      bio: receiver.bio || '',
+      timeStamp: '' + new Date(),
+    });
+    this.db.list(`chats/${receiver.uid}/${sender.uid}/messages`).push({
+      message: message,
+      sentBy: sender.uid,
+      timeStamp: '' + new Date(),
+    });
+    this.db.object(`displayChats/${receiver.uid}/${sender.uid}`).update({
+      message: message,
+      sentBy: sender.uid,
+      userName: sender.userName,
+      profilePhoto: sender.profilePhoto,
+      displayName: sender.displayName,
+      bio: sender.bio || '',
       timeStamp: '' + new Date(),
     });
   }

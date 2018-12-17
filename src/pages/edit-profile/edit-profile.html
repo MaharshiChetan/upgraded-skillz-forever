@@ -21,6 +21,7 @@
             [value]="userProfile.userName"
             name="username"
             formControlName="username"
+            (keyup)="removeSpaceFromUsername()"
           ></ion-input>
         </ion-item>
 

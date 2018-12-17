@@ -61,23 +61,24 @@ export class ProfilePage {
     private app: App
   ) {}
 
-  ionViewDidLeave() {
-    this.animate = false;
-  }
-
-  ionViewWillEnter() {
+  ionViewWillLoad() {
     this.otherUser = this.navParams.get('otherUser');
     this.currentUser = this.navParams.get('currentUser');
 
     if (this.otherUser) {
       this.userDetails = this.otherUser;
+      this.authService.userDetails = this.userDetails;
       this.checkFollowingAndFollower();
     } else if (this.currentUser) {
       this.userDetails = this.currentUser;
+      this.authService.userDetails = this.userDetails;
       this.checkFollowingAndFollower();
     } else {
       this.fetchCurrentUserProfile(null);
     }
+  }
+  ionViewDidLeave() {
+    this.animate = false;
   }
 
   ionViewWillLeave() {
@@ -224,6 +225,7 @@ export class ProfilePage {
     this.authService.getUserDetails().then(user => {
       this.currentUser = user;
       this.userDetails = user;
+      this.authService.userDetails = this.userDetails;
       this.fetchFollowings();
       this.fetchFollowers();
       if (refresher) refresher.complete();
@@ -254,14 +256,6 @@ export class ProfilePage {
       `You have taken away a drop from ${this.userDetails.userName}`,
       'success-toast'
     );
-  }
-
-  goToFollowerFollowingPage(type) {
-    this.navCtrl.push('FollowerFollowingPage', {
-      followings: this.followings,
-      followers: this.followers,
-      type: type,
-    });
   }
 
   presentPopover(ev) {
@@ -297,7 +291,7 @@ export class ProfilePage {
     this.navCtrl.push('FollowerFollowingPage', {
       followers: this.followers,
       followings: this.followings,
-      type: 'Dropers',
+      userDetails: this.userDetails,
     });
   }
 

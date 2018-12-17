@@ -20,19 +20,23 @@ export class ChatListPage {
   usersdata = firebase.database().ref('/users');
   subscription: any;
   searchMessages;
+  currentUserId: string;
+
   constructor(
     private alertCtrl: AlertController,
     private chatService: ChatProvider,
     private dataService: DataProvider,
     private app: App
-  ) {}
+  ) {
+    this.currentUserId = firebase.auth().currentUser.uid;
+  }
 
   ionViewWillEnter() {
     this.getDisplayMessages();
     this.initializeLoader();
   }
 
-  ionViewWillLeave() {
+  ionViewDidLeave() {
     this.subscription.unsubscribe();
   }
 
@@ -51,14 +55,6 @@ export class ChatListPage {
         this.displayMessages = _.sortBy(displayMessages, function(o) {
           return moment(o['timeStamp']);
         }).reverse();
-
-        this.displayMessages.forEach((data, i) => {
-          this.usersdata
-            .child(`${data.key}/personalData`)
-            .once('value', snapshot => {
-              this.displayMessages[i].userDetails = snapshot.val();
-            });
-        });
         this.searchMessages = this.displayMessages;
       });
   }
@@ -69,10 +65,7 @@ export class ChatListPage {
   }
 
   deleteAllMessages(message) {
-    this.chatService.deleteAllMessages(
-      firebase.auth().currentUser.uid,
-      message.key
-    );
+    this.chatService.deleteAllMessages(firebase.auth().currentUser.uid, message.key);
   }
 
   doInfinite(infiniteScroll) {
@@ -112,9 +105,6 @@ export class ChatListPage {
   }
 
   setFilteredItems(event) {
-    this.displayMessages = this.dataService.filterItems(
-      this.searchMessages,
-      this.searchTerm
-    );
+    this.displayMessages = this.dataService.filterItems(this.searchMessages, this.searchTerm);
   }
 }

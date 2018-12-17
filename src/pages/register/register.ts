@@ -247,4 +247,9 @@ export class RegisterPage {
       };
     }
   }
+
+  removeSpaceFromUsername() {
+    const username = this.register.get('username').value.trim();
+    this.register.get('username').setValue(username);
+  }
 }

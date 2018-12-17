@@ -13,7 +13,7 @@ export class AuthProvider {
   uid: any = null;
   query: any;
   usersdata = firebase.database().ref('/users');
-
+  public userDetails: any;
   constructor(
     public http: HttpClient,
     private googlePlus: GooglePlus,

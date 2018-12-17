@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, AlertController, App } from 'ionic-angular';
 import { TitlesProvider } from '../../providers/titles/titles';
+import { AuthProvider } from '../../providers/auth/auth';
 import firebase from 'firebase';
 
 @IonicPage()
@@ -11,29 +12,28 @@ import firebase from 'firebase';
 export class TitlesPage {
   titles;
   chosenPicture: any;
-
+  currentUserId: string = firebase.auth().currentUser.uid;
+  uid: string = this.authService.userDetails.uid;
   constructor(
     private titlesService: TitlesProvider,
     private alertCtrl: AlertController,
-    private app: App
+    private app: App,
+    private authService: AuthProvider
   ) {}
 
-  ionViewWillLoad() {
+  ionViewWillEnter() {
     this.getTitles();
   }
 
   getTitles(event?) {
-    const uid: string = firebase.auth().currentUser.uid;
-    this.titlesService.getTitles(uid).subscribe(titles => {
+    this.titlesService.getTitles(this.uid).subscribe(titles => {
       this.titles = titles;
-      console.log(this.titles);
       if (event) event.complete();
     });
   }
 
   removeTitle(key: string) {
-    const uid: string = firebase.auth().currentUser.uid;
-    this.titlesService.removeTitle(uid, key);
+    this.titlesService.removeTitle(this.uid, key);
   }
 
   showConfirm(key) {

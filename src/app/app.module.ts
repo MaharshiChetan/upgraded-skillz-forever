@@ -29,6 +29,7 @@ import { PostProvider } from '../providers/post/post';
 import { ImageLoaderConfig } from 'ionic-image-loader';
 import { ChatProvider } from '../providers/chat/chat';
 import { Clipboard } from '@ionic-native/clipboard';
+import { Keyboard } from '@ionic-native/keyboard';
 import { DataProvider } from '../providers/data/data';
 
 import { PopoverComponent } from '../components/popover/popover';
@@ -37,6 +38,7 @@ import { SuperTabsModule } from 'ionic2-super-tabs';
 import { TitlesProvider } from '../providers/titles/titles';
 import { NewPopoverComponent } from '../components/new-popover/new-popover';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [MyApp, PopoverComponent, NewPopoverComponent],
   imports: [
@@ -47,6 +49,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: true,
       animate: false,
+      ios: {
+        scrollAssist: false,
+        autoFocusAssist: false,
+        inputBlurring: false,
+      },
     }),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -69,6 +76,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FileTransfer,
     File,
     HeaderColor,
+    Keyboard,
 
     AuthProvider,
     CameraProvider,

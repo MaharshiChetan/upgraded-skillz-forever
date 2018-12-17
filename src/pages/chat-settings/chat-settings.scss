@@ -1,0 +1,42 @@
+chat-settings-page {
+  .card-md {
+    margin: 5px;
+    width: calc(100% - 9px);
+    padding-bottom: 6px;
+  }
+
+  .card-header-md {
+    padding: 16px 12px 3px;
+  }
+  .list-header-md {
+    padding: 0px;
+    margin: 0px 0px 0px 10px;
+    min-height: 0px;
+    font-size: 1.9rem;
+    border-bottom: 1.2px solid #dedede;
+    border-top: none;
+    color: #222;
+  }
+
+  .label-md {
+    margin: 12px 0px 10px;
+  }
+
+  .item.item-block.item-md {
+    padding-left: 38px;
+  }
+
+  .item.item-block.item-md.user-avatar {
+    padding-left: 12px;
+  }
+
+  .content-md hr {
+    width: 94%;
+    height: 1.5px;
+    background: #dedede;
+  }
+
+  .delete-conversation {
+    color: red;
+  }
+}

@@ -5,15 +5,18 @@ home-page {
   }
 
   .card-header-md {
-    padding: 6px 11px;
+    padding: 6px 11px 0px;
     color: #414e53;
     font-weight: bold;
   }
 
-  .share-post-text {
+  .button-clear-md.share-thought-btn {
+    padding: 0px;
+    margin: 0px;
     color: #119081;
     font-weight: bold;
-    display: initial;
+    font-size: 1.3rem;
+    text-transform: capitalize;
   }
 
   .label-md {

@@ -1,0 +1,7 @@
+1. Make a seperate component for posts to render posts anywhere in the application.
+2. Make facebook login.
+3. Make share option of facebook.
+4. Fix a bug of native-keyboard which is used in one-to-one-chat.
+5. Build an image processing system which make thumbnail of all images.
+6. delete image from storage if deleted from one-to-one-chat.
+7. delete all image from storage if deleted from chat-list or chat-settings.

@@ -1,22 +1,4 @@
 one-to-one-chat-page {
-  .bar-footer {
-    overflow: visible !important;
-  }
-
-  .bar-footer textarea {
-    resize: none;
-    height: 25px;
-  }
-
-  /* fixes an ios bug bear */
-  button.ion-android-send {
-    padding-top: 2px;
-  }
-
-  .footer-btn {
-    font-size: x-large;
-  }
-
   img.profile-pic {
     width: 40px;
     height: 40px;
@@ -33,12 +15,6 @@ one-to-one-chat-page {
     right: 10px;
   }
 
-  .ion-email {
-    float: right;
-    font-size: 32px;
-    vertical-align: middle;
-  }
-
   .message {
     white-space: pre-wrap;
     word-break: break-word;
@@ -46,7 +22,7 @@ one-to-one-chat-page {
   }
 
   .message-detail {
-    font-size: 12.4px;
+    font-size: 12px;
     margin-top: 6px;
   }
 
@@ -75,12 +51,12 @@ one-to-one-chat-page {
   }
 
   .chat-bubble {
-    border-radius: 5px;
+    border-radius: 20px;
     display: inline-block;
     padding: 10px 18px;
     position: relative;
-    margin: 10px;
-    max-width: 70%;
+    margin: 5px 10px;
+    max-width: 72%;
   }
 
   .chat-bubble:before {
@@ -98,22 +74,10 @@ one-to-one-chat-page {
     margin-left: 55px;
   }
 
-  .chat-bubble.left:before {
-    background-color: #e6e5eb;
-    left: 10px;
-    -webkit-transform: rotate(70deg) skew(5deg);
-  }
-
   .chat-bubble.right {
-    background-color: #60af00;
+    background-color: #005677;
     color: #fff;
     float: right;
-  }
-
-  .chat-bubble.right:before {
-    background-color: #60af00;
-    right: 10px;
-    -webkit-transform: rotate(118deg) skew(-5deg);
   }
 
   .chat-bubble:active {
@@ -128,39 +92,134 @@ one-to-one-chat-page {
     font-weight: bold;
   }
 
-  .user-messages-top-icon {
-    font-size: 28px;
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    top: -3px;
-    right: 5px;
-  }
-
-  .msg-header-username {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    top: -3px;
-  }
-
-  input,
-  textarea,
-  .item-input,
-  .item-input-wrapper {
-    background-color: #f4f4f4 !important;
-  }
-
-  .bold {
-    font-weight: bold;
-  }
-
   .cf {
     clear: both !important;
   }
 
   a.autolinker {
-    color: #60af00;
+    color: #005677;
     text-decoration: none;
+  }
+
+  .add-image-button {
+    font-size: 20px;
+    padding-bottom: 4px;
+    background: transparent;
+  }
+
+  .add-image-icon {
+    color: #005677;
+  }
+
+  textarea::placeholder {
+    font-size: 16.6px;
+  }
+  textarea {
+    font-size: 16.6px;
+    box-shadow: none;
+    border: 1px solid;
+    margin-bottom: -5px;
+    border-radius: 10px;
+    margin: 0px 6.4px;
+    border-color: lightgrey;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background-color: #f8f8f8;
+    width: calc(100% - 13px);
+  }
+
+  .bar-button-md[icon-only].send-button {
+    padding-bottom: 3px;
+  }
+
+  .chat-bubble-img {
+    background: transparent;
+    position: relative;
+    max-width: 72%;
+    margin-bottom: 10px;
+  }
+
+  .message-detail-img {
+    white-space: nowrap;
+    font-size: 12px;
+    text-align: right;
+    position: absolute;
+    color: dimgray;
+    bottom: -12px;
+  }
+  .message-detail-img.left {
+    left: 17.5px;
+  }
+  .message-detail-img.right {
+    right: 7.5px;
+  }
+  .chat-bubble.left {
+    float: left;
+    text-align: left;
+  }
+
+  .chat-bubble-img.left {
+    float: left;
+    margin-left: 55px;
+  }
+
+  .chat-bubble.left:before {
+    left: -15px;
+    top: -5px;
+    content: '';
+    text-align: left;
+    position: absolute;
+    border: 0 solid transparent;
+    // border-top: 9px solid map-get($chat-bubble, background-left);
+    border-radius: 0 20px 0;
+    width: 15px;
+    height: 30px;
+    transform: rotate(145deg);
+    -webkit-transform: rotate(145deg);
+  }
+
+  .chat-bubble.right {
+    // background-color: map-get($chat-bubble, background-right);
+    color: white;
+    float: right;
+    text-align: right;
+    //margin-right: 45px;
+  }
+
+  .chat-bubble-img.right {
+    color: white;
+    float: right;
+    padding: 5px;
+    margin-right: 7.5px;
+  }
+
+  .chat-bubble-img.left {
+    color: white;
+    float: left;
+    padding-top: 5px;
+    margin-right: 7.5px;
+  }
+
+  .chat-bubble.right:before {
+    right: -15px;
+    top: -5px;
+    content: '';
+    position: absolute;
+    border: 0 solid transparent;
+    // border-top: 9px solid map-get($chat-bubble, background-right);
+    border-radius: 20px 0px 20px;
+    width: 15px;
+    height: 30px;
+    -webkit-transform: rotate(220deg);
+    transform: rotate(220deg);
+  }
+
+  .chat-bubble.right a.autolinker {
+    color: #000;
+    font-weight: bold;
+  }
+
+  img {
+    border-radius: 10px;
   }
 }

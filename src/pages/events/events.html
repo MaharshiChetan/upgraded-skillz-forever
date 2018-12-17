@@ -13,7 +13,7 @@
   <div *ngIf="!events" class="spinner-container"><ion-spinner></ion-spinner></div>
   <ion-card tappable *ngFor="let e of events" (click)="goToEventDetails(e)" class="click">
     <img
-      class="cover-image animated fadeIn"
+      class="original cover-image animated fadeIn"
       [src]="placeholderImage"
       (load)="loaded = false"
       [hidden]="loaded"

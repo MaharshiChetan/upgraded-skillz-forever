@@ -17,6 +17,7 @@
           placeholder="Username"
           [(ngModel)]="username"
           formControlName="username"
+          (keyup)="removeSpaceFromUsername()"
           required
         ></ion-input>
       </ion-item>

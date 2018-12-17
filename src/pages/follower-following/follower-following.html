@@ -1,5 +1,7 @@
 <ion-header>
-  <ion-navbar color="primary"> <ion-title>List</ion-title> </ion-navbar>
+  <ion-navbar color="primary">
+    <ion-title>{{ userDetails?.userName }}</ion-title>
+  </ion-navbar>
   <ion-toolbar color="primary" no-border>
     <ion-segment [(ngModel)]="type" color="light">
       <ion-segment-button value="Dropers" (ionSelect)="fetchFollowers()">
@@ -16,6 +18,12 @@
 <ion-content>
   <div [ngSwitch]="type">
     <ion-list *ngSwitchCase="'Dropers'" no-lines>
+      <div *ngIf="followers.length === 0" class="spinner-container">
+        <ion-spinner></ion-spinner>
+      </div>
+      <ion-row *ngIf="followerKeys.length === 0">
+        <ion-col text-center> No Dropers </ion-col>
+      </ion-row>
       <ion-item class="click" *ngFor="let user of followers" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
           <img class="cover-image animated fadeIn" [src]="user.profilePhoto" />
@@ -32,6 +40,12 @@
     </ion-list>
 
     <ion-list *ngSwitchCase="'Droping'" no-lines>
+      <div *ngIf="following.length === 0" class="spinner-container">
+        <ion-spinner></ion-spinner>
+      </div>
+      <ion-row *ngIf="followingKeys.length === 0">
+        <ion-col text-center> No Dropings </ion-col>
+      </ion-row>
       <ion-item class="click" *ngFor="let user of following" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
           <img class="cover-image animated fadeIn" [src]="user.profilePhoto" />

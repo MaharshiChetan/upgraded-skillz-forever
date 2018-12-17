@@ -28,7 +28,7 @@
         <p>{{ title.title.title.description }}</p>
       </ion-item>
 
-      <ion-item-options side="right">
+      <ion-item-options side="right" *ngIf="uid === currentUserId">
         <button ion-button color="danger" (click)="showConfirm(title.key)">
           <ion-icon name="md-trash"></ion-icon>
           Delete
@@ -63,7 +63,7 @@
         <h2>{{ title.title.title.title }}</h2>
         <p>{{ title.title.title.description }}</p>
       </ion-item>
-      <ion-item-options side="right">
+      <ion-item-options side="right" *ngIf="uid === currentUserId">
         <button ion-button color="danger" (click)="showConfirm(title.key)">
           <ion-icon name="md-trash"></ion-icon>
           Delete
@@ -98,7 +98,7 @@
         <h2>{{ title.title.title.title }}</h2>
         <p>{{ title.title.title.description }}</p>
       </ion-item>
-      <ion-item-options side="right">
+      <ion-item-options side="right" *ngIf="uid === currentUserId">
         <button ion-button color="danger" (click)="showConfirm(title.key)">
           <ion-icon name="md-trash"></ion-icon>
           Delete

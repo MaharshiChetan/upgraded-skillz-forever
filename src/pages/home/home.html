@@ -8,12 +8,14 @@
       <ion-item>
         <ion-row>
           <ion-col>
-            <ion-avatar item-start> <img [src]="userDetails.profilePhoto" /> </ion-avatar>
+            <ion-avatar item-start>
+              <img [src]="userDetails.profilePhoto" class="cover-image" />
+            </ion-avatar>
           </ion-col>
           <ion-col col-10>
             <ion-card-header>{{ userDetails.displayName }}</ion-card-header>
-            <ion-card-content class="share-post-text click">
-              What's on your mind?
+            <ion-card-content>
+              <button class="share-thought-btn" ion-button small clear>What's on your mind?</button>
             </ion-card-content>
             <hr />
             <button ion-button color="secondary" class="discover-btn">DISCOVER PEERS</button>

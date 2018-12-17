@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar color="primary"> <ion-title>Chat Settings</ion-title> </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="userDetails">
+    <ion-list no-lines>
+      <ion-item class="user-avatar" (click)="goToProfilePage()">
+        <ion-avatar item-start> <img [src]="userDetails.profilePhoto" /> </ion-avatar>
+        <h2>{{ userDetails?.displayName }}</h2>
+        <h2>@{{ userDetails.userName }}</h2>
+      </ion-item>
+    </ion-list>
+    <ion-card-header> SETTINGS </ion-card-header>
+    <hr />
+    <ion-item class="click" (click)="goToProfilePage()">Open Profile</ion-item>
+    <ion-item class="click" (click)="showBlockAlert()">Block Profile</ion-item>
+    <ion-item class="click delete-conversation" (click)="showDeleteAlert()"
+      >Delete Conversation</ion-item
+    >
+  </ion-card>
+</ion-content>

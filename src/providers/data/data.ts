@@ -6,11 +6,7 @@ export class DataProvider {
 
   filterItems(messages, searchTerm) {
     return messages.filter(message => {
-      return (
-        message.userDetails.userName
-          .toLowerCase()
-          .indexOf(searchTerm.toLowerCase()) > -1
-      );
+      return message.userName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
     });
   }
 }
