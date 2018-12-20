@@ -38,6 +38,19 @@ export class EditProfilePage {
 
   ionViewWillEnter() {
     this.userProfile = this.navParams.get('userDetails');
+    if (!this.userProfile) {
+      this.fetchCurrentUserProfile();
+    }
+  }
+
+  fetchCurrentUserProfile() {
+    firebase
+      .database()
+      .ref(`users/${this.authService.getActiveUser().uid}/personalData`)
+      .once('value')
+      .then(userData => {
+        this.userProfile = userData.val();
+      });
   }
 
   createForm() {
@@ -88,6 +101,7 @@ export class EditProfilePage {
         });
     }
   }
+
   submitForm() {
     const loader = this.loadingCtrl.create();
     loader.present();
@@ -112,10 +126,12 @@ export class EditProfilePage {
       this.updateUserProfile(name, username, bio, uid);
     }
   }
+
   removeSpaceFromUsername() {
     const username = this.form.get('username').value.trim();
     this.form.get('username').setValue(username);
   }
+
   changePicture() {
     const actionsheet = this.actionsheetCtrl.create({
       title: 'upload picture',

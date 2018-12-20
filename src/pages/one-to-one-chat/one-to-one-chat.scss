@@ -1,104 +1,6 @@
 one-to-one-chat-page {
-  img.profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    position: absolute;
-    bottom: 10px;
-  }
-
-  img.profile-pic.left {
-    left: 10px;
-  }
-
-  img.profile-pic.right {
-    right: 10px;
-  }
-
-  .message {
-    white-space: pre-wrap;
-    word-break: break-word;
-    font-size: 14.5px;
-  }
-
-  .message-detail {
-    font-size: 12px;
-    margin-top: 6px;
-  }
-
-  .message-detail.left {
-    float: left;
-    color: gray;
-    font-family: sans-serif;
-  }
-
-  .message-detail.right {
-    float: right;
-    color: #f4f6f2b8;
-    font-family: sans-serif;
-  }
-
   .bar.item-input-inset .item-input-wrapper input {
     width: 100% !important;
-  }
-
-  .message-wrapper {
-    position: relative;
-  }
-
-  .message-wrapper:last-child {
-    margin-bottom: 10px;
-  }
-
-  .chat-bubble {
-    border-radius: 20px;
-    display: inline-block;
-    padding: 10px 18px;
-    position: relative;
-    margin: 5px 10px;
-    max-width: 72%;
-  }
-
-  .chat-bubble:before {
-    content: '\00a0';
-    display: block;
-    height: 16px;
-    width: 9px;
-    position: absolute;
-    bottom: -7.5px;
-  }
-
-  .chat-bubble.left {
-    background-color: #e6e5eb;
-    float: left;
-    margin-left: 55px;
-  }
-
-  .chat-bubble.right {
-    background-color: #005677;
-    color: #fff;
-    float: right;
-  }
-
-  .chat-bubble:active {
-    background: gray;
-  }
-
-  .chat-bubble.right:before:active {
-    background: gray;
-  }
-  .chat-bubble.right a.autolinker {
-    color: #fff;
-    font-weight: bold;
-  }
-
-  .cf {
-    clear: both !important;
-  }
-
-  a.autolinker {
-    color: #005677;
-    text-decoration: none;
   }
 
   .add-image-button {
@@ -114,6 +16,7 @@ one-to-one-chat-page {
   textarea::placeholder {
     font-size: 16.6px;
   }
+
   textarea {
     font-size: 16.6px;
     box-shadow: none;
@@ -130,96 +33,5 @@ one-to-one-chat-page {
 
   .bar-button-md[icon-only].send-button {
     padding-bottom: 3px;
-  }
-
-  .chat-bubble-img {
-    background: transparent;
-    position: relative;
-    max-width: 72%;
-    margin-bottom: 10px;
-  }
-
-  .message-detail-img {
-    white-space: nowrap;
-    font-size: 12px;
-    text-align: right;
-    position: absolute;
-    color: dimgray;
-    bottom: -12px;
-  }
-  .message-detail-img.left {
-    left: 17.5px;
-  }
-  .message-detail-img.right {
-    right: 7.5px;
-  }
-  .chat-bubble.left {
-    float: left;
-    text-align: left;
-  }
-
-  .chat-bubble-img.left {
-    float: left;
-    margin-left: 55px;
-  }
-
-  .chat-bubble.left:before {
-    left: -15px;
-    top: -5px;
-    content: '';
-    text-align: left;
-    position: absolute;
-    border: 0 solid transparent;
-    // border-top: 9px solid map-get($chat-bubble, background-left);
-    border-radius: 0 20px 0;
-    width: 15px;
-    height: 30px;
-    transform: rotate(145deg);
-    -webkit-transform: rotate(145deg);
-  }
-
-  .chat-bubble.right {
-    // background-color: map-get($chat-bubble, background-right);
-    color: white;
-    float: right;
-    text-align: right;
-    //margin-right: 45px;
-  }
-
-  .chat-bubble-img.right {
-    color: white;
-    float: right;
-    padding: 5px;
-    margin-right: 7.5px;
-  }
-
-  .chat-bubble-img.left {
-    color: white;
-    float: left;
-    padding-top: 5px;
-    margin-right: 7.5px;
-  }
-
-  .chat-bubble.right:before {
-    right: -15px;
-    top: -5px;
-    content: '';
-    position: absolute;
-    border: 0 solid transparent;
-    // border-top: 9px solid map-get($chat-bubble, background-right);
-    border-radius: 20px 0px 20px;
-    width: 15px;
-    height: 30px;
-    -webkit-transform: rotate(220deg);
-    transform: rotate(220deg);
-  }
-
-  .chat-bubble.right a.autolinker {
-    color: #000;
-    font-weight: bold;
-  }
-
-  img {
-    border-radius: 10px;
   }
 }

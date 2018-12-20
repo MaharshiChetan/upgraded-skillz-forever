@@ -9,7 +9,7 @@
     <img
       tappable
       class="eventImage cover-image animated fadeIn"
-      [src]="event.eventImage"
+      [src]="event.imageUrl"
       alt=""
       #myImage
       (click)="presentImage(myImage)"
@@ -37,22 +37,22 @@
   <hr />
   <ion-grid>
     <ion-row text-center icon-only class="interested-going">
-      <ion-col tappable (click)="handleInterestedOrGoing(event.key, 'interested')" class="click">
-        <div *ngIf="!interested">
+      <ion-col tappable class="click">
+        <div *ngIf="!interested" (click)="incrementInterestedOrGoing(event.key, 'interested')">
           <ion-icon color="gray" ios="ios-star-outline" md="md-star-outline"> </ion-icon>
           <p class="responsive-font">Interested</p>
         </div>
-        <div *ngIf="interested">
+        <div *ngIf="interested" (click)="decrementInterestedOrGoing(event.key, 'interested')">
           <ion-icon color="primary" ios="ios-star" md="md-star"></ion-icon>
           <p class="responsive-font active">Interested</p>
         </div>
       </ion-col>
-      <ion-col tappable (click)="handleInterestedOrGoing(event.key, 'going')" class="click">
-        <div *ngIf="!going">
+      <ion-col tappable class="click">
+        <div *ngIf="!going" (click)="incrementInterestedOrGoing(event.key, 'going')">
           <ion-icon color="gray" name="ios-checkmark-circle-outline"></ion-icon>
           <p class="responsive-font">Going</p>
         </div>
-        <div *ngIf="going">
+        <div *ngIf="going" (click)="decrementInterestedOrGoing(event.key, 'going')">
           <ion-icon color="primary" name="ios-checkmark-circle"></ion-icon>
           <p class="responsive-font active">Going</p>
         </div>
@@ -79,10 +79,10 @@
   <hr />
   <ion-row text-center style="font-weight: bold">
     <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('interested')">
-      Interested ({{ interestedCount }})
+      Interested ({{ interestedUsers?.length }})
     </ion-col>
     <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('going')">
-      Going ({{ goingCount }})
+      Going ({{ goingUsers?.length }})
     </ion-col>
     <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('Buyed')">
       Buyed (0)

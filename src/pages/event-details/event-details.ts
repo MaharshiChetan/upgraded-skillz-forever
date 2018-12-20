@@ -47,10 +47,10 @@ export class EventDetailsPage {
   going = false;
   interestedSubscription;
   goingSubscription;
-  interestedCount;
+
   interestedUsers;
   goingUsers;
-  goingCount;
+
   loaded = false;
   isLiking: boolean = false;
   uid = this.authService.getActiveUser().uid;
@@ -84,36 +84,24 @@ export class EventDetailsPage {
     this.fetchCurrentUserProfile();
 
     this.interestedSubscription = this.eventService
-      .fetchInterestedOrGoingUsers(this.event.key, 'interested')
+      .fetchActivePeopleForEvents(this.event.key, 'interested')
       .subscribe(users => {
         this.interestedUsers = users;
-        this.interestedCount = users.length;
-        this.checkInterest(users);
+
+        this.checkInterest();
       });
     this.goingSubscription = this.eventService
-      .fetchInterestedOrGoingUsers(this.event.key, 'going')
+      .fetchActivePeopleForEvents(this.event.key, 'going')
       .subscribe(users => {
         this.goingUsers = users;
-        this.goingCount = users.length;
-        this.checkGoing(users);
+
+        this.checkGoing();
       });
   }
 
   ionViewWillLeave() {
     this.interestedSubscription.unsubscribe();
     this.goingSubscription.unsubscribe();
-  }
-
-  checkInterest(interestedUsers) {
-    interestedUsers.forEach(user => {
-      if (user.key === this.uid) this.interested = true;
-    });
-  }
-
-  checkGoing(goingUsers) {
-    goingUsers.forEach(user => {
-      if (user.key === this.uid) this.going = true;
-    });
   }
 
   fetchCurrentUserProfile() {
@@ -124,29 +112,43 @@ export class EventDetailsPage {
 
   presentImage(myImage) {
     this.imageViewerCtrl.create(myImage).present();
-    // imageViewer.onDidDismiss(() => alert('Viewer dismissed'));
-  }
-
-  goToSubmitVotePage() {
-    this.navCtrl.push('SubmitVotePage', {
-      showcases: this.event.eventShowcases,
-      key: this.event.key,
-    });
   }
 
   goToReviewsPage() {
     this.navCtrl.push('ReviewsPage');
   }
 
-  handleInterestedOrGoing(eventKey, type) {
-    this.authService.getUserDetails().then(user => {
-      try {
-        this.eventService.handleInterestOrGoing(eventKey, user, type);
-        if (type === 'interested') this.interested = !this.interested;
-        if (type === 'going') this.going = !this.going;
-      } catch (e) {
-        alert(e);
-      }
+  incrementInterestedOrGoing(eventKey: string, type: string) {
+    try {
+      this.eventService.incrementInterestedOrGoing(eventKey, this.uid, type);
+      if (type === 'going') this.checkGoing();
+      else this.checkInterest();
+    } catch (e) {
+      alert(e);
+    }
+  }
+
+  decrementInterestedOrGoing(eventKey: string, type: string) {
+    try {
+      this.eventService.decrementInterestedOrGoing(eventKey, this.uid, type);
+      if (type === 'going') this.checkGoing();
+      else this.checkInterest();
+    } catch (e) {
+      alert(e);
+    }
+  }
+
+  checkInterest() {
+    this.eventService
+      .isInterestedOrGoing(this.event.key, this.uid, 'interested')
+      .subscribe(data => {
+        this.interested = data ? true : false;
+      });
+  }
+
+  checkGoing() {
+    this.eventService.isInterestedOrGoing(this.event.key, this.uid, 'going').subscribe(data => {
+      this.going = data ? true : false;
     });
   }
 
@@ -224,9 +226,7 @@ export class EventDetailsPage {
   }
 
   incrementShare() {
-    this.authService.getUserDetails().then(user => {
-      this.eventService.incrementShare(this.event.key, user);
-    });
+    this.eventService.incrementShare(this.event.key, this.uid);
   }
 
   createLoading() {

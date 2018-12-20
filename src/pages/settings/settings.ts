@@ -19,6 +19,10 @@ export class SettingsPage {
     console.log('ionViewDidLoad SettingsPage');
   }
 
+  goToEditProfilePage() {
+    this.navCtrl.push('EditProfilePage');
+  }
+
   logout() {
     let alertPopup = this.alertCtrl.create({
       title: 'Log out of Skillz-Forever?',

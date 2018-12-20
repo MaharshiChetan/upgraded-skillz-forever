@@ -4,7 +4,6 @@ import {
   NavController,
   NavParams,
   Content,
-  AlertController,
   ActionSheetController,
   LoadingController,
   Platform,
@@ -13,11 +12,8 @@ import { ChatProvider } from '../../providers/chat/chat';
 import { AuthProvider } from '../../providers/auth/auth';
 import firebase from 'firebase';
 import { Keyboard } from '@ionic-native/keyboard';
-import { Clipboard } from '@ionic-native/clipboard';
-import { Message } from '../../providers/message/message';
 import { CameraProvider } from '../../providers/camera/camera';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { ImageViewerController } from 'ionic-img-viewer';
 
 @IonicPage()
 @Component({
@@ -44,22 +40,18 @@ export class OneToOneChatPage {
   currentUserDetails;
   chatSubscription: any;
   message: string = '';
-  usersdata = firebase.database().ref('/users');
+
   constructor(
     private navCtrl: NavController,
     private navParams: NavParams,
     private chatService: ChatProvider,
     private authService: AuthProvider,
-    private alertCtrl: AlertController,
-    private clipboard: Clipboard,
-    private presentMessage: Message,
     private actionSheetCtrl: ActionSheetController,
     private cameraService: CameraProvider,
     private loadingCtrl: LoadingController,
     private keyboard: Keyboard,
     private platform: Platform,
     private renderer: Renderer,
-    private imageViewerCtrl: ImageViewerController,
     private db: AngularFireDatabase
   ) {}
 
@@ -109,6 +101,7 @@ export class OneToOneChatPage {
 
     this.updateScroll('load', 500);
   }
+
   ionViewCanLeave() {
     this.chatSubscription.unsubscribe();
     this.inputElement.blur();
@@ -182,12 +175,6 @@ export class OneToOneChatPage {
         alert(error);
       }
     );
-  }
-
-  presentImage(myImage) {
-    const imageViewer = this.imageViewerCtrl.create(myImage);
-    imageViewer.present();
-    // imageViewer.onDidDismiss(() => alert('Viewer dismissed'));
   }
 
   sendImageMessage() {
@@ -268,59 +255,6 @@ export class OneToOneChatPage {
       this.updateScroll('sendMessage', this.scrollTimeout);
       this.textareaHeight = this.initialTextAreaHeight;
     }
-  }
-
-  deleteMessage(messageId) {
-    this.chatService.deleteMessage(
-      this.currentUserDetails.uid,
-      this.otherUserDetails.uid,
-      messageId
-    );
-  }
-
-  presentPopover(message) {
-    let alert = this.alertCtrl.create();
-    alert.setTitle('Take action');
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Delete',
-      value: 'delete',
-    });
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Copy',
-      value: 'copy',
-    });
-
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'OK',
-      handler: data => {
-        if (data === 'delete') {
-          this.deleteMessage(message.key);
-        } else if (data === 'copy') {
-          this.clipboard.copy(message.message);
-          this.presentMessage.showToast('Text copied to clipboard!');
-        }
-      },
-    });
-    alert.present();
-  }
-
-  goToProfilePage(user) {
-    this.usersdata
-      .child(`${user.uid}/personalData`)
-      .once('value', snapshot => {
-        user = snapshot.val();
-      })
-      .then(() => {
-        this.navCtrl.push('ProfilePage', { otherUser: user });
-      })
-      .catch(err => {
-        console.log(err);
-      });
   }
 
   removeKeyboardListeners() {

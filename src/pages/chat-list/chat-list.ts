@@ -6,6 +6,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import 'rxjs/add/operator/debounceTime';
 import { DataProvider } from '../../providers/data/data';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -26,14 +27,16 @@ export class ChatListPage {
     private alertCtrl: AlertController,
     private chatService: ChatProvider,
     private dataService: DataProvider,
+    private authService: AuthProvider,
     private app: App
-  ) {
-    this.currentUserId = firebase.auth().currentUser.uid;
-  }
+  ) {}
 
   ionViewWillEnter() {
-    this.getDisplayMessages();
-    this.initializeLoader();
+    this.authService.getUserDetails().then(userData => {
+      this.currentUserId = userData['uid'];
+      this.getDisplayMessages();
+      this.initializeLoader();
+    });
   }
 
   ionViewDidLeave() {
@@ -50,7 +53,7 @@ export class ChatListPage {
 
   getDisplayMessages() {
     this.subscription = this.chatService
-      .getDisplayMessages(firebase.auth().currentUser.uid)
+      .getDisplayMessages(this.currentUserId)
       .subscribe(displayMessages => {
         this.displayMessages = _.sortBy(displayMessages, function(o) {
           return moment(o['timeStamp']);

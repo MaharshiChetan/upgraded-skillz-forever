@@ -1,0 +1,53 @@
+<div *ngIf="!messages" class="spinner-container"><ion-spinner></ion-spinner></div>
+<div *ngFor="let message of messages" class="message-wrapper">
+  <div *ngIf="message.sentBy === otherUserDetails.uid">
+    <img
+      tappable
+      (click)="goToProfilePage(otherUserDetails)"
+      class="profile-pic left cover-image"
+      [src]="otherUserDetails.profilePhoto"
+      onerror="this.onerror=null;this.src='assets/default-user.jpeg';"
+    />
+
+    <div *ngIf="message.message" class="chat-bubble left" (press)="presentPopover(message)">
+      <div class="message" [innerHTML]="message.message" autolinker></div>
+
+      <div class="message-detail left">
+        <span>{{ message.timeStamp | amCalendar }}</span>
+      </div>
+    </div>
+    <div *ngIf="message.imageUrl" class="chat-bubble-img  left" (press)="presentPopover(message)">
+      <img
+        [src]="message.imageUrl"
+        class="cover-image"
+        (click)="presentImage(imageLeft)"
+        #imageLeft
+      />
+      <div class="message-detail-img left">
+        <span>{{ message.timeStamp | amCalendar }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="message.sentBy !== otherUserDetails.uid">
+    <div *ngIf="message.message" class="chat-bubble right" (press)="presentPopover(message)">
+      <div class="message" [innerHTML]="message.message" autolinker></div>
+
+      <div class="message-detail right">
+        <span>{{ message.timeStamp | amCalendar }}</span>
+      </div>
+    </div>
+    <div *ngIf="message.imageUrl" class="chat-bubble-img  right" (press)="presentPopover(message)">
+      <img
+        [src]="message.imageUrl"
+        class="cover-image"
+        (click)="presentImage(imageRight)"
+        #imageRight
+      />
+      <div class="message-detail-img right">
+        <span>{{ message.timeStamp | amCalendar }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="cf"></div>
+</div>

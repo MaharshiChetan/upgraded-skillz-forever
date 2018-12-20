@@ -38,6 +38,7 @@ import { SuperTabsModule } from 'ionic2-super-tabs';
 import { TitlesProvider } from '../providers/titles/titles';
 import { NewPopoverComponent } from '../components/new-popover/new-popover';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserPostProvider } from '../providers/user-post/user-post';
 
 @NgModule({
   declarations: [MyApp, PopoverComponent, NewPopoverComponent],
@@ -89,6 +90,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ChatProvider,
     Clipboard,
     DataProvider,
+    UserPostProvider,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

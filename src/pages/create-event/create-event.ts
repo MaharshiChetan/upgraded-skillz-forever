@@ -71,30 +71,30 @@ export class CreateEventPage implements AfterViewInit {
   }
 
   ionViewCanLeave() {
-    if (!this.eventData) {
-      if (this.showAlertMessage) {
-        let alertPopup = this.alertCtrl.create({
-          title: 'Discard Event?',
-          message: "This event won't be saved.",
-          buttons: [
-            {
-              text: 'Discard Event',
-              handler: () => {
-                alertPopup.dismiss().then(() => {
-                  this.exitPage();
-                });
-                return false;
-              },
+    if (this.showAlertMessage) {
+      let alertPopup = this.alertCtrl.create({
+        title: 'Discard Event?',
+        message: !this.eventData
+          ? "This event won't be saved."
+          : "The changes for event made won't be get saved.",
+        buttons: [
+          {
+            text: 'Discard Event',
+            handler: () => {
+              alertPopup.dismiss().then(() => {
+                this.exitPage();
+              });
+              return false;
             },
-            {
-              text: 'Cancel',
-              handler: () => {},
-            },
-          ],
-        });
-        alertPopup.present();
-        return false;
-      }
+          },
+          {
+            text: 'Cancel',
+            handler: () => {},
+          },
+        ],
+      });
+      alertPopup.present();
+      return false;
     }
   }
 
@@ -221,7 +221,7 @@ export class CreateEventPage implements AfterViewInit {
     textArea.style.height = textArea.scrollHeight + 10 + 'px';
   }
 
-  submitForm(description) {
+  updateForm(description, uid, imageId, imageUrl) {
     const event = {
       eventName: this.eventForm.get('eventName').value,
       eventDescription: description.value,
@@ -239,18 +239,18 @@ export class CreateEventPage implements AfterViewInit {
       endDateAndTime: `${this.eventForm.get('endDate').value} ${
         this.eventForm.get('endTime').value
       }`,
-
+      timestamp: this.eventData
+        ? this.eventData.timeStamp
+        : -1 * <number>firebase.database.ServerValue.TIMESTAMP,
+      imageId: imageId,
+      imageUrl: imageUrl,
+      uid: uid,
       eventCategories: this.categories,
     };
-
-    if (this.eventData) {
-      this.updateEvent(event, this.eventData.key);
-    } else {
-      this.updateEvent(event);
-    }
+    return event;
   }
 
-  updateEvent(event, eventKey?: any) {
+  updateEvent(description) {
     if (!(this.chosenPicture || this.eventData)) {
       this.presentMessage.showToast('Please upload event image, Its mandatory!', 'fail-toast');
       return;
@@ -258,18 +258,18 @@ export class CreateEventPage implements AfterViewInit {
     const loader = this.loadingCtrl.create();
     loader.present();
     const uid = this.authService.getActiveUser().uid;
-
     let imageId = this.eventData ? this.eventData.imageId : this.db.createPushId();
 
     this.imageStore = firebase
       .storage()
       .ref('/eventImages')
       .child(`${uid}/${imageId}`);
-    if (this.chosenPicture && eventKey) {
+    if (this.chosenPicture && this.eventData) {
       this.imageStore.putString(this.chosenPicture, 'data_url').then(res => {
         this.imageStore.getDownloadURL().then(url => {
+          const event = this.updateForm(description, uid, imageId, url);
           this.eventService
-            .updateEvent(event, url, eventKey, this.eventData.imageId)
+            .updateEvent(event, this.eventData.key)
             .then(res => {
               loader.dismiss();
               this.presentMessage.showToast('Successfully updated event!', 'success-toast');
@@ -283,13 +283,9 @@ export class CreateEventPage implements AfterViewInit {
         });
       });
     } else if (this.eventData) {
+      const event = this.updateForm(description, uid, imageId, this.eventData.imageUrl);
       this.eventService
-        .updateEvent(
-          event,
-          this.eventData.eventImage || this.chosenPicture,
-          eventKey,
-          this.eventData.imageId
-        )
+        .updateEvent(event, this.eventData.key)
         .then(res => {
           loader.dismiss();
           this.presentMessage.showToast('Successfully updated event!', 'success-toast');
@@ -303,7 +299,8 @@ export class CreateEventPage implements AfterViewInit {
     } else {
       this.imageStore.putString(this.chosenPicture, 'data_url').then(res => {
         this.imageStore.getDownloadURL().then(url => {
-          this.eventService.createEvent(event, url, imageId).then(res => {
+          const event = this.updateForm(description, uid, imageId, url);
+          this.eventService.createEvent(event).then(res => {
             loader.dismiss();
             this.presentMessage.showToast('Successfully created event!', 'success-toast');
             this.showAlertMessage = false;

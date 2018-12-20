@@ -5,56 +5,21 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class EventsProvider {
-  eventData: any = firebase.database().ref('/events');
   imageStore = firebase.storage().ref('/eventImages');
 
   constructor(private db: AngularFireDatabase) {}
 
-  createEvent(event, eventImage, imageId) {
+  createEvent(event) {
     try {
-      return this.db.list('events').push({
-        uid: firebase.auth().currentUser.uid,
-        eventName: event.eventName,
-        eventDescription: event.eventDescription,
-        eventLocation: event.eventLocation,
-        eventState: event.eventState,
-        eventCity: event.eventCity,
-        eventPrice: event.eventPrice,
-        startDate: event.startDate,
-        endDate: event.endDate,
-        startTime: event.startTime,
-        endTime: event.endTime,
-        startDateAndTime: event.startDateAndTime,
-        endDateAndTime: event.endDateAndTime,
-        eventImage: eventImage,
-        imageId: imageId,
-        eventCategories: event.eventCategories,
-      });
+      return this.db.list('events').push(event);
     } catch (e) {
       console.log(e);
     }
   }
 
-  updateEvent(event, eventImage, key, imageId) {
+  updateEvent(event, key) {
     try {
-      return this.db.object(`events/${key}`).update({
-        uid: firebase.auth().currentUser.uid,
-        eventName: event.eventName,
-        eventDescription: event.eventDescription,
-        eventLocation: event.eventLocation,
-        eventState: event.eventState,
-        eventCity: event.eventCity,
-        eventPrice: event.eventPrice,
-        startDate: event.startDate,
-        endDate: event.endDate,
-        startTime: event.startTime,
-        endTime: event.endTime,
-        startDateAndTime: event.startDateAndTime,
-        endDateAndTime: event.endDateAndTime,
-        eventImage: eventImage,
-        imageId: imageId,
-        eventCategories: event.eventCategories,
-      });
+      return this.db.object(`events/${key}`).update(event);
     } catch (e) {
       console.log(e);
     }
@@ -63,7 +28,7 @@ export class EventsProvider {
   fetchEvents() {
     try {
       return this.db
-        .list('events')
+        .list('events', ref => ref.orderByChild('timestamp'))
         .snapshotChanges()
         .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
     } catch (e) {
@@ -77,17 +42,17 @@ export class EventsProvider {
         .child(`${firebase.auth().currentUser.uid}/${event.imageId}`)
         .delete()
         .then(() => {
-          this.eventData.child(event.key).remove();
+          return this.db.list(`${event.key}`).remove();
         });
     } catch (e) {
       return e;
     }
   }
 
-  fetchInterestedOrGoingUsers(eventKey, type) {
+  fetchActivePeopleForEvents(eventKey: string, type: string) {
     try {
       return this.db
-        .list(`events/${eventKey}/${type}/users`)
+        .list(`activePeopleForEvents/${eventKey}/${type}`)
         .snapshotChanges()
         .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
     } catch (e) {
@@ -95,52 +60,36 @@ export class EventsProvider {
     }
   }
 
-  async handleInterestOrGoing(eventKey, user, type) {
-    let check = true;
+  incrementInterestedOrGoing(eventKey: string, uid: string, type: string) {
     try {
-      await this.eventData.child(`${eventKey}/${type}/users`).once('value', snapshot => {
-        if (!snapshot.val()) {
-          this.incrementInterestOrGoing(eventKey, user, type);
-        } else {
-          snapshot.forEach(childSnapshot => {
-            if (childSnapshot.key === user.uid) {
-              this.decrementInterestOrGoing(eventKey, user, type);
-              check = false;
-            }
-          });
-        }
-      });
-      if (check) {
-        this.incrementInterestOrGoing(eventKey, user, type);
-      }
+      return this.db.object(`activePeopleForEvents/${eventKey}/${type}`).update({ [uid]: true });
     } catch (e) {
       return e;
     }
   }
 
-  incrementInterestOrGoing(eventKey, user, type) {
+  decrementInterestedOrGoing(eventKey: string, uid: string, type: string) {
     try {
-      this.eventData.child(`${eventKey}/${type}/users/${user.uid}`).set({
-        uid: user.uid,
-      });
+      this.db.object(`activePeopleForEvents/${eventKey}/${type}/${uid}`).remove();
     } catch (e) {
       return e;
     }
   }
 
-  decrementInterestOrGoing(eventKey, user, type) {
+  isInterestedOrGoing(eventKey: string, uid: string, type: string) {
     try {
-      this.eventData.child(`${eventKey}/${type}/users/${user.uid}`).remove();
+      return this.db
+        .object(`activePeopleForEvents/${eventKey}/${type}/${uid}`)
+        .snapshotChanges()
+        .pipe(map(actions => actions.payload.val()));
     } catch (e) {
       return e;
     }
   }
 
-  async incrementShare(eventKey, user) {
+  incrementShare(eventKey: string, uid: string) {
     try {
-      await this.eventData.child(`${eventKey}/shares/users/${user.uid}`).set({
-        uid: user.uid,
-      });
+      return this.db.object(`activePeopleForEvents/${eventKey}/shares`).update({ [uid]: true });
     } catch (e) {
       return e;
     }

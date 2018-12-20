@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-buttons end>
-      <button ion-button (click)="submitForm(myInput)" [disabled]="!eventForm.valid">
+      <button ion-button (click)="updateEvent(myInput)" [disabled]="!eventForm.valid">
         {{ button | uppercase }}
       </button>
     </ion-buttons>
@@ -16,11 +16,11 @@
         <div class="container" (click)="uploadPicture()">
           <img
             class="cover-image"
-            *ngIf="chosenPicture || eventData?.eventImage"
-            [src]="chosenPicture || eventData?.eventImage"
+            *ngIf="chosenPicture || eventData?.imageUrl"
+            [src]="chosenPicture || eventData?.imageUrl"
           />
-          <div *ngIf="!chosenPicture && !eventData?.eventImage" class="img-placeholder"></div>
-          <div *ngIf="!chosenPicture && !eventData?.eventImage" class="centered">
+          <div *ngIf="!chosenPicture && !eventData?.imageUrl" class="img-placeholder"></div>
+          <div *ngIf="!chosenPicture && !eventData?.imageUrl" class="centered">
             <ion-icon name="camera"></ion-icon> {{ imageChoice }}
           </div>
         </div>
