@@ -7,12 +7,14 @@ import { Facebook } from '@ionic-native/facebook';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Platform } from 'ionic-angular';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthProvider {
   uid: any = null;
   query: any;
   usersdata = firebase.database().ref('/users');
+  public currentUserDetails: any;
   public userDetails: any;
   constructor(
     public http: HttpClient,
@@ -26,6 +28,9 @@ export class AuthProvider {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.uid = user.uid;
+        this.getCurrentUserDetails().subscribe(data => {
+          this.currentUserDetails = data;
+        });
         this.updateOnConnect();
         this.updateOnDisconnect();
         this.updateOnAway();
@@ -397,6 +402,10 @@ export class AuthProvider {
           console.error(err);
         });
     });
+  }
+
+  getCurrentUserDetails() {
+    return this.db.object(`users/${this.uid}/personalData`).valueChanges();
   }
 
   deleteAccount() {

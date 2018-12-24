@@ -58,14 +58,18 @@ export class HomePage {
   }
 
   fetchCurrentUserProfile(refresher) {
-    this.authService.getUserDetails().then(user => {
-      this.userDetails = user;
-      if (refresher) refresher.complete();
-    });
+    if (this.authService.currentUserDetails) {
+      this.userDetails = this.authService.currentUserDetails;
+    } else {
+      this.authService.getUserDetails().then(data => {
+        this.userDetails = data;
+      });
+    }
+    if (refresher) refresher.complete();
   }
 
   goToProfilePage() {
-    this.app.getRootNav().push('ProfilePage', { currentUser: this.userDetails });
+    this.app.getRootNav().push('ProfilePage', { currentUser: this.authService.currentUserDetails });
   }
 
   presentPopover(ev) {
@@ -76,7 +80,6 @@ export class HomePage {
     });
 
     popover.onDidDismiss(selectedOption => {
-      console.log(selectedOption);
       if (selectedOption) {
         if (selectedOption.id === 4) {
           this.navCtrl.push('EditProfilePage', {

@@ -14,13 +14,7 @@ export class CameraProvider {
   }
 
   // This method takes optional parameters to make it more customizable
-  getImage(
-    pictureSourceType,
-    crop = true,
-    quality = 100,
-    allowEdit = true,
-    saveToAlbum = true
-  ) {
+  getImage(pictureSourceType, crop = true, quality = 100, allowEdit = true, saveToAlbum = true) {
     const options = {
       quality,
       allowEdit,
@@ -67,8 +61,6 @@ export class CameraProvider {
 
   getImageSize(data_url) {
     var head = 'data:image/jpeg;base64,';
-    return (((data_url.length - head.length) * 3) / 4 / (1024 * 1024)).toFixed(
-      4
-    );
+    return (((data_url.length - head.length) * 3) / 4 / (1024 * 1024)).toFixed(4);
   }
 }

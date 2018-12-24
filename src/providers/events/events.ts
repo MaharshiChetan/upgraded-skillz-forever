@@ -11,8 +11,21 @@ export class EventsProvider {
 
   createEvent(event) {
     try {
-      return this.db.list('events').push(event);
+      const promise = this.db.list('events').push(event);
+      const key = promise.key;
+      /// After successful push, get timestamp and overwrite with negative value
+      return promise.then(_ => {
+        firebase
+          .database()
+          .ref(`/events/${key}/timeStamp`)
+          .once('value')
+          .then(data => {
+            const timeStamp = data.val() * -1;
+            this.db.list(`/events/`).update(key, { timeStamp });
+          });
+      });
     } catch (e) {
+      alert(e);
       console.log(e);
     }
   }
@@ -28,7 +41,7 @@ export class EventsProvider {
   fetchEvents() {
     try {
       return this.db
-        .list('events', ref => ref.orderByChild('timestamp'))
+        .list('events', ref => ref.orderByChild('startDate'))
         .snapshotChanges()
         .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
     } catch (e) {

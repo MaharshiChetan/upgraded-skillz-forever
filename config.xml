@@ -101,5 +101,6 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.1">
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.766344988044-rq4ldcpfb22dggipn58a03te59nhen25" />
     </plugin>
+    <plugin name="com.razorpay.cordova" spec="1.4.0" />
     <engine name="android" spec="7.1.4" />
 </widget>

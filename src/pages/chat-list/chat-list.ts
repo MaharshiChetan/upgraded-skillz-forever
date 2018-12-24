@@ -108,6 +108,6 @@ export class ChatListPage {
   }
 
   setFilteredItems(event) {
-    this.displayMessages = this.dataService.filterItems(this.searchMessages, this.searchTerm);
+    this.displayMessages = this.dataService.filterMessages(this.searchMessages, this.searchTerm);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { App, PopoverController } from 'ionic-angular';
 import { NewPopoverComponent } from '../new-popover/new-popover';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -8,7 +8,7 @@ import { NavController } from 'ionic-angular/navigation/nav-controller';
   selector: 'navbar',
   templateUrl: 'navbar.html',
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   @Input('navbarTitle') navbarTitle: string;
 
   options = 'all';
@@ -20,19 +20,8 @@ export class NavbarComponent implements OnInit {
     private authService: AuthProvider
   ) {}
 
-  ngOnInit() {
-    this.fetchCurrentUserProfile();
-  }
-
-  fetchCurrentUserProfile(refresher?) {
-    this.authService.getUserDetails().then(user => {
-      this.userDetails = user;
-      if (refresher) refresher.complete();
-    });
-  }
-
   goToProfilePage() {
-    this.app.getRootNav().push('ProfilePage', { currentUser: this.userDetails });
+    this.app.getRootNav().push('ProfilePage', { currentUser: this.authService.currentUserDetails });
   }
 
   goToNotificationPage() {

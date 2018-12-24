@@ -239,9 +239,9 @@ export class CreateEventPage implements AfterViewInit {
       endDateAndTime: `${this.eventForm.get('endDate').value} ${
         this.eventForm.get('endTime').value
       }`,
-      timestamp: this.eventData
+      timeStamp: this.eventData
         ? this.eventData.timeStamp
-        : -1 * <number>firebase.database.ServerValue.TIMESTAMP,
+        : firebase.database.ServerValue.TIMESTAMP,
       imageId: imageId,
       imageUrl: imageUrl,
       uid: uid,
