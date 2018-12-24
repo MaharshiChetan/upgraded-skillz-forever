@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "766344988044",
+    "firebase_url": "https://todo-f53c3.firebaseio.com",
+    "project_id": "todo-f53c3",
+    "storage_bucket": "todo-f53c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766344988044:android:05a1d80e943683d4",
+        "android_client_info": {
+          "package_name": "com.hiphop.skillzwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766344988044-7cp4cb2nnh4i5b07iulth6f64264otoq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hiphop.skillzwork",
+            "certificate_hash": "a54344275927e49da59824b30fbad7212479a7af"
+          }
+        },
+        {
+          "client_id": "766344988044-rq4ldcpfb22dggipn58a03te59nhen25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe3qNVcY64EyHms5vG-UUoS2SdqdgBTlk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766344988044-rq4ldcpfb22dggipn58a03te59nhen25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
