@@ -7,7 +7,6 @@ import { Facebook } from '@ionic-native/facebook';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Platform } from 'ionic-angular';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthProvider {
@@ -38,18 +37,18 @@ export class AuthProvider {
     });
   }
 
-  checkUsername(username) {
+  checkUsername(username: string) {
     return firebase.database().ref(`usernames/${username}`);
   }
 
-  removeUsername(username) {
+  removeUsername(username: string) {
     return firebase
       .database()
       .ref(`usernames/${username}`)
       .remove();
   }
 
-  updateUsername(username, uid, email) {
+  updateUsername(username: string, uid: string, email: string) {
     return firebase
       .database()
       .ref(`usernames`)
@@ -57,7 +56,7 @@ export class AuthProvider {
       .update({ uid: uid, email: email });
   }
 
-  registerWithEmail(email, password, name, username) {
+  registerWithEmail(email: string, password: string, name: string, username: string) {
     return new Promise(resolve => {
       firebase
         .auth()

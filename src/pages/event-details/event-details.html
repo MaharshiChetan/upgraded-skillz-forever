@@ -84,9 +84,6 @@
     <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('going')">
       Going ({{ goingUsers?.length }})
     </ion-col>
-    <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('Buyed')">
-      Buyed (0)
-    </ion-col>
   </ion-row>
 
   <hr class="hr" />
@@ -130,7 +127,10 @@
       <ion-card class="categories-card">
         <ion-item tappable class="profile-avatar click" (click)="createPost()">
           <ion-avatar item-start>
-            <img class="cover-image" [src]="currentUserDetails.profilePhoto" />
+            <img
+              class="cover-image"
+              [src]="currentUserDetails.thumbnail || currentUserDetails.profilePhoto"
+            />
           </ion-avatar>
           <h2 style="color: gray">Write something...</h2>
         </ion-item>
@@ -141,7 +141,7 @@
           <ion-avatar tappable item-start (click)="goToProfilePage(post.userDetails)">
             <img
               class="cover-image animated fadeIn delay-3s"
-              [src]="post.userDetails.profilePhoto"
+              [src]="post.userDetails.thumbnail || post.userDetails.profilePhoto"
             />
           </ion-avatar>
           <h2 tappable (click)="goToProfilePage(post.userDetails)">

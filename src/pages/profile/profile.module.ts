@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { ProfilePage } from './profile';
 import { ComponentsModule } from '../../components/components.module';
 import { SharedModule } from '../../app/shared.module';
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 
 @NgModule({
   declarations: [ProfilePage],
@@ -10,6 +11,7 @@ import { SharedModule } from '../../app/shared.module';
     IonicPageModule.forChild(ProfilePage),
     SharedModule,
     ComponentsModule,
+    IonicImageViewerModule,
   ],
 })
 export class ProfilePageModule {}

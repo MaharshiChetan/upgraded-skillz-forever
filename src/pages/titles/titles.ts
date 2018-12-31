@@ -10,7 +10,7 @@ import firebase from 'firebase';
   templateUrl: 'titles.html',
 })
 export class TitlesPage {
-  titles;
+  titles: any;
   chosenPicture: any;
   currentUserId: string = firebase.auth().currentUser.uid;
   uid: string = this.authService.userDetails.uid;
@@ -33,10 +33,10 @@ export class TitlesPage {
   }
 
   removeTitle(key: string) {
-    this.titlesService.removeTitle(this.uid, key);
+    this.titlesService.removeTitle(key);
   }
 
-  showConfirm(key) {
+  showConfirm(key: string) {
     const confirm = this.alertCtrl.create({
       title: 'Are you sure?',
       message: 'The title will gets removed permanently?',

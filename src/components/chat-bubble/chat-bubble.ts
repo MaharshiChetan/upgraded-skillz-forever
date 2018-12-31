@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import firebase from 'firebase';
-import { ImageViewerController } from 'ionic-img-viewer';
 import { Message } from '../../providers/message/message';
 import { Clipboard } from '@ionic-native/clipboard';
 import { ChatProvider } from '../../providers/chat/chat';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @Component({
   selector: 'chat-bubble',
@@ -18,11 +18,11 @@ export class ChatBubbleComponent {
 
   constructor(
     private navCtrl: NavController,
-    private imageViewerCtrl: ImageViewerController,
     private clipboard: Clipboard,
     private presentMessage: Message,
     private chatService: ChatProvider,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private photoViewer: PhotoViewer
   ) {}
 
   goToProfilePage(user) {
@@ -39,9 +39,8 @@ export class ChatBubbleComponent {
       });
   }
 
-  presentImage(myImage: any) {
-    const imageViewer = this.imageViewerCtrl.create(myImage);
-    imageViewer.present();
+  presentImage(image: string) {
+    this.photoViewer.show(image, '', { share: true });
   }
 
   presentPopover(message) {

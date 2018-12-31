@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-navbar color="primary"><ion-title>Photo</ion-title> </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-card class="categories-card">
+    <ion-item *ngIf="post">
+      <ion-avatar tappable item-start (click)="goToProfilePage(userDetails)">
+        <img
+          class="cover-image animated fadeIn delay-3s"
+          [src]="userDetails.thumbnail || userDetails.profilePhoto"
+        />
+      </ion-avatar>
+      <h2 tappable (click)="goToProfilePage(userDetails)">{{ userDetails.userName }}</h2>
+      <div class="options">
+        <button *ngIf="post.myPost" ion-button icon-left clear large (click)="presentPopover(post)">
+          <ion-icon name="ios-more"></ion-icon>
+        </button>
+      </div>
+      <p>{{ post.date | date: 'mediumDate' }} at {{ post.date | date: 'shortTime' }}</p>
+    </ion-item>
+    <div>
+      <img
+        class="contain-image click"
+        (load)="loaded = true"
+        [ngClass]="{ 'animated fadeIn delay-3s': loaded }"
+        [src]="post?.imageUrl"
+        (click)="presentImage(post.imageUrl)"
+      />
+    </div>
+    <ion-card-content *ngIf="post">
+      <div
+        *ngIf="!showMore"
+        [ngClass]="{
+          'textual-content': !post.imageUrl,
+          'textual-content-image': post.imageUrl
+        }"
+      >
+        {{ post.textualContent.substring(0, 120) }}
+        <div
+          tappable
+          (click)="changeContentLength()"
+          [ngClass]="{
+            'read-more click': post.textualContent.length > 120,
+            hidden: 120 >= post.textualContent.length
+          }"
+        >
+          Read more...
+        </div>
+      </div>
+      <div
+        *ngIf="showMore"
+        [ngClass]="{
+          'textual-content': !post.imageUrl,
+          'textual-content-image': post.imageUrl
+        }"
+      >
+        {{ post.textualContent }}
+        <div
+          tappable
+          (click)="changeContentLength()"
+          [ngClass]="{
+            'read-more click': post.textualContent.length > 120,
+            hidden: 120 >= post.textualContent.length
+          }"
+        >
+          Read less...
+        </div>
+      </div>
+      <button
+        ion-button
+        clear
+        small
+        icon-left
+        class="likes"
+        *ngIf="post.totalLikes > 0"
+        (click)="showUsers(post.likes)"
+      >
+        <ion-icon color="danger" name="md-heart"></ion-icon>
+        {{ post.totalLikes }}
+      </button>
+    </ion-card-content>
+    <ion-row text-center *ngIf="post">
+      <ion-col>
+        <button
+          ion-button
+          color="purple"
+          clear
+          small
+          icon-left
+          (click)="like(post)"
+          *ngIf="!post?.isLiking"
+        >
+          <ion-icon class="animated bounceIn" name="md-heart-outline"></ion-icon>
+          {{ post.totalLikes }} Likes
+        </button>
+        <button
+          ion-button
+          color="purple"
+          clear
+          small
+          icon-left
+          (click)="unlike(post)"
+          *ngIf="post?.isLiking"
+        >
+          <ion-icon class="animated bounceIn" name="ios-heart" color="danger"></ion-icon>
+          {{ post.totalLikes }} Likes
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="purple" clear small icon-left (click)="openCommentsModal(post)">
+          <ion-icon name="ios-text-outline"></ion-icon>
+          {{ post.totalComments }} Comments
+        </button>
+      </ion-col>
+      <ion-col align-self-center text-center>
+        <p style="color: gray">{{ post.date | amTimeAgo }}</p>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>

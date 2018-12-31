@@ -199,6 +199,7 @@ export class OneToOneChatPage {
       });
     }
   }
+
   showActionSheet(event) {
     event.preventDefault();
     const actionSheet = this.actionSheetCtrl.create({

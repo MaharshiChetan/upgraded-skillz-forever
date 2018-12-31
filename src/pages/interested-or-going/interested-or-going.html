@@ -17,7 +17,10 @@
     <ion-list *ngSwitchCase="'interested'">
       <ion-item class="click" *ngFor="let user of interestedUsers" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
-          <img class="cover-image animated fadeIn delay-3s" [src]="user.profilePhoto" />
+          <img
+            class="cover-image animated fadeIn delay-3s"
+            [src]="user.thumbnail || user.profilePhoto"
+          />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>
         <p>{{ user.displayName }}</p>
@@ -34,7 +37,10 @@
       <div *ngIf="!goingUsers" class="spinner-container"><ion-spinner></ion-spinner></div>
       <ion-item class="click" *ngFor="let user of goingUsers" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
-          <img class="cover-image animated fadeIn delay-3s" [src]="user.profilePhoto" />
+          <img
+            class="cover-image animated fadeIn delay-3s"
+            [src]="user.thumbnail || user.profilePhoto"
+          />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>
         <p>{{ user.displayName }}</p>

@@ -6,7 +6,7 @@
     <ion-avatar (click)="changePicture()">
       <img
         class="image cover-image"
-        [src]="chosenPicture || userProfile.profilePhoto"
+        [src]="chosenPicture || userProfile.thumbnail || userProfile.profilePhoto"
         onerror="this.src='userProfile.profilePhoto'"
       />
       <button ion-button clear color="dark">Change image</button>

@@ -56,19 +56,16 @@ export class TitlesFormPage {
   createForm() {
     if (this.type === 'edit') {
       this.form = new FormGroup({
-        title: new FormControl(this.title.title.title.title, Validators.required),
-        description: new FormControl(this.title.title.title.description, Validators.required),
-        location: new FormControl(this.title.title.title.location, Validators.required),
-        winningPosition: new FormControl(
-          this.title.title.title.winningPosition,
-          Validators.required
-        ),
+        title: new FormControl(this.title.title.title, Validators.required),
+        description: new FormControl(this.title.title.description, Validators.required),
+        location: new FormControl(this.title.title.location, Validators.required),
+        winningPosition: new FormControl(this.title.title.winningPosition, Validators.required),
         competitionCategory: new FormControl(
-          this.title.title.title.competitionCategory,
+          this.title.title.competitionCategory,
           Validators.required
         ),
-        type: new FormControl(this.title.title.title.type, Validators.required),
-        year: new FormControl(this.title.title.title.year, Validators.required),
+        type: new FormControl(this.title.title.type, Validators.required),
+        year: new FormControl(this.title.title.year, Validators.required),
       });
     } else {
       this.form = new FormGroup({
@@ -120,16 +117,15 @@ export class TitlesFormPage {
   createTitle() {
     const loader = this.loadingCtrl.create();
     loader.present();
+    let imageId = this.db.createPushId();
+    if (this.title) {
+      imageId = this.title.title.imageId;
+    }
+    this.imageStore = firebase
+      .storage()
+      .ref('/titleImages')
+      .child(`${this.uid}/${imageId}`);
     if (this.chosenPicture) {
-      let imageId = this.db.createPushId();
-      if (this.title) {
-        imageId = this.title.title.title.imageId;
-      }
-      this.imageStore = firebase
-        .storage()
-        .ref('/titleImages')
-        .child(`${this.uid}/${imageId}`);
-
       this.imageStore.putString(this.chosenPicture, 'data_url').then(res => {
         this.imageStore.getDownloadURL().then(url => {
           this.updateTitleDetails(url, imageId);
@@ -138,7 +134,7 @@ export class TitlesFormPage {
             loader.dismiss();
             this.navCtrl.pop();
           } else {
-            this.titlesService.createTitle(firebase.auth().currentUser.uid, this.title);
+            this.titlesService.createTitle(this.title, imageId);
             loader.dismiss();
             this.navCtrl.pop();
           }
@@ -151,18 +147,20 @@ export class TitlesFormPage {
         loader.dismiss();
         this.navCtrl.pop();
       } else {
-        this.titlesService.createTitle(firebase.auth().currentUser.uid, this.title);
+        this.titlesService.createTitle(this.title, imageId);
         loader.dismiss();
         this.navCtrl.pop();
       }
     }
   }
 
-  updateTitleDetails(imageUrl?, imageId?) {
+  updateTitleDetails(imageUrl?: string, imageId?: string) {
+    let updated = null;
     if (!imageUrl && this.title) {
-      imageUrl = this.title.title.title.image;
-      imageId = this.title.title.title.imageId;
+      imageUrl = this.title.title.image;
+      updated = '' + new Date();
     }
+
     this.title = {
       title: this.form.get('title').value,
       description: this.form.get('description').value,
@@ -172,12 +170,15 @@ export class TitlesFormPage {
       type: this.form.get('type').value,
       year: this.form.get('year').value,
       image: imageUrl || this.defaultPicture,
-      imageId: imageId || null,
+      imageId: this.type === 'edit' ? this.title.title.imageId || null : null,
+      updated: updated,
+      uid: this.uid,
+      created: this.type === 'edit' ? this.title.title.created : '' + new Date(),
     };
   }
 
   updateTitle() {
-    this.titlesService.updateTitle(firebase.auth().currentUser.uid, this.titleKey, this.title);
+    this.titlesService.updateTitle(this.titleKey, this.title);
   }
 
   changePicture() {

@@ -1,5 +1,5 @@
 <ion-header no-shadow no-border>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>{{ type }}</ion-title>
   </ion-navbar>
 </ion-header>
@@ -8,7 +8,10 @@
   <ion-list>
     <ion-item class="click" *ngFor="let user of users" (click)="goToProfilePage(user)">
       <ion-avatar item-start>
-        <img class="cover-image animated fadeIn delay-3s" [src]="user.profilePhoto" />
+        <img
+          class="cover-image animated fadeIn delay-3s"
+          [src]="user.thumbnail || user.profilePhoto"
+        />
       </ion-avatar>
       <h2>{{ user.userName }}</h2>
       <p>{{ user.displayName }}</p>

@@ -24,7 +24,7 @@
     >
       <ion-avatar item-start *ngIf="message" class="image-container">
         <img
-          [src]="message?.profilePhoto"
+          [src]="message?.thumbnail || message?.profilePhoto"
           class="cover-image"
           onerror="this.onerror=null;this.src='assets/default-user.jpeg';"
         />

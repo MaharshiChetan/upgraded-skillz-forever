@@ -1,48 +1,55 @@
 <ion-content>
-  <ion-card>
-    <ion-list-header>Photos <span>25+</span></ion-list-header>
-    <ion-grid>
-      <ion-row>
-        <ion-col col-xl-3 *ngFor="let i of [1, 2, 3]">
-          <img
-            (click)="presentImage(image)"
-            #image
-            class="image-container"
-            src="
-              https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg
-            "
-          />
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <ion-refresher (ionRefresh)="getUserImagePosts($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div *ngIf="!imagePosts" class="spinner-container"><ion-spinner></ion-spinner></div>
+  <h4 *ngIf="noPost">No post yet!</h4>
+  <ion-card *ngIf="imagePosts && imagePosts.length > 0">
+    <ion-list-header>
+      Photos <span *ngIf="imagePosts.length > 6">{{ imagePosts.length - 6 }}+</span>
+      <span *ngIf="7 > imagePosts.length">View All</span>
+    </ion-list-header>
+
+    <ion-row no-padding>
+      <ion-col no-padding col-4 *ngFor="let post of imagePosts; let i = index">
+        <img
+          *ngIf="6 > i"
+          (press)="presentImage(image)"
+          (click)="showPost(post)"
+          class="image-container"
+          [src]="post.thumbnail || post.imageUrl"
+        />
+      </ion-col>
+    </ion-row>
   </ion-card>
 
-  <ion-card>
-    <ion-list-header> Videos <span>28+</span></ion-list-header>
+  <ion-card *ngIf="videoPosts && videoPosts.length > 0">
+    <ion-list-header>
+      Videos <span *ngIf="videoPosts.length > 6">{{ videoPosts.length - 6 }}+</span>
+      <span *ngIf="7 > videoPosts.length">View All</span>
+    </ion-list-header>
 
-    <ion-grid>
-      <ion-row>
-        <ion-col col-xl-3 *ngFor="let i of [1, 2, 3]">
-          <img
-            class="image-container"
-            src="https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg"
-          />
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-row no-padding>
+      <ion-col no-padding col-4 *ngFor="let post of videoPosts">
+        <img
+          class="image-container"
+          src="https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg"
+        />
+      </ion-col>
+    </ion-row>
   </ion-card>
-  <ion-card>
-    <ion-list-header> Tracks <span>34+</span></ion-list-header>
-
-    <ion-grid>
-      <ion-row>
-        <ion-col col-xl-3 *ngFor="let i of [1, 2, 3]">
-          <img
-            class="image-container"
-            src="https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg"
-          />
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <ion-card *ngIf="audioPosts && audioPosts.length > 0">
+    <ion-list-header>
+      Tracks <span *ngIf="audioPosts.length > 6">{{ audioPosts.length - 6 }}+</span>
+      <span *ngIf="7 > audioPosts.length">View All</span>
+    </ion-list-header>
+    <ion-row no-padding>
+      <ion-col no-padding col-4 *ngFor="let post of audioPosts">
+        <img
+          class="image-container"
+          src="https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg"
+        />
+      </ion-col>
+    </ion-row>
   </ion-card>
 </ion-content>

@@ -9,11 +9,8 @@ export class PostProvider {
   uid = firebase.auth().currentUser.uid;
   constructor(private db: AngularFireDatabase) {}
 
-  createEventPost(post, eventId?: string) {
-    if (eventId) this.node = this.db.list(`eventPosts/${eventId}`);
-    else this.node = this.db.list(`userPosts/${this.uid}`);
-
-    return this.node.push({
+  createEventPost(post, pushId: string, eventId?: string) {
+    return this.db.object(`eventPosts/${eventId}/${pushId}`).update({
       imageUrl: post.imageUrl,
       date: '' + new Date(),
       uid: this.uid,

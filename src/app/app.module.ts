@@ -39,6 +39,7 @@ import { TitlesProvider } from '../providers/titles/titles';
 import { NewPopoverComponent } from '../components/new-popover/new-popover';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserPostProvider } from '../providers/user-post/user-post';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @NgModule({
   declarations: [MyApp, PopoverComponent, NewPopoverComponent],
@@ -78,6 +79,7 @@ import { UserPostProvider } from '../providers/user-post/user-post';
     File,
     HeaderColor,
     Keyboard,
+    PhotoViewer,
 
     AuthProvider,
     CameraProvider,

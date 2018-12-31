@@ -1,0 +1,25 @@
+post-page {
+  .likes {
+    left: 89%;
+  }
+
+  .read-more {
+    color: gray;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .card-content-md {
+    padding: 13px 16px 0px;
+  }
+
+  .options {
+    .button-large-md {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}

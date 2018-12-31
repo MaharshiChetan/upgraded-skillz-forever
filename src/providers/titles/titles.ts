@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { map } from 'rxjs/operators';
+import firebase from 'firebase';
 
 @Injectable()
 export class TitlesProvider {
+  uid = firebase.auth().currentUser.uid;
   constructor(private db: AngularFireDatabase) {
     console.log('Hello TitlesProvider Provider');
   }
 
-  createTitle(uid: string, title) {
-    this.db.list(`titles/${uid}`).push({
-      title,
-      created: '' + new Date(),
-      uid: uid,
-    });
+  createTitle(title: any, pushId) {
+    this.db.object(`titles/${this.uid}/${pushId}`).update(title);
   }
 
   getTitles(uid: string) {
@@ -23,15 +21,11 @@ export class TitlesProvider {
       .pipe(map(actions => actions.map(a => ({ key: a.key, title: a.payload.val() }))));
   }
 
-  removeTitle(uid: string, key: string) {
-    return this.db.object(`titles/${uid}/${key}`).remove();
+  removeTitle(key: string) {
+    return this.db.object(`titles/${this.uid}/${key}`).remove();
   }
 
-  updateTitle(uid: string, key: string, title) {
-    return this.db.object(`titles/${uid}/${key}`).update({
-      title,
-      updated: '' + new Date(),
-      uid: uid,
-    });
+  updateTitle(titleId: string, title: any) {
+    return this.db.object(`titles/${this.uid}/${titleId}`).update(title);
   }
 }

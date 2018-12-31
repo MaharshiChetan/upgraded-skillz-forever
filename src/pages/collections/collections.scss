@@ -5,13 +5,10 @@ collections-page {
   }
 
   .image-container {
-    width: 31vw;
-    height: 29vw;
+    width: calc(100% - 1.2px);
+    height: 30vw;
+    margin-bottom: 1.2px;
     background-size: cover;
-  }
-
-  [col-xl-3] {
-    padding: 0px 0px 4px 5px;
   }
 
   .list-header-md {

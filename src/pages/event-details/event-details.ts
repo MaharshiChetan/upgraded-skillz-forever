@@ -427,7 +427,7 @@ export class EventDetailsPage {
     this.postService.unlikeEventPost(post.key, firebase.auth().currentUser.uid, this.event.key);
   }
 
-  openCommentsModal(post, eventId) {
+  openCommentsModal(post: any, eventId: string) {
     const modal = this.modalCtrl.create('CommentsPage', {
       post: post,
       eventId: eventId,

@@ -9,101 +9,76 @@ export class UserPostProvider {
   uid = firebase.auth().currentUser.uid;
   constructor(private db: AngularFireDatabase) {}
 
-  createUserPost(post, eventId?: string) {
-    if (eventId) this.node = this.db.list(`eventPosts/${eventId}`);
-    else this.node = this.db.list(`userPosts/${this.uid}`);
-
-    return this.node.push({
-      imageUrl: post.imageUrl,
-      date: '' + new Date(),
-      uid: this.uid,
-      imageId: post.imageId,
-      textualContent: post.textualContent,
-    });
+  createUserPost(post: any, pushId: string) {
+    return this.db.object(`userPosts/${this.uid}/${pushId}`).update(post);
   }
 
-  updateUserPost(post, eventId: string, postId: string) {
-    return this.db.object(`eventPosts/${eventId}/${postId}`).update({
-      imageUrl: post.imageUrl,
-      date: '' + new Date(),
-      uid: this.uid,
-      imageId: post.imageId,
-      textualContent: post.textualContent,
-    });
+  updateUserPost(post: any, postId: string) {
+    return this.db.object(`userPosts/${this.uid}/${postId}`).update(post);
   }
 
-  deleteAllPost(eventId) {
-    this.getUserPosts(eventId).subscribe(posts => {
-      this.deleteAllUserPostImages(eventId, posts);
-    });
-    this.deleteAllComments(eventId);
-    this.db.list(`eventPosts/${eventId}`).remove();
-  }
-
-  deletePost(post, eventId) {
+  deletePost(post: any, postId: string) {
     try {
-      if (post.imageId) {
-        firebase
-          .storage()
-          .ref('/eventPostsImages')
-          .child(`${eventId}/${post.imageId}`)
-          .delete()
-          .then(() => {
-            this.db.list(`eventPosts/${eventId}/${post.key}`).remove();
-            this.removePostLikes(post.key, eventId);
-            this.removePostComments(post.key, eventId);
-          });
-      } else {
-        this.db.list(`eventPosts/${eventId}/${post.key}`).remove();
-        this.removePostLikes(post.key, eventId);
-        this.removePostComments(post.key, eventId);
-      }
+      firebase
+        .storage()
+        .ref('/userPostsImages')
+        .child(`${this.uid}/${post.imageId}`)
+        .delete()
+        .then(() => {
+          this.db.list(`userPosts/${this.uid}/${postId}`).remove();
+          this.removePostLikes(postId);
+          this.removePostComments(postId);
+        });
     } catch (e) {
       return e;
     }
   }
 
-  removePostLikes(postId, eventId) {
-    this.db.object(`eventPostLikes/${eventId}/${postId}`).remove();
+  removePostLikes(postId: string) {
+    this.db.object(`userPostLikes/${postId}`).remove();
   }
 
-  removePostComments(postId, eventId) {
-    this.db.object(`eventPostComments/${eventId}/${postId}`).remove();
+  removePostComments(postId: string) {
+    this.db.object(`userPostComments/${postId}`).remove();
   }
 
-  getUserPosts(eventId) {
+  deleteAllPost(eventId) {
+    // this.getUserPosts(eventId).subscribe(posts => {
+    //   this.deleteAllUserPostImages(eventId, posts);
+    // });
+    // this.deleteAllComments(eventId);
+    // this.db.list(`eventPosts/${eventId}`).remove();
+  }
+
+  getUserPosts(uid: string) {
     return this.db
-      .list(`eventPosts/${eventId}`)
+      .list(`userPosts/${uid}`)
       .snapshotChanges()
       .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
   }
 
-  deleteAllLikes(eventId: string) {
-    this.db.object(`eventPostLikes/${eventId}`).remove();
+  likeUserPost(postId: string, uid: string) {
+    this.db.object(`userPostLikes/${postId}`).update({ [uid]: true });
   }
 
-  likeUserPost(postId: string, uid: string, eventId: string) {
-    this.db.object(`eventPostLikes/${eventId}/${postId}`).update({ [uid]: true });
+  checkLike(postId: string, uid: string) {
+    return this.db.object(`userPostLikes/${postId}/${uid}`).snapshotChanges();
   }
 
-  checkLike(postId: string, uid: string, eventId: string) {
-    return this.db.object(`eventPostLikes/${eventId}/${postId}/${uid}`).snapshotChanges();
-  }
-
-  getTotalLikes(postId: string, eventId: string) {
+  getTotalLikes(postId: string) {
     // Used to build the likes count
     return this.db
-      .list(`eventPostLikes/${eventId}/${postId}`)
+      .list(`userPostLikes/${postId}`)
       .snapshotChanges()
       .pipe(map(actions => actions.map(a => ({ key: a.key }))));
   }
 
-  unlikeUserPost(postId: string, uid: string, eventId: string) {
-    this.db.object(`eventPostLikes/${eventId}/${postId}/${uid}`).remove();
+  unlikeUserPost(postId: string, uid: string) {
+    this.db.object(`userPostLikes/${postId}/${uid}`).remove();
   }
 
-  createComment(postId: string, eventId: string, uid: string, comment: string) {
-    this.db.list(`eventPostComments/${eventId}/${postId}`).push({
+  createComment(postId: string, uid: string, comment: string) {
+    this.db.list(`userPostComments/${postId}`).push({
       uid: uid,
       date: '' + new Date(),
       comment: comment,
@@ -114,31 +89,31 @@ export class UserPostProvider {
     this.db.object(`eventPostComments/${eventId}`).remove();
   }
 
-  getAllComments(postId: string, eventId: string) {
+  getAllComments(postId: string) {
     return this.db
-      .list(`eventPostComments/${eventId}/${postId}`)
+      .list(`userPostComments/${postId}`)
       .snapshotChanges()
       .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
   }
 
-  getTotalComments(postId: string, eventId: string) {
+  getTotalComments(postId: string) {
     // Used to build the likes count
     return this.db
-      .list(`eventPostComments/${eventId}/${postId}`)
+      .list(`userPostComments/${postId}`)
       .snapshotChanges()
       .pipe(map(actions => actions.map(a => ({ key: a.key }))));
   }
 
-  deleteComment(postId: string, eventId: string, commentId) {
-    this.db.object(`eventPostComments/${eventId}/${postId}/${commentId}`).remove();
+  deleteComment(postId: string, commentId: string) {
+    this.db.object(`userPostComments/${postId}/${commentId}`).remove();
   }
 
-  deleteAllUserPostImages(eventId, posts) {
+  deleteAllUserPostImages(posts) {
     posts.forEach(post => {
       firebase
         .storage()
         .ref('/eventPostsImages')
-        .child(`${eventId}/${post.imageId}`)
+        .child(`${this.uid}/${post.imageId}`)
         .delete();
     });
   }

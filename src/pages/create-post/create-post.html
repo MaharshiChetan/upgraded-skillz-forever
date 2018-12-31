@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-buttons end> <button ion-button (click)="updatePost(myInput)">Post</button> </ion-buttons>
+    <ion-buttons end *ngIf="type !== 'userPost'">
+      <button ion-button (click)="updateEventPost(myInput)">Post</button>
+    </ion-buttons>
+    <ion-buttons end *ngIf="type === 'userPost'">
+      <button ion-button (click)="updateUserPost(myInput)">Post</button>
+    </ion-buttons>
     <ion-title>{{ event.name || 'Create Post' }}</ion-title>
   </ion-navbar>
 </ion-header>
@@ -24,10 +29,40 @@
       </ion-col>
     </ion-row>
 
-    <button *ngIf="!post" ion-button color="secondary" block (click)="createPost(myInput)">
+    <button
+      *ngIf="type !== 'userPost' && !post"
+      ion-button
+      color="secondary"
+      block
+      (click)="createEventPost(myInput)"
+    >
       Post
     </button>
-    <button *ngIf="post" ion-button block color="secondary" (click)="updatePost(myInput)">
+    <button
+      *ngIf="type === 'userPost' && !post"
+      ion-button
+      color="secondary"
+      block
+      (click)="createUserPost(myInput)"
+    >
+      Post
+    </button>
+    <button
+      *ngIf="type !== 'userPost' && post"
+      ion-button
+      block
+      color="secondary"
+      (click)="updateEventPost(myInput)"
+    >
+      Post
+    </button>
+    <button
+      *ngIf="type === 'userPost' && post"
+      ion-button
+      block
+      color="secondary"
+      (click)="updateUserPost(myInput)"
+    >
       Post
     </button>
   </ion-card>

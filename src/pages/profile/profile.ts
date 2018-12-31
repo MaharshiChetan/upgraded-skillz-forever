@@ -12,11 +12,10 @@ import {
 } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { CameraProvider } from '../../providers/camera/camera';
-import { ImageViewerController } from 'ionic-img-viewer';
 import firebase from 'firebase';
 import { Message } from '../../providers/message/message';
 import { FollowProvider } from '../../providers/follow/follow';
-
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { PopoverComponent } from '../../components/popover/popover';
 
 @IonicPage()
@@ -49,7 +48,6 @@ export class ProfilePage {
   constructor(
     private navParams: NavParams,
     private navCtrl: NavController,
-    private imageViewerCtrl: ImageViewerController,
     private authService: AuthProvider,
     private loadingCtrl: LoadingController,
     private cameraService: CameraProvider,
@@ -58,7 +56,8 @@ export class ProfilePage {
     private presentMessage: Message,
     private followService: FollowProvider,
     private popoverCtrl: PopoverController,
-    private app: App
+    private app: App,
+    private photoViewer: PhotoViewer
   ) {}
 
   ionViewWillLoad() {
@@ -134,10 +133,8 @@ export class ProfilePage {
       });
   }
 
-  presentImage(myImage) {
-    const imageViewer = this.imageViewerCtrl.create(myImage);
-    imageViewer.present();
-    // imageViewer.onDidDismiss(() => alert('Viewer dismissed'));
+  presentImage(image: string, name: string) {
+    this.photoViewer.show(image, name, { share: true });
   }
 
   changePicture(fab?: FabContainer) {
@@ -186,7 +183,7 @@ export class ProfilePage {
               parseFloat(this.cameraService.getImageSize(data))
                 ? data
                 : picture;
-            this.navCtrl.push('CreatePostPage', { image: this.chosenPicture });
+            this.navCtrl.push('CreatePostPage', { image: this.chosenPicture, type: 'userPost' });
           });
         }
         loading.dismiss();
@@ -210,7 +207,7 @@ export class ProfilePage {
               this.cameraService.getImageSize(picture) > this.cameraService.getImageSize(data)
                 ? data
                 : picture;
-            this.navCtrl.push('CreatePostPage', { image: this.chosenPicture });
+            this.navCtrl.push('CreatePostPage', { image: this.chosenPicture, type: 'userPost' });
           });
         }
         loading.dismiss();

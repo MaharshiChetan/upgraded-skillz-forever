@@ -11,6 +11,7 @@ import firebase from 'firebase';
 import { PostProvider } from '../../providers/post/post';
 import { Message } from '../../providers/message/message';
 import { ImageViewerController } from 'ionic-img-viewer';
+import { UserPostProvider } from '../../providers/user-post/user-post';
 
 @IonicPage()
 @Component({
@@ -27,6 +28,8 @@ export class CreatePostPage {
   imageStore;
   post;
   textualContent;
+  type: string;
+  uid = firebase.auth().currentUser.uid;
   @HostListener('document:keydown.enter', ['$event'])
   onKeydownHandler(evt: KeyboardEvent) {
     this.adjust();
@@ -41,12 +44,14 @@ export class CreatePostPage {
     private db: AngularFireDatabase,
     private postService: PostProvider,
     private presentMessage: Message,
-    private imageViewerCtrl: ImageViewerController
+    private imageViewerCtrl: ImageViewerController,
+    private userPostService: UserPostProvider
   ) {}
 
   ionViewWillEnter() {
     this.post = this.navParams.get('post');
     this.image = this.navParams.get('image');
+    this.type = this.navParams.get('type');
     this.event.name = this.navParams.get('eventName');
     this.event.id = this.navParams.get('eventId');
   }
@@ -93,29 +98,24 @@ export class CreatePostPage {
     textArea.style.height = textArea.scrollHeight + 5 + 'px';
   }
 
-  presentImage(myImage) {
+  presentImage(myImage: any) {
     this.imageViewerCtrl.create(myImage).present();
   }
-  createPost(text) {
+
+  createEventPost(text: any) {
     const loader = this.loadingCtrl.create();
     loader.present();
+    let imageId = this.db.createPushId();
+    this.imageStore = firebase
+      .storage()
+      .ref('/eventPostsImages')
+      .child(`${this.event.id}/${imageId}`);
 
     if (this.image) {
-      let imageId = this.db.createPushId();
-
-      this.imageStore = firebase
-        .storage()
-        .ref('/eventPostsImages')
-        .child(`${this.event.id}/${imageId}`);
       this.imageStore.putString(this.image, 'data_url').then(res => {
         this.imageStore.getDownloadURL().then(url => {
-          const post = {
-            textualContent: text.value,
-            imageUrl: url,
-            imageId: imageId,
-          };
-
-          this.postService.createEventPost(post, this.event.id).then(res => {
+          const post = this.getPostObject(text.value);
+          this.postService.createEventPost(post, imageId, this.event.id).then(res => {
             loader.dismiss();
             this.presentMessage.showToast('Successfully created a post!', 'success-toast');
             this.showAlertMessage = false;
@@ -124,11 +124,7 @@ export class CreatePostPage {
         });
       });
     } else {
-      const post = {
-        textualContent: text.value,
-        imageUrl: null,
-        imageId: null,
-      };
+      const post = this.getPostObject(text.value);
       this.postService.createEventPost(post, this.event.id).then(res => {
         loader.dismiss();
         this.presentMessage.showToast('Successfully created a post!', 'success-toast');
@@ -138,18 +134,11 @@ export class CreatePostPage {
     }
   }
 
-  updatePost(text) {
+  updateEventPost(text: any) {
     const loader = this.loadingCtrl.create();
     loader.present();
-
     if (this.post.imageUrl) {
-      let imageId = this.post.imageId;
-
-      const post = {
-        textualContent: text.value,
-        imageUrl: this.post.imageUrl,
-        imageId: imageId,
-      };
+      const post = this.getPostObject(text.value, this.post.imageUrl, this.post.imageId);
       this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
         loader.dismiss();
         this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
@@ -157,11 +146,7 @@ export class CreatePostPage {
         this.navCtrl.pop();
       });
     } else {
-      const post = {
-        textualContent: text.value,
-        imageUrl: null,
-        imageId: null,
-      };
+      const post = this.getPostObject(text.value, null, null);
       this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
         loader.dismiss();
         this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
@@ -169,5 +154,48 @@ export class CreatePostPage {
         this.navCtrl.pop();
       });
     }
+  }
+
+  createUserPost(text: any) {
+    const loader = this.loadingCtrl.create();
+    loader.present();
+    let imageId = this.db.createPushId();
+    this.imageStore = firebase
+      .storage()
+      .ref('/userPostsImages')
+      .child(`${this.uid}/${imageId}`);
+    this.imageStore.putString(this.image, 'data_url').then(res => {
+      this.imageStore.getDownloadURL().then(url => {
+        const post = this.getPostObject(text.value, url, imageId);
+        this.userPostService.createUserPost(post, imageId).then(res => {
+          loader.dismiss();
+          this.presentMessage.showToast('Successfully created a post!', 'success-toast');
+          this.showAlertMessage = false;
+          this.navCtrl.pop();
+        });
+      });
+    });
+  }
+
+  updateUserPost(text: any) {
+    const loader = this.loadingCtrl.create();
+    loader.present();
+    const post = this.getPostObject(text.value, this.post.imageUrl, this.post.imageId);
+    this.userPostService.updateUserPost(post, this.post.key).then(res => {
+      loader.dismiss();
+      this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
+      this.showAlertMessage = false;
+      this.navCtrl.pop();
+    });
+  }
+
+  getPostObject(text: string, imageUrl?: string, imageId?: string) {
+    return {
+      textualContent: text,
+      imageUrl: imageUrl || '',
+      imageId: imageId || '',
+      date: '' + new Date(),
+      uid: this.uid,
+    };
   }
 }

@@ -28,16 +28,17 @@
   <div class="profile profile-background">
     <div>
       <ion-avatar *ngIf="!userDetails">
-        <img (click)="presentImage(image)" #image [src]="defaultUserImage" class="cover-image" />
+        <img [src]="defaultUserImage" class="cover-image" />
+        <ion-icon *ngIf="otherUser && !isFollowing" (click)="follow()" name="ios-water"></ion-icon>
       </ion-avatar>
       <ion-avatar *ngIf="userDetails">
         <img
-          (click)="presentImage(image)"
-          #image
-          [src]="userDetails.profilePhoto"
+          [src]="userDetails.thumbnail || userDetails.profilePhoto"
+          (click)="presentImage(userDetails.profilePhoto, userDetails.displayName)"
           class="cover-image"
           [ngClass]="{ 'animated fadeIn delay-3s': animate }"
         />
+        <ion-icon *ngIf="otherUser && !isFollowing" (click)="follow()" name="ios-water"></ion-icon>
       </ion-avatar>
       <div *ngIf="userDetails">
         <h3>{{ userDetails.displayName }}</h3>

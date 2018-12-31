@@ -3,17 +3,19 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="!userDetails" class="spinner-container"><ion-spinner></ion-spinner></div>
-  <ion-card *ngIf="userDetails" (click)="goToProfilePage()" class="click">
+  <ion-card *ngIf="userDetails" class="click">
     <ion-list>
       <ion-item>
         <ion-row>
-          <ion-col>
+          <ion-col (click)="goToProfilePage()">
             <ion-avatar item-start>
-              <img [src]="userDetails.profilePhoto" class="cover-image" />
+              <img [src]="userDetails.thumbnail || userDetails.profilePhoto" class="cover-image" />
             </ion-avatar>
           </ion-col>
           <ion-col col-10>
-            <ion-card-header>{{ userDetails.displayName }}</ion-card-header>
+            <ion-card-header (click)="goToProfilePage()">{{
+              userDetails.displayName
+            }}</ion-card-header>
             <ion-card-content>
               <button class="share-thought-btn" ion-button small clear>What's on your mind?</button>
             </ion-card-content>
