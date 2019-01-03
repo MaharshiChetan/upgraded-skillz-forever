@@ -180,7 +180,12 @@ export class CreatePostPage {
   updateUserPost(text: any) {
     const loader = this.loadingCtrl.create();
     loader.present();
-    const post = this.getPostObject(text.value, this.post.imageUrl, this.post.imageId);
+    const post = this.getPostObject(
+      text.value,
+      this.post.imageUrl,
+      this.post.imageId,
+      this.post.timeStamp
+    );
     this.userPostService.updateUserPost(post, this.post.key).then(res => {
       loader.dismiss();
       this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
@@ -189,14 +194,14 @@ export class CreatePostPage {
     });
   }
 
-  getPostObject(text: string, imageUrl?: string, imageId?: string) {
+  getPostObject(text: string, imageUrl?: string, imageId?: string, timeStamp?: any) {
     return {
       textualContent: text,
       imageUrl: imageUrl || '',
       imageId: imageId || '',
       date: '' + new Date(),
       uid: this.uid,
-      timeStamp: firebase.database.ServerValue.TIMESTAMP,
+      timeStamp: timeStamp || firebase.database.ServerValue.TIMESTAMP,
     };
   }
 }
