@@ -40,7 +40,9 @@ export class ChatListPage {
   }
 
   ionViewDidLeave() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   initializeLoader() {

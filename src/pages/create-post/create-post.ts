@@ -165,7 +165,7 @@ export class CreatePostPage {
       .ref('/userPostsImages')
       .child(`${this.uid}/${imageId}`);
     this.imageStore.putString(this.image, 'data_url').then(res => {
-      this.imageStore.getDownloadURL().then(url => {
+      this.imageStore.getDownloadURL().then((url: string) => {
         const post = this.getPostObject(text.value, url, imageId);
         this.userPostService.createUserPost(post, imageId).then(res => {
           loader.dismiss();
@@ -196,6 +196,7 @@ export class CreatePostPage {
       imageId: imageId || '',
       date: '' + new Date(),
       uid: this.uid,
+      timeStamp: firebase.database.ServerValue.TIMESTAMP,
     };
   }
 }

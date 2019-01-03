@@ -1,0 +1,56 @@
+user-posts-page {
+  .vertical-line {
+    border-left: 1px solid lightgray;
+    position: absolute;
+    height: 100%;
+    left: 99.7%;
+    top: 4px;
+  }
+
+  .segment-button.segment-activated {
+    font-weight: bold;
+  }
+
+  .toolbar-md {
+    margin-bottom: -7px;
+  }
+
+  .toolbar-background {
+    height: 90%;
+  }
+
+  .image-container {
+    width: calc(100% - 1.2px);
+    height: 30vw;
+    margin-bottom: -2.8px;
+    background-size: cover;
+  }
+
+  .list-md {
+    margin: 2px 0 16px;
+  }
+
+  .likes {
+    left: 89%;
+  }
+
+  .read-more {
+    color: gray;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .card-content-md {
+    padding: 13px 16px 0px;
+  }
+
+  .options {
+    .button-large-md {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}

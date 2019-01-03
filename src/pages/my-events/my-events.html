@@ -7,6 +7,9 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="!events" class="spinner-container"><ion-spinner></ion-spinner></div>
+  <ion-row *ngIf="events?.length === 0">
+    <ion-col text-center class="no-event"> No Event </ion-col>
+  </ion-row>
   <ion-list>
     <ion-item-sliding *ngFor="let event of events">
       <ion-item

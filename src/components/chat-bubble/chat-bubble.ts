@@ -4,7 +4,6 @@ import firebase from 'firebase';
 import { Message } from '../../providers/message/message';
 import { Clipboard } from '@ionic-native/clipboard';
 import { ChatProvider } from '../../providers/chat/chat';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @Component({
   selector: 'chat-bubble',
@@ -21,8 +20,7 @@ export class ChatBubbleComponent {
     private clipboard: Clipboard,
     private presentMessage: Message,
     private chatService: ChatProvider,
-    private alertCtrl: AlertController,
-    private photoViewer: PhotoViewer
+    private alertCtrl: AlertController
   ) {}
 
   goToProfilePage(user) {
@@ -37,10 +35,6 @@ export class ChatBubbleComponent {
       .catch(err => {
         console.log(err);
       });
-  }
-
-  presentImage(image: string) {
-    this.photoViewer.show(image, '', { share: true });
   }
 
   presentPopover(message) {

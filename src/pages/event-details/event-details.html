@@ -164,9 +164,8 @@
         <div *ngIf="post.imageUrl">
           <img
             class="contain-image click"
-            (load)="loaded = true"
-            [ngClass]="{ 'animated fadeIn delay-3s': loaded }"
-            [src]="post.imageUrl"
+            [defaultImage]="post.thumbnail || post.imageUrl"
+            [lazyLoad]="post.imageUrl"
             #postImage
             (click)="presentImage(postImage)"
           />

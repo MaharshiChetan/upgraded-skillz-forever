@@ -5,12 +5,23 @@ import firebase from 'firebase';
 
 @Injectable()
 export class UserPostProvider {
-  node;
   uid = firebase.auth().currentUser.uid;
   constructor(private db: AngularFireDatabase) {}
 
   createUserPost(post: any, pushId: string) {
-    return this.db.object(`userPosts/${this.uid}/${pushId}`).update(post);
+    return this.db
+      .object(`userPosts/${this.uid}/${pushId}`)
+      .update(post)
+      .then(res => {
+        firebase
+          .database()
+          .ref(`/userPosts/${this.uid}/${pushId}/timeStamp`)
+          .once('value')
+          .then(data => {
+            const timeStamp = data.val() * -1;
+            this.db.list(`userPosts/${this.uid}`).update(pushId, { timeStamp });
+          });
+      });
   }
 
   updateUserPost(post: any, postId: string) {
@@ -52,7 +63,7 @@ export class UserPostProvider {
 
   getUserPosts(uid: string) {
     return this.db
-      .list(`userPosts/${uid}`)
+      .list(`userPosts/${uid}`, ref => ref.orderByChild('timeStamp'))
       .snapshotChanges()
       .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
   }

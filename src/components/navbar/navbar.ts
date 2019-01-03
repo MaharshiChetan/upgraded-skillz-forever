@@ -21,7 +21,11 @@ export class NavbarComponent {
   ) {}
 
   goToProfilePage() {
-    this.app.getRootNav().push('ProfilePage', { currentUser: this.authService.currentUserDetails });
+    if (this.authService.currentUserDetails) {
+      this.app
+        .getRootNav()
+        .push('ProfilePage', { currentUser: this.authService.currentUserDetails });
+    }
   }
 
   goToNotificationPage() {
@@ -30,7 +34,6 @@ export class NavbarComponent {
 
   presentPopover(event) {
     let popover = this.popoverCtrl.create(NewPopoverComponent);
-
     popover.present({
       ev: event,
     });

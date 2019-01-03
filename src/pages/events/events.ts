@@ -13,7 +13,6 @@ export class EventsPage {
   events: any[];
   subscription: any;
   animate: boolean = true;
-  loaded;
   searchTerm: string;
   searchEvents: any[];
   placeholderImage = 'assets/placeholder.jpg';

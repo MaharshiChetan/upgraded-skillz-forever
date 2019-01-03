@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { PostPage } from './post';
-import { MomentModule } from 'ngx-moment';
+import { UserPostsPage } from './user-posts';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
+import { MomentModule } from 'ngx-moment';
+import { ElasticHeaderModule } from 'ionic2-elastic-header/dist/';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 
 @NgModule({
-  declarations: [PostPage],
+  declarations: [UserPostsPage],
   imports: [
-    IonicPageModule.forChild(PostPage),
-    MomentModule,
+    IonicPageModule.forChild(UserPostsPage),
     IonicImageViewerModule,
+    MomentModule,
+    ElasticHeaderModule,
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset,
     }),
   ],
 })
-export class PostPageModule {}
+export class UserPostsPageModule {}

@@ -6,6 +6,7 @@ import { ExpandableHeader } from './expandable-header/expandable-header';
 import { keyboardFix } from './keyboard-fix/keyboard-fix';
 import { ChatBubbleComponent } from './chat-bubble/chat-bubble';
 import { MomentModule } from 'ngx-moment';
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { MomentModule } from 'ngx-moment';
     keyboardFix,
     ChatBubbleComponent,
   ],
-  imports: [IonicModule, MomentModule],
+  imports: [IonicModule, MomentModule, IonicImageViewerModule],
   exports: [NavbarComponent, ShrinkingSegmentHeaderComponent, ChatBubbleComponent],
 })
 export class ComponentsModule {}

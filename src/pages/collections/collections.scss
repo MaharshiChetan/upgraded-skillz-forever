@@ -12,7 +12,7 @@ collections-page {
   }
 
   .list-header-md {
-    min-height: 30px;
+    min-height: 36px;
     height: 0px;
   }
 
@@ -23,5 +23,9 @@ collections-page {
   span {
     float: right;
     color: #4a8bfc;
+  }
+
+  .no-post {
+    padding: 50% 0%;
   }
 }

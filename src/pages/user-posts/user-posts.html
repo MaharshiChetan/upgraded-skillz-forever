@@ -1,0 +1,167 @@
+<ion-header [elasticHeader]="myContent">
+  <ion-navbar color="primary"> <ion-title>Posts</ion-title> </ion-navbar>
+  <ion-toolbar color="primary" no-border>
+    <ion-segment [(ngModel)]="type" color="light">
+      <ion-segment-button value="ThumbnailPost">
+        <ion-icon name="md-albums"></ion-icon>
+        <div class="vertical-line"></div>
+      </ion-segment-button>
+      <ion-segment-button value="DetailPost" (ionSelect)="getPostsDetail()">
+        <ion-icon name="md-browsers"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen #myContent>
+  <div [ngSwitch]="type">
+    <div *ngSwitchCase="'ThumbnailPost'" no-lines>
+      <div *ngIf="posts && posts.length > 0">
+        <ion-row no-padding>
+          <ion-col no-padding col-4 *ngFor="let post of posts">
+            <img
+              (click)="showPost(post)"
+              class="image-container"
+              [src]="post.thumbnail || post.imageUrl"
+            />
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'DetailPost'" no-lines>
+      <div *ngFor="let post of posts">
+        <ion-card class="categories-card">
+          <ion-item *ngIf="post.userDetails">
+            <ion-avatar tappable item-start (click)="goToProfilePage(post.userDetails)">
+              <img
+                class="cover-image animated fadeIn delay-3s"
+                [src]="post.userDetails.thumbnail || post.userDetails.profilePhoto"
+              />
+            </ion-avatar>
+            <h2 tappable (click)="goToProfilePage(post.userDetails)">
+              {{ post.userDetails.userName }}
+            </h2>
+            <div class="options">
+              <button
+                *ngIf="post.myPost"
+                ion-button
+                icon-left
+                clear
+                large
+                (click)="presentPopover(post)"
+              >
+                <ion-icon name="ios-more"></ion-icon>
+              </button>
+            </div>
+            <p>{{ post.date | date: 'mediumDate' }} at {{ post.date | date: 'shortTime' }}</p>
+          </ion-item>
+          <div *ngIf="post.userDetails">
+            <img
+              class="contain-image click"
+              [defaultImage]="post.thumbnail"
+              [lazyLoad]="post.imageUrl"
+              [imageViewer]="post.imageUrl"
+            />
+          </div>
+          <ion-card-content *ngIf="post.userDetails">
+            <div
+              *ngIf="!showMore"
+              [ngClass]="{
+                'textual-content': !post.imageUrl,
+                'textual-content-image': post.imageUrl
+              }"
+            >
+              {{ post.textualContent.substring(0, 120) }}
+              <div
+                tappable
+                (click)="changeContentLength()"
+                [ngClass]="{
+                  'read-more click': post.textualContent.length > 120,
+                  hidden: 120 >= post.textualContent.length
+                }"
+              >
+                Read more...
+              </div>
+            </div>
+            <div
+              *ngIf="showMore"
+              [ngClass]="{
+                'textual-content': !post.imageUrl,
+                'textual-content-image': post.imageUrl
+              }"
+            >
+              {{ post.textualContent }}
+              <div
+                tappable
+                (click)="changeContentLength()"
+                [ngClass]="{
+                  'read-more click': post.textualContent.length > 120,
+                  hidden: 120 >= post.textualContent.length
+                }"
+              >
+                Read less...
+              </div>
+            </div>
+            <button
+              ion-button
+              clear
+              small
+              icon-left
+              class="likes"
+              *ngIf="post.totalLikes > 0"
+              (click)="showUsers(post.likes)"
+            >
+              <ion-icon color="danger" name="md-heart"></ion-icon>
+              {{ post.totalLikes }}
+            </button>
+          </ion-card-content>
+          <ion-row text-center *ngIf="post.userDetails">
+            <ion-col>
+              <button
+                ion-button
+                color="purple"
+                clear
+                small
+                icon-left
+                (click)="like(post)"
+                *ngIf="!post?.isLiking"
+              >
+                <ion-icon class="animated bounceIn" name="md-heart-outline"></ion-icon>
+                {{ post.totalLikes }} Likes
+              </button>
+              <button
+                ion-button
+                color="purple"
+                clear
+                small
+                icon-left
+                (click)="unlike(post)"
+                *ngIf="post?.isLiking"
+              >
+                <ion-icon class="animated bounceIn" name="ios-heart" color="danger"></ion-icon>
+                {{ post.totalLikes }} Likes
+              </button>
+            </ion-col>
+            <ion-col>
+              <button
+                ion-button
+                color="purple"
+                clear
+                small
+                icon-left
+                (click)="openCommentsModal(post)"
+              >
+                <ion-icon name="ios-text-outline"></ion-icon>
+                {{ post.totalComments }} Comments
+              </button>
+            </ion-col>
+            <ion-col align-self-center text-center>
+              <p style="color: gray">{{ post.date | amTimeAgo }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+</ion-content>

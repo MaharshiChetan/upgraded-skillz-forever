@@ -17,7 +17,11 @@
       </div>
     </div>
     <div *ngIf="message.imageUrl" class="chat-bubble-img  left" (press)="presentPopover(message)">
-      <img [src]="message.imageUrl" class="cover-image" (click)="presentImage(message.imageUrl)" />
+      <img
+        [src]="message.thumbnail || message.imageUrl"
+        class="cover-image"
+        [imageViewer]="message.imageUrl"
+      />
       <div class="message-detail-img left">
         <span>{{ message.timeStamp | amCalendar }}</span>
       </div>
@@ -33,7 +37,11 @@
       </div>
     </div>
     <div *ngIf="message.imageUrl" class="chat-bubble-img  right" (press)="presentPopover(message)">
-      <img [src]="message.imageUrl" class="cover-image" (click)="presentImage(message.imageUrl)" />
+      <img
+        [src]="message.thumbnail || message.imageUrl"
+        class="cover-image"
+        [imageViewer]="message.imageUrl"
+      />
       <div class="message-detail-img right">
         <span>{{ message.timeStamp | amCalendar }}</span>
       </div>

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, App } from 'ionic-angular';
-import { ImageViewerController } from 'ionic-img-viewer';
 import { AuthProvider } from '../../providers/auth/auth';
 import { UserPostProvider } from '../../providers/user-post/user-post';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { ImageViewerController } from 'ionic-img-viewer';
 
 @IonicPage()
 @Component({
@@ -21,19 +20,20 @@ export class CollectionsPage {
     private authService: AuthProvider,
     private userPostService: UserPostProvider,
     private app: App,
-    private photoViewer: PhotoViewer
+    private imageViewerCtrl: ImageViewerController
   ) {}
 
   ionViewWillLoad() {
     this.getUserImagePosts();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CollectionsPage');
+  presentImage(myImage: any) {
+    const imageViewer = this.imageViewerCtrl.create(myImage);
+    imageViewer.present();
   }
 
-  presentImage(image: string) {
-    this.photoViewer.show(image, '', { share: true });
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad CollectionsPage');
   }
 
   getUserImagePosts(event?: any) {
@@ -64,5 +64,9 @@ export class CollectionsPage {
     this.app
       .getRootNav()
       .push('PostPage', { post: post, userDetails: this.authService.userDetails });
+  }
+
+  goToUserPostsPage() {
+    this.app.getRootNav().push('UserPostsPage', { uid: this.uid });
   }
 }

@@ -1,63 +1,70 @@
 import { Component, OnInit } from '@angular/core';
 import {
   IonicPage,
-  NavController,
   NavParams,
-  AlertController,
   ModalController,
+  NavController,
   ActionSheetController,
-  Platform,
+  AlertController,
 } from 'ionic-angular';
 import { UserPostProvider } from '../../providers/user-post/user-post';
+import { AuthProvider } from '../../providers/auth/auth';
 import firebase from 'firebase';
+import { App } from 'ionic-angular/components/app/app';
+import { Platform } from 'ionic-angular/platform/platform';
 
 @IonicPage()
 @Component({
-  selector: 'post-page',
-  templateUrl: 'post.html',
+  selector: 'user-posts-page',
+  templateUrl: 'user-posts.html',
 })
-export class PostPage implements OnInit {
-  uid: string = firebase.auth().currentUser.uid;
+export class UserPostsPage implements OnInit {
+  postUid: string;
+  type: string = 'ThumbnailPost';
+  posts: any;
   showMore: boolean = false;
-  post: any;
-  userDetails: any;
-
+  usersdata = firebase.database().ref('/users');
+  fetched: boolean = false;
+  uid = firebase.auth().currentUser.uid;
   constructor(
-    private navCtrl: NavController,
     private modalCtrl: ModalController,
     private navParams: NavParams,
+    private navCtrl: NavController,
+    private userPostService: UserPostProvider,
+    private alertCtrl: AlertController,
     private platform: Platform,
     private actionsheetCtrl: ActionSheetController,
-    private userPostService: UserPostProvider,
-    private alertCtrl: AlertController
+    private app: App,
+    private authService: AuthProvider
   ) {}
 
   ngOnInit() {
-    this.post = this.navParams.get('post');
-    this.userDetails = this.navParams.get('userDetails');
-    this.getPostDetail();
+    this.postUid = this.navParams.get('uid');
+    this.getUserPosts(this.postUid);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PostsPage');
+  getUserPosts(uid: string) {
+    this.userPostService.getUserPosts(uid).subscribe(posts => {
+      this.posts = posts;
+    });
   }
 
-  showUsers(users) {
+  showUsers(users: any) {
     this.navCtrl.push('UsersLikesPage', { users: users, type: 'Likes' });
   }
 
-  like(post) {
+  like(post: any) {
     this.userPostService.likeUserPost(post.key, this.uid);
   }
 
-  unlike(post) {
+  unlike(post: any) {
     this.userPostService.unlikeUserPost(post.key, this.uid);
   }
 
   goToProfilePage(user: any) {
     console.log(user);
 
-    if (this.uid === user.uid) {
+    if (this.postUid === user.uid) {
       this.navCtrl.push('ProfilePage', { currentUser: user });
     } else {
       this.navCtrl.push('ProfilePage', { otherUser: user });
@@ -68,20 +75,30 @@ export class PostPage implements OnInit {
     this.showMore = !this.showMore;
   }
 
-  getPostDetail() {
-    if (this.uid === this.post.uid) {
-      this.post.myPost = true;
+  getPostsDetail() {
+    if (!this.fetched) {
+      console.log('fetching');
+
+      this.posts.forEach((post: any, i) => {
+        this.usersdata.child(`${post.uid}/personalData`).once('value', snapshot => {
+          this.posts[i].userDetails = snapshot.val();
+          if (post.uid === firebase.auth().currentUser.uid) {
+            this.posts[i].myPost = true;
+          }
+        });
+        this.userPostService.getTotalLikes(post.key).subscribe(likes => {
+          this.posts[i].likes = likes;
+          this.posts[i].totalLikes = likes.length;
+        });
+        this.userPostService.getTotalComments(post.key).subscribe(comments => {
+          this.posts[i].totalComments = comments.length;
+        });
+        this.userPostService.checkLike(post.key, this.uid).subscribe(data => {
+          this.posts[i].isLiking = data.key ? true : false;
+        });
+      });
     }
-    this.userPostService.getTotalLikes(this.post.key).subscribe(likes => {
-      this.post.likes = likes;
-      this.post.totalLikes = likes.length;
-    });
-    this.userPostService.getTotalComments(this.post.key).subscribe(comments => {
-      this.post.totalComments = comments.length;
-    });
-    this.userPostService.checkLike(this.post.key, this.uid).subscribe(data => {
-      this.post.isLiking = data.key ? true : false;
-    });
+    this.fetched = true;
   }
 
   presentPopover(post) {
@@ -145,5 +162,11 @@ export class PostPage implements OnInit {
       post: post,
     });
     modal.present();
+  }
+
+  showPost(post: any) {
+    this.app
+      .getRootNav()
+      .push('PostPage', { post: post, userDetails: this.authService.userDetails });
   }
 }

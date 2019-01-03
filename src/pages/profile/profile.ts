@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   IonicPage,
   NavController,
@@ -15,7 +15,6 @@ import { CameraProvider } from '../../providers/camera/camera';
 import firebase from 'firebase';
 import { Message } from '../../providers/message/message';
 import { FollowProvider } from '../../providers/follow/follow';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { PopoverComponent } from '../../components/popover/popover';
 
 @IonicPage()
@@ -56,9 +55,14 @@ export class ProfilePage {
     private presentMessage: Message,
     private followService: FollowProvider,
     private popoverCtrl: PopoverController,
-    private app: App,
-    private photoViewer: PhotoViewer
+    private app: App
   ) {}
+
+  ionViewWillEnter() {
+    if (this.userDetails) {
+      this.authService.userDetails = this.userDetails;
+    }
+  }
 
   ionViewWillLoad() {
     this.otherUser = this.navParams.get('otherUser');
@@ -131,10 +135,6 @@ export class ProfilePage {
         this.followerCount = followers.length;
         this.followers = followers;
       });
-  }
-
-  presentImage(image: string, name: string) {
-    this.photoViewer.show(image, name, { share: true });
   }
 
   changePicture(fab?: FabContainer) {

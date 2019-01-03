@@ -39,7 +39,7 @@ import { TitlesProvider } from '../providers/titles/titles';
 import { NewPopoverComponent } from '../components/new-popover/new-popover';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserPostProvider } from '../providers/user-post/user-post';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [MyApp, PopoverComponent, NewPopoverComponent],
@@ -61,6 +61,9 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
     AngularFireAuthModule,
     IonicImageViewerModule,
     SuperTabsModule.forRoot(),
+    LazyLoadImageModule.forRoot({
+      preset: intersectionObserverPreset,
+    }),
     BrowserAnimationsModule,
   ],
   bootstrap: [IonicApp],
@@ -79,7 +82,6 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
     File,
     HeaderColor,
     Keyboard,
-    PhotoViewer,
 
     AuthProvider,
     CameraProvider,

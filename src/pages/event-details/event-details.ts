@@ -51,7 +51,6 @@ export class EventDetailsPage {
   interestedUsers;
   goingUsers;
 
-  loaded = false;
   isLiking: boolean = false;
   uid = this.authService.getActiveUser().uid;
 

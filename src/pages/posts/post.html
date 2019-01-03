@@ -21,10 +21,9 @@
     <div>
       <img
         class="contain-image click"
-        (load)="loaded = true"
-        [ngClass]="{ 'animated fadeIn delay-3s': loaded }"
-        [src]="post?.imageUrl"
-        (click)="presentImage(post.imageUrl)"
+        [defaultImage]="post.thumbnail"
+        [lazyLoad]="post.imageUrl"
+        [imageViewer]="post.imageUrl"
       />
     </div>
     <ion-card-content *ngIf="post">

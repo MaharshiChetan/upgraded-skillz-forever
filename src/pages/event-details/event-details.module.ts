@@ -5,6 +5,7 @@ import { HideFabOnscrollModule } from 'ionic-hide-fab-onscroll';
 import { MomentModule } from 'ngx-moment';
 import { ComponentsModule } from '../../components/components.module';
 import { ElasticHeaderModule } from 'ionic2-elastic-header/dist/';
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [EventDetailsPage],
@@ -14,6 +15,9 @@ import { ElasticHeaderModule } from 'ionic2-elastic-header/dist/';
     ComponentsModule,
     ElasticHeaderModule,
     IonicPageModule.forChild(EventDetailsPage),
+    LazyLoadImageModule.forRoot({
+      preset: intersectionObserverPreset,
+    }),
   ],
 })
 export class EventDetailsPageModule {}

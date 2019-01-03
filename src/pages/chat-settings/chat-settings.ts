@@ -19,7 +19,6 @@ export class ChatSettingsPage {
 
   ionViewWillEnter() {
     this.userDetails = this.navParams.get('otherUser');
-    console.log(this.userDetails);
   }
 
   showBlockAlert() {

@@ -4,6 +4,7 @@ import { ProfilePage } from './profile';
 import { ComponentsModule } from '../../components/components.module';
 import { SharedModule } from '../../app/shared.module';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [ProfilePage],
@@ -12,6 +13,9 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     SharedModule,
     ComponentsModule,
     IonicImageViewerModule,
+    LazyLoadImageModule.forRoot({
+      preset: intersectionObserverPreset,
+    }),
   ],
 })
 export class ProfilePageModule {}

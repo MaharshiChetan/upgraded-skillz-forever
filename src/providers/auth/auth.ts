@@ -149,7 +149,6 @@ export class AuthProvider {
           if (userdata.user.emailVerified === true) {
             this.setLoginKey(userdata.user.uid)
               .then(res => {
-                console.log(res);
                 resolve(true);
               })
               .catch(err => {

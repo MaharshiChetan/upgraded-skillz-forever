@@ -3,9 +3,9 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="!imagePosts" class="spinner-container"><ion-spinner></ion-spinner></div>
-  <h4 *ngIf="noPost">No post yet!</h4>
+  <ion-row *ngIf="noPost"> <ion-col text-center class="no-post"> No post yet! </ion-col> </ion-row>
   <ion-card *ngIf="imagePosts && imagePosts.length > 0">
-    <ion-list-header>
+    <ion-list-header (click)="goToUserPostsPage()">
       Photos <span *ngIf="imagePosts.length > 6">{{ imagePosts.length - 6 }}+</span>
       <span *ngIf="7 > imagePosts.length">View All</span>
     </ion-list-header>
@@ -14,7 +14,6 @@
       <ion-col no-padding col-4 *ngFor="let post of imagePosts; let i = index">
         <img
           *ngIf="6 > i"
-          (press)="presentImage(image)"
           (click)="showPost(post)"
           class="image-container"
           [src]="post.thumbnail || post.imageUrl"

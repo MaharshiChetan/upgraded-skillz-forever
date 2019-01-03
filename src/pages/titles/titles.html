@@ -3,7 +3,9 @@
   <ion-refresher (ionRefresh)="getTitles($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <h4 *ngIf="titles?.length === 0">No title yet!</h4>
+  <ion-row *ngIf="titles?.length === 0">
+    <ion-col text-center class="no-title"> No title yet! </ion-col>
+  </ion-row>
   <ion-list no-lines *ngIf="titles && titles?.length > 0">
     <ion-list-header>Titles</ion-list-header>
     <ion-item-sliding *ngFor="let title of titles">

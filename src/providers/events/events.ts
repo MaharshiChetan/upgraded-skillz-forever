@@ -13,7 +13,7 @@ export class EventsProvider {
     try {
       const promise = this.db.list('events').push(event);
       const key = promise.key;
-      /// After successful push, get timestamp and overwrite with negative value
+      // After successful push, get timestamp and overwrite with negative value
       return promise.then(_ => {
         firebase
           .database()
