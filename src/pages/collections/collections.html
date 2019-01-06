@@ -13,10 +13,11 @@
     <ion-row no-padding>
       <ion-col no-padding col-4 *ngFor="let post of imagePosts; let i = index">
         <img
+          [defaultImage]="post.thumbnail || post.imageUrl"
+          [lazyLoad]="post.imageUrl"
           *ngIf="6 > i"
           (click)="showPost(post)"
-          class="image-container"
-          [src]="post.thumbnail || post.imageUrl"
+          class="image-container cover-image"
         />
       </ion-col>
     </ion-row>

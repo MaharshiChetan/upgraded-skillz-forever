@@ -22,7 +22,8 @@
             <img
               (click)="showPost(post)"
               class="image-container"
-              [src]="post.thumbnail || post.imageUrl"
+              [defaultImage]="post.thumbnail || post.imageUrl"
+              [lazyLoad]="post.imageUrl"
             />
           </ion-col>
         </ion-row>
@@ -59,7 +60,7 @@
           <div *ngIf="post.userDetails">
             <img
               class="contain-image click"
-              [defaultImage]="post.thumbnail"
+              [defaultImage]="post.thumbnail || post.imageUrl"
               [lazyLoad]="post.imageUrl"
               [imageViewer]="post.imageUrl"
             />

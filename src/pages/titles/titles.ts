@@ -25,7 +25,7 @@ export class TitlesPage {
     this.getTitles();
   }
 
-  getTitles(event?) {
+  getTitles(event?: any) {
     this.titlesService.getTitles(this.uid).subscribe(titles => {
       this.titles = titles;
       if (event) event.complete();
@@ -58,7 +58,11 @@ export class TitlesPage {
     confirm.present();
   }
 
-  goToTitlesFormPage(title) {
+  goToTitlesFormPage(title: any) {
     this.app.getRootNav().push('TitlesFormPage', { type: 'edit', title: title });
+  }
+
+  goToTitleDetailsPage(title: any) {
+    this.app.getRootNav().push('TitleDetailsPage', { title: title });
   }
 }

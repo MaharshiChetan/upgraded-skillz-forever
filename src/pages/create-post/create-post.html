@@ -1,11 +1,5 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-buttons end *ngIf="type !== 'userPost'">
-      <button ion-button (click)="updateEventPost(myInput)">Post</button>
-    </ion-buttons>
-    <ion-buttons end *ngIf="type === 'userPost'">
-      <button ion-button (click)="updateUserPost(myInput)">Post</button>
-    </ion-buttons>
     <ion-title>{{ event.name || 'Create Post' }}</ion-title>
   </ion-navbar>
 </ion-header>

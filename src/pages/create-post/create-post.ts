@@ -54,6 +54,7 @@ export class CreatePostPage {
     this.type = this.navParams.get('type');
     this.event.name = this.navParams.get('eventName');
     this.event.id = this.navParams.get('eventId');
+    console.log(this.event);
   }
 
   ionViewCanLeave() {
@@ -125,7 +126,7 @@ export class CreatePostPage {
       });
     } else {
       const post = this.getPostObject(text.value);
-      this.postService.createEventPost(post, this.event.id).then(res => {
+      this.postService.createEventPost(post, this.event.id, imageId).then(res => {
         loader.dismiss();
         this.presentMessage.showToast('Successfully created a post!', 'success-toast');
         this.showAlertMessage = false;

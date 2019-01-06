@@ -9,8 +9,10 @@
   <ion-list no-lines *ngIf="titles && titles?.length > 0">
     <ion-list-header>Titles</ion-list-header>
     <ion-item-sliding *ngFor="let title of titles">
-      <ion-item
-        class="click animated fadeIn"
+      <button
+        ion-item
+        class="fadeIn"
+        (click)="goToTitleDetailsPage(title)"
         tooltip="Slide left for more options"
         positionV="top"
         leftOffset="50"
@@ -29,7 +31,7 @@
         </ion-avatar>
         <h2>{{ title.title.title }}</h2>
         <p>{{ title.title.description }}</p>
-      </ion-item>
+      </button>
 
       <ion-item-options side="right" *ngIf="uid === currentUserId">
         <button ion-button color="danger" (click)="showConfirm(title.key)">

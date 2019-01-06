@@ -46,8 +46,7 @@
       <p *ngIf="currentUserId !== message.sentBy && message.imageUrl">Photo</p>
       <p *ngIf="message.message && currentUserId === message.sentBy">You: {{ message?.message }}</p>
       <p *ngIf="message.message && currentUserId === message.imageUrl">You: Photo</p>
-      <ion-note item-end>{{ message.timeStamp | date: 'h:mm
-        a' }}</ion-note>
+      <ion-note item-end>{{ message.timeStamp | date: 'h:mm a' }}</ion-note>
     </ion-item>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content

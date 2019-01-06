@@ -1,25 +1,16 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the TitleDetailsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Component, OnInit } from '@angular/core';
+import { IonicPage, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-title-details',
+  selector: 'title-details-page',
   templateUrl: 'title-details.html',
 })
-export class TitleDetailsPage {
+export class TitleDetailsPage implements OnInit {
+  title: any;
+  constructor(private navParams: NavParams) {}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  ngOnInit() {
+    this.title = this.navParams.get('title').title;
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TitleDetailsPage');
-  }
-
 }
