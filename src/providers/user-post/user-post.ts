@@ -36,10 +36,17 @@ export class UserPostProvider {
         .child(`${this.uid}/${post.imageId}`)
         .delete()
         .then(() => {
+          firebase
+            .storage()
+            .ref('/userPostsImages')
+            .child(`${this.uid}/thumb_${post.imageId}`)
+            .delete()
+            .catch(e => alert('Error deleting the post'));
           this.db.list(`userPosts/${this.uid}/${postId}`).remove();
           this.removePostLikes(postId);
           this.removePostComments(postId);
-        });
+        })
+        .catch(e => alert('Error deleting the post'));
     } catch (e) {
       return e;
     }
@@ -64,6 +71,13 @@ export class UserPostProvider {
   getUserPosts(uid: string) {
     return this.db
       .list(`userPosts/${uid}`, ref => ref.orderByChild('timeStamp'))
+      .snapshotChanges()
+      .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
+  }
+
+  getUserFirstSixPosts(uid: string) {
+    return this.db
+      .list(`userPosts/${uid}`, ref => ref.orderByChild('timeStamp').limitToFirst(6))
       .snapshotChanges()
       .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
   }
@@ -96,8 +110,8 @@ export class UserPostProvider {
     });
   }
 
-  deleteAllComments(eventId: string) {
-    this.db.object(`eventPostComments/${eventId}`).remove();
+  deleteAllComments(postId: string) {
+    this.db.object(`userPostComments/${postId}`).remove();
   }
 
   getAllComments(postId: string) {
@@ -119,11 +133,11 @@ export class UserPostProvider {
     this.db.object(`userPostComments/${postId}/${commentId}`).remove();
   }
 
-  deleteAllUserPostImages(posts) {
-    posts.forEach(post => {
+  deleteAllUserPostImages(posts: any) {
+    posts.forEach((post: any) => {
       firebase
         .storage()
-        .ref('/eventPostsImages')
+        .ref('/userPostsImages')
         .child(`${this.uid}/${post.imageId}`)
         .delete();
     });

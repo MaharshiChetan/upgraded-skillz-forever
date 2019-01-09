@@ -97,7 +97,7 @@
   color: gray;
 }
 
-.card-md {
+.round-card {
   position: relative;
   overflow: hidden;
   display: inline-block;
@@ -105,6 +105,29 @@
   width: calc(100% - 8px);
   // box-shadow: rgba(58, 78, 95, 0.2) 0 10px 16px, rgba(58, 78, 95, 0.05) 0 -5px 16px;
   border-radius: 6px;
+}
+
+.post-label {
+  margin: 10px 8px 10px 0;
+}
+
+.post-button {
+  margin: 0px;
+}
+.post-content {
+  padding: 8px 16px 0px 13px;
+}
+
+.post-likes {
+  padding: 5px 16px 0px;
+}
+
+.post-card {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin: 0px;
+  width: 100%;
 }
 
 [_nghost-c0] {

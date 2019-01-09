@@ -7,6 +7,7 @@ import { keyboardFix } from './keyboard-fix/keyboard-fix';
 import { ChatBubbleComponent } from './chat-bubble/chat-bubble';
 import { MomentModule } from 'ngx-moment';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
+import { ProgressBarComponent } from './progress-bar/progress-bar';
 
 @NgModule({
   declarations: [
@@ -15,8 +16,14 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     ExpandableHeader,
     keyboardFix,
     ChatBubbleComponent,
+    ProgressBarComponent,
   ],
   imports: [IonicModule, MomentModule, IonicImageViewerModule],
-  exports: [NavbarComponent, ShrinkingSegmentHeaderComponent, ChatBubbleComponent],
+  exports: [
+    NavbarComponent,
+    ShrinkingSegmentHeaderComponent,
+    ChatBubbleComponent,
+    ProgressBarComponent,
+  ],
 })
 export class ComponentsModule {}

@@ -2,7 +2,7 @@
   <ion-navbar color="primary"> <ion-title>Title</ion-title> </ion-navbar>
 </ion-header>
 
-<ion-content text-center>
+<ion-content>
   <div class="container">
     <div class="top-center">
       <ion-avatar>
@@ -14,10 +14,24 @@
         />
       </ion-avatar>
     </div>
-    <ion-card class="main-content" text-wrap text-center>
+    <ion-card class="main-content round-card" text-wrap>
       <div class="title-content">
-        <h1>{{ title.title }}</h1>
-        <p>{{ title.description }}</p>
+        <h1 text-center>{{ title.title }}</h1>
+        <div *ngIf="!showMore">
+          {{ title.description.substring(0, 310) }}
+          <div
+            class="read-more"
+            tappable
+            (click)="changeContentLength()"
+            *ngIf="title.description.length >= 310"
+          >
+            Read more...
+          </div>
+        </div>
+        <div *ngIf="showMore">
+          {{ title.description }}
+          <div class="read-more" tappable (click)="changeContentLength()">Read less...</div>
+        </div>
         <hr />
         <h2>
           <div class="left">Position</div>

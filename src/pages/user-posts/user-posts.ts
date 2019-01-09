@@ -26,6 +26,7 @@ export class UserPostsPage implements OnInit {
   usersdata = firebase.database().ref('/users');
   fetched: boolean = false;
   uid = firebase.auth().currentUser.uid;
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,
@@ -62,8 +63,6 @@ export class UserPostsPage implements OnInit {
   }
 
   goToProfilePage(user: any) {
-    console.log(user);
-
     if (this.postUid === user.uid) {
       this.navCtrl.push('ProfilePage', { currentUser: user });
     } else {
@@ -77,8 +76,6 @@ export class UserPostsPage implements OnInit {
 
   getPostsDetail() {
     if (!this.fetched) {
-      console.log('fetching');
-
       this.posts.forEach((post: any, i) => {
         this.usersdata.child(`${post.uid}/personalData`).once('value', snapshot => {
           this.posts[i].userDetails = snapshot.val();

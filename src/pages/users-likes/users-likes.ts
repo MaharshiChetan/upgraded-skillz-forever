@@ -13,6 +13,7 @@ export class UsersLikesPage {
   type;
   loader;
   loadingText;
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
   usersdata = firebase.database().ref('/users');
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 

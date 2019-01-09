@@ -26,7 +26,11 @@
       </ion-row>
       <ion-item class="click" *ngFor="let user of followers" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
-          <img class="cover-image animated fadeIn" [src]="user.thumbnail || user.profilePhoto" />
+          <img
+            class="cover-image"
+            [defaultImage]="grayPlaceholder"
+            [lazyLoad]="user.thumbnail || user.profilePhoto"
+          />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>
         <p>{{ user.displayName }}</p>
@@ -48,7 +52,11 @@
       </ion-row>
       <ion-item class="click" *ngFor="let user of following" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
-          <img class="cover-image animated fadeIn" [src]="user.thumbnail || user.profilePhoto" />
+          <img
+            class="cover-image"
+            [defaultImage]="grayPlaceholder"
+            [lazyLoad]="user.thumbnail || user.profilePhoto"
+          />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>
         <p>{{ user.displayName }}</p>

@@ -2,7 +2,7 @@
   <ion-navbar color="primary"><ion-title>Photo</ion-title> </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-card class="categories-card">
+  <ion-card class="post-card">
     <ion-item *ngIf="post">
       <ion-avatar tappable item-start (click)="goToProfilePage(userDetails)">
         <img
@@ -26,7 +26,7 @@
         [imageViewer]="post.imageUrl"
       />
     </div>
-    <ion-card-content *ngIf="post">
+    <ion-card-content *ngIf="post" class="post-content">
       <div
         *ngIf="!showMore"
         [ngClass]="{
@@ -70,7 +70,7 @@
         clear
         small
         icon-left
-        class="likes"
+        class="likes post-button"
         *ngIf="post.totalLikes > 0"
         (click)="showUsers(post.likes)"
       >
@@ -86,6 +86,7 @@
           clear
           small
           icon-left
+          class="post-button"
           (click)="like(post)"
           *ngIf="!post?.isLiking"
         >
@@ -98,6 +99,7 @@
           clear
           small
           icon-left
+          class="post-button"
           (click)="unlike(post)"
           *ngIf="post?.isLiking"
         >
@@ -106,7 +108,15 @@
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button color="purple" clear small icon-left (click)="openCommentsModal(post)">
+        <button
+          ion-button
+          class="post-button"
+          color="purple"
+          clear
+          small
+          icon-left
+          (click)="openCommentsModal(post)"
+        >
           <ion-icon name="ios-text-outline"></ion-icon>
           {{ post.totalComments }} Comments
         </button>

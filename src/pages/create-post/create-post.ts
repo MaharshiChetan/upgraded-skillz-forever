@@ -115,8 +115,8 @@ export class CreatePostPage {
     if (this.image) {
       this.imageStore.putString(this.image, 'data_url').then(res => {
         this.imageStore.getDownloadURL().then(url => {
-          const post = this.getPostObject(text.value);
-          this.postService.createEventPost(post, imageId, this.event.id).then(res => {
+          const post = this.getPostObject(text.value, url, imageId);
+          this.postService.createEventPost(post, this.event.id, imageId).then(res => {
             loader.dismiss();
             this.presentMessage.showToast('Successfully created a post!', 'success-toast');
             this.showAlertMessage = false;
@@ -139,7 +139,12 @@ export class CreatePostPage {
     const loader = this.loadingCtrl.create();
     loader.present();
     if (this.post.imageUrl) {
-      const post = this.getPostObject(text.value, this.post.imageUrl, this.post.imageId);
+      const post = this.getPostObject(
+        text.value,
+        this.post.imageUrl,
+        this.post.imageId,
+        this.post.timeStamp
+      );
       this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
         loader.dismiss();
         this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
@@ -147,7 +152,7 @@ export class CreatePostPage {
         this.navCtrl.pop();
       });
     } else {
-      const post = this.getPostObject(text.value, null, null);
+      const post = this.getPostObject(text.value);
       this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
         loader.dismiss();
         this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
@@ -195,7 +200,7 @@ export class CreatePostPage {
     });
   }
 
-  getPostObject(text: string, imageUrl?: string, imageId?: string, timeStamp?: any) {
+  getPostObject(text: string, imageUrl?: string, imageId?: string, timeStamp?: string) {
     return {
       textualContent: text,
       imageUrl: imageUrl || '',

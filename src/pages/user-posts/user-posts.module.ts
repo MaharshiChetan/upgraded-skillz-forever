@@ -5,6 +5,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { MomentModule } from 'ngx-moment';
 import { ElasticHeaderModule } from 'ionic2-elastic-header/dist/';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
+import { DeferLoadModule } from '@trademe/ng-defer-load';
 
 @NgModule({
   declarations: [UserPostsPage],
@@ -16,6 +17,7 @@ import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-ima
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset,
     }),
+    DeferLoadModule,
   ],
 })
 export class UserPostsPageModule {}

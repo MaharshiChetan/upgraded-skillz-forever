@@ -18,6 +18,7 @@ export class FollowerFollowingPage {
   userDetails: any;
   type: string = 'Dropers';
   usersdata = firebase.database().ref('/users');
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
 
   constructor(private navCtrl: NavController, private navParams: NavParams) {}
 

@@ -16,14 +16,15 @@
 <ion-content fullscreen #myContent>
   <div [ngSwitch]="type">
     <div *ngSwitchCase="'ThumbnailPost'" no-lines>
+      <div *ngIf="!posts" class="spinner-container"><ion-spinner></ion-spinner></div>
       <div *ngIf="posts && posts.length > 0">
         <ion-row no-padding>
           <ion-col no-padding col-4 *ngFor="let post of posts">
             <img
               (click)="showPost(post)"
-              class="image-container"
-              [defaultImage]="post.thumbnail || post.imageUrl"
-              [lazyLoad]="post.imageUrl"
+              class="image-container cover-image"
+              [defaultImage]="grayPlaceholder"
+              [lazyLoad]="post.thumbnail || post.imageUrl"
             />
           </ion-col>
         </ion-row>
@@ -31,12 +32,13 @@
     </div>
 
     <div *ngSwitchCase="'DetailPost'" no-lines>
+      <div *ngIf="!posts" class="spinner-container"><ion-spinner></ion-spinner></div>
       <div *ngFor="let post of posts">
-        <ion-card class="categories-card">
-          <ion-item *ngIf="post.userDetails">
+        <ion-card class="post-card" *ngIf="post.userDetails">
+          <ion-item>
             <ion-avatar tappable item-start (click)="goToProfilePage(post.userDetails)">
               <img
-                class="cover-image animated fadeIn delay-3s"
+                class="cover-image"
                 [src]="post.userDetails.thumbnail || post.userDetails.profilePhoto"
               />
             </ion-avatar>
@@ -57,15 +59,17 @@
             </div>
             <p>{{ post.date | date: 'mediumDate' }} at {{ post.date | date: 'shortTime' }}</p>
           </ion-item>
-          <div *ngIf="post.userDetails">
+          <div>
             <img
               class="contain-image click"
               [defaultImage]="post.thumbnail || post.imageUrl"
               [lazyLoad]="post.imageUrl"
+              [useSrcset]="true"
+              offset="100"
               [imageViewer]="post.imageUrl"
             />
           </div>
-          <ion-card-content *ngIf="post.userDetails">
+          <ion-card-content class="post-content">
             <div
               *ngIf="!showMore"
               [ngClass]="{
@@ -117,7 +121,7 @@
               {{ post.totalLikes }}
             </button>
           </ion-card-content>
-          <ion-row text-center *ngIf="post.userDetails">
+          <ion-row text-center>
             <ion-col>
               <button
                 ion-button

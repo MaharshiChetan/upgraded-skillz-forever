@@ -8,9 +8,15 @@ import { IonicPage, NavParams } from 'ionic-angular';
 })
 export class TitleDetailsPage implements OnInit {
   title: any;
+  showMore: boolean = false;
+
   constructor(private navParams: NavParams) {}
 
   ngOnInit() {
     this.title = this.navParams.get('title').title;
+  }
+
+  changeContentLength() {
+    this.showMore = !this.showMore;
   }
 }

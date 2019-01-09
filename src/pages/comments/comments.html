@@ -16,7 +16,7 @@
     <ion-item
       *ngFor="let comment of comments"
       class="click"
-      (press)="presentPopover(post.key, eventId, comment.key, comment.uid)"
+      (press)="showActionSheet(post.key, eventId, comment.key, comment.uid)"
     >
       <ion-avatar
         *ngIf="comment.userDetails"
@@ -46,7 +46,10 @@
         #comment
         (keyup)="adjust()"
       ></ion-textarea>
-      <button ion-button clear item-end (click)="createComment(comment)">
+      <button *ngIf="eventId" ion-button clear item-end (click)="createEventPostComment(comment)">
+        <ion-icon class="footer-btn" name="send"></ion-icon>
+      </button>
+      <button *ngIf="!eventId" ion-button clear item-end (click)="createUserPostComment(comment)">
         <ion-icon class="footer-btn" name="send"></ion-icon>
       </button>
     </ion-item>

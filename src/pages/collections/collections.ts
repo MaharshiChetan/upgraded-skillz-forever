@@ -15,6 +15,7 @@ export class CollectionsPage {
   videoPosts: any;
   audioPosts: any;
   noPost: boolean = false;
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
 
   constructor(
     private authService: AuthProvider,
@@ -37,7 +38,7 @@ export class CollectionsPage {
   }
 
   getUserImagePosts(event?: any) {
-    this.userPostService.getUserPosts(this.uid).subscribe(posts => {
+    this.userPostService.getUserFirstSixPosts(this.uid).subscribe(posts => {
       this.imagePosts = posts;
       console.log(this.imagePosts);
 

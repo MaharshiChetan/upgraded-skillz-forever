@@ -7,11 +7,16 @@
   >
   </ion-searchbar>
 
-  <ion-refresher (ionRefresh)="fetchEvents($event)">
+  <ion-refresher *ngIf="events" (ionRefresh)="fetchEvents($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="!events" class="spinner-container"><ion-spinner></ion-spinner></div>
-  <ion-card tappable *ngFor="let e of events" (click)="goToEventDetails(e)" class="click">
+  <ion-card
+    tappable
+    *ngFor="let e of events"
+    (click)="goToEventDetails(e)"
+    class="click round-card"
+  >
     <img [defaultImage]="placeholderImage" [lazyLoad]="e.imageUrl" class="original cover-image" />
     <ion-card-content>
       <ion-grid>

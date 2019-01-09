@@ -28,7 +28,7 @@ export class PopoverComponent {
     this.type = this.navParams.get('type');
   }
 
-  optionSelected(option) {
+  optionSelected(option: any) {
     this.viewCtrl.dismiss(option);
   }
 }

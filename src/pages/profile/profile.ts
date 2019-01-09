@@ -279,6 +279,8 @@ export class ProfilePage {
           this.navCtrl.push('MyTutorialsPage');
         } else if (selectedOption.name === 'Message') {
           this.navCtrl.push('OneToOneChatPage', { userDetails: this.otherUser });
+        } else if (selectedOption.name === 'Drop') {
+          this.follow();
         }
       }
     });

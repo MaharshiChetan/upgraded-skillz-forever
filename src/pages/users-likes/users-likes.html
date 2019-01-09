@@ -9,8 +9,9 @@
     <ion-item class="click" *ngFor="let user of users" (click)="goToProfilePage(user)">
       <ion-avatar item-start>
         <img
-          class="cover-image animated fadeIn delay-3s"
-          [src]="user.thumbnail || user.profilePhoto"
+          class="cover-image"
+          [defaultImage]="grayPlaceholder"
+          [lazyLoad]="user.thumbnail || user.profilePhoto"
         />
       </ion-avatar>
       <h2>{{ user.userName }}</h2>

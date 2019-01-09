@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, AlertController, App } from 'ionic-angular';
+import { IonicPage, AlertController, App, ActionSheetController, Platform } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
 import firebase from 'firebase';
 import _ from 'lodash';
@@ -22,13 +22,15 @@ export class ChatListPage {
   subscription: any;
   searchMessages;
   currentUserId: string;
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
 
   constructor(
-    private alertCtrl: AlertController,
+    private platform: Platform,
     private chatService: ChatProvider,
     private dataService: DataProvider,
     private authService: AuthProvider,
-    private app: App
+    private app: App,
+    private actionSheetCtrl: ActionSheetController
   ) {}
 
   ionViewWillEnter() {
@@ -83,26 +85,28 @@ export class ChatListPage {
       }); */
   }
 
-  presentPopover(message) {
-    let alert = this.alertCtrl.create();
-    alert.setTitle('Take action');
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Delete',
-      value: 'delete',
+  showActionSheet(message: string) {
+    const actionSheet = this.actionSheetCtrl.create({
+      title: 'Take Action',
+      buttons: [
+        {
+          text: 'Delete',
+          icon: 'trash',
+          handler: () => {
+            this.deleteAllMessages(message);
+          },
+        },
+        {
+          text: 'Cancel',
+          icon: !this.platform.is('ios') ? 'close' : null,
+          role: 'destructive',
+          handler: () => {
+            console.log('the user has cancelled the interaction.');
+          },
+        },
+      ],
     });
-
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'OK',
-      handler: data => {
-        if (data === 'delete') {
-          this.deleteAllMessages(message);
-        }
-      },
-    });
-    alert.present();
+    return actionSheet.present();
   }
 
   goToChatPage(user) {

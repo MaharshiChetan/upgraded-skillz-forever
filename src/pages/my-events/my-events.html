@@ -3,7 +3,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="getMyEvents($event)">
+  <ion-refresher *ngIf="events" (ionRefresh)="getMyEvents($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="!events" class="spinner-container"><ion-spinner></ion-spinner></div>

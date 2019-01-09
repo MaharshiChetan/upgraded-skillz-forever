@@ -97,23 +97,22 @@
       Discussion
     </ion-segment-button>
   </ion-segment>
-  <div class="space"></div>
   <div [ngSwitch]="type">
     <div *ngSwitchCase="'about'">
       <section class="main-content">
         <ion-grid class="listing-details">
           <ion-row text-center>
-            <ion-col class="categories-card click">
+            <ion-col class="round-card click">
               <ion-icon name="pin"></ion-icon>{{ event.eventCity }}
             </ion-col>
-            <ion-col tappable class="categories-card click" (click)="goToReviewsPage()">
+            <ion-col tappable class="round-card click" (click)="goToReviewsPage()">
               <ion-icon ios="ios-star" md="md-star"></ion-icon>
               Reviews
             </ion-col>
           </ion-row>
         </ion-grid>
 
-        <ion-card class="categories-card">
+        <ion-card class="post-card">
           <ion-card-header> <strong>EVENT DESCRIPTION</strong> </ion-card-header>
 
           <ion-card-content>
@@ -124,7 +123,7 @@
     </div>
 
     <div *ngSwitchCase="'discussion'" style="background-color: #e0e0e0">
-      <ion-card class="categories-card">
+      <ion-card class="round-card">
         <ion-item tappable class="profile-avatar click" (click)="createPost()">
           <ion-avatar item-start>
             <img
@@ -136,7 +135,7 @@
         </ion-item>
       </ion-card>
       <div *ngIf="!posts" class="spinner-container"><ion-spinner></ion-spinner></div>
-      <ion-card *ngFor="let post of posts" class="categories-card">
+      <ion-card *ngFor="let post of posts" class="post-card">
         <ion-item *ngIf="post.userDetails">
           <ion-avatar tappable item-start (click)="goToProfilePage(post.userDetails)">
             <img
@@ -170,7 +169,7 @@
             (click)="presentImage(postImage)"
           />
         </div>
-        <ion-card-content>
+        <ion-card-content class="post-content">
           <div
             *ngIf="!showMore"
             [ngClass]="{

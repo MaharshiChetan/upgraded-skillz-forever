@@ -10,26 +10,26 @@ export class PostProvider {
   constructor(private db: AngularFireDatabase) {}
 
   createEventPost(post: any, eventId: string, pushId: string) {
-    return this.db.object(`eventPosts/${eventId}/${pushId}`).update({
-      imageUrl: post.imageUrl,
-      date: '' + new Date(),
-      uid: this.uid,
-      imageId: post.imageId,
-      textualContent: post.textualContent,
-    });
+    return this.db
+      .object(`eventPosts/${eventId}/${pushId}`)
+      .update(post)
+      .then(res => {
+        firebase
+          .database()
+          .ref(`/eventPosts/${eventId}/${pushId}/timeStamp`)
+          .once('value')
+          .then(data => {
+            const timeStamp = data.val() * -1;
+            this.db.list(`eventPosts/${eventId}`).update(pushId, { timeStamp });
+          });
+      });
   }
 
-  updateEventPost(post, eventId: string, postId: string) {
-    return this.db.object(`eventPosts/${eventId}/${postId}`).update({
-      imageUrl: post.imageUrl,
-      date: '' + new Date(),
-      uid: this.uid,
-      imageId: post.imageId,
-      textualContent: post.textualContent,
-    });
+  updateEventPost(post: any, eventId: string, postId: string) {
+    return this.db.object(`eventPosts/${eventId}/${postId}`).update(post);
   }
 
-  deleteAllPost(eventId) {
+  deleteAllPost(eventId: string) {
     this.getEventPosts(eventId).subscribe(posts => {
       this.deleteAllEventPostImages(eventId, posts);
     });
@@ -37,7 +37,7 @@ export class PostProvider {
     this.db.list(`eventPosts/${eventId}`).remove();
   }
 
-  deletePost(post, eventId) {
+  deletePost(post: any, eventId: string) {
     try {
       if (post.imageId) {
         firebase

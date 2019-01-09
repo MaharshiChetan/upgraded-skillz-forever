@@ -10,10 +10,22 @@ import { PopoverComponent } from '../../components/popover/popover';
 })
 export class HomePage {
   userDetails;
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
   cards = [
     {
       avatarImageUrl: 'assets/img/avatar/marty-avatar.png',
       postImageUrl: 'assets/img/card/advance-card-bttf.png',
+      name: 'Marty Mcfly',
+      postText:
+        'Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.',
+      date: 'November 5, 1955',
+      likes: 12,
+      comments: 4,
+      timestamp: '11h ago',
+    },
+    {
+      avatarImageUrl: 'assets/img/avatar/marty-avatar.png',
+      postVideoUrl: 'http://static.videogular.com/assets/videos/videogular.mp4',
       name: 'Marty Mcfly',
       postText:
         'Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.',

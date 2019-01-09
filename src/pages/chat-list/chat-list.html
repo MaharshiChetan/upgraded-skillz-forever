@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-refresher (ionRefresh)="fetchDisplayMessages($event)">
+  <ion-refresher *ngIf="displayMessages" (ionRefresh)="fetchDisplayMessages($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-row *ngIf="displayMessages?.length === 0">
@@ -20,11 +20,12 @@
       class="click"
       *ngFor="let message of displayMessages"
       (click)="goToChatPage(message)"
-      (press)="presentPopover(message)"
+      (press)="showActionSheet(message)"
     >
       <ion-avatar item-start *ngIf="message" class="image-container">
         <img
-          [src]="message?.thumbnail || message?.profilePhoto"
+          [defaultImage]="grayPlaceholder"
+          [lazyLoad]="message?.thumbnail || message?.profilePhoto"
           class="cover-image"
           onerror="this.onerror=null;this.src='assets/default-user.jpeg';"
         />

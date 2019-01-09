@@ -2,11 +2,7 @@ title-details-page {
   .main-content {
     margin-top: 80px;
     padding: 10px;
-    background-color: white;
-    -webkit-box-shadow: 0px 0px 55px -16px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 0px 55px -16px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 55px -16px rgba(0, 0, 0, 0.75);
-    background: #f5f5f5;
     position: initial;
   }
 
@@ -17,9 +13,11 @@ title-details-page {
     border-radius: 50%;
     box-shadow: 0 0 5px gray;
     display: block;
-    -webkit-box-shadow: 0px 0px 55px -16px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 0px 55px -16px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 55px -16px rgba(0, 0, 0, 0.75);
+  }
+
+  .read-more {
+    color: gray;
   }
 
   .container {
@@ -29,14 +27,14 @@ title-details-page {
   .top-center {
     position: absolute;
     left: 0;
-    top: 7%;
+    top: 24px;
     width: 100%;
     text-align: center;
     font-size: 18px;
   }
 
   .title-content {
-    margin-top: 56px;
+    margin-top: 50px;
   }
 
   .left {
