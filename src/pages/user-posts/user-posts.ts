@@ -46,7 +46,9 @@ export class UserPostsPage implements OnInit {
 
   getUserPosts(uid: string) {
     this.userPostService.getUserPosts(uid).subscribe(posts => {
+      this.fetched = false;
       this.posts = posts;
+      this.getPostsDetail();
     });
   }
 

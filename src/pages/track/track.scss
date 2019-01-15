@@ -1,62 +1,22 @@
-.ios,
-.md {
-  track-page {
-    $song-card-height: 90px;
+track-page {
+  .item-md ion-thumbnail {
+    min-width: 52px;
+    min-height: 52px;
+  }
+  .item-md ion-thumbnail ion-img,
+  .item-md ion-thumbnail img {
+    width: 52px;
+    height: 52px;
+  }
 
-    ion-list {
-      margin-bottom: $song-card-height + 20px;
+  .item-md ion-avatar[item-left],
+  .item-md ion-thumbnail[item-left],
+  .item-md ion-avatar[item-start],
+  .item-md ion-thumbnail[item-start] {
+    margin: 6px 16px 0px 0px;
+  }
 
-      .alternate {
-        background-color: map-get($colors, secondary);
-      }
-
-      .playing {
-        background-color: map-get($colors, dark);
-
-        img {
-          opacity: 0.4;
-        }
-      }
-    }
-
-    ion-avatar {
-      position: relative;
-    }
-
-    ion-spinner {
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin: 4px !important;
-    }
-
-    [ion-item] {
-      background-color: map-get($colors, primary);
-      padding: 20px;
-    }
-
-    ion-card {
-      background-color: map-get($colors, light);
-      opacity: 0.9;
-      height: $song-card-height;
-      bottom: 0;
-    }
-
-    ion-footer {
-      height: 75px;
-      background-color: map-get($colors, dark);
-
-      ion-grid,
-      ion-row,
-      ion-col {
-        height: 100%;
-      }
-
-      ion-col {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
+  .label-md {
+    margin: 13px 8px 0px 0;
   }
 }

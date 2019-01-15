@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
+import { ITrackConstraint } from 'ionic-audio';
 
 @IonicPage()
 @Component({
@@ -7,60 +8,75 @@ import { IonicPage } from 'ionic-angular';
   templateUrl: 'track.html',
 })
 export class TrackPage {
-  tracks: any;
-  playing: boolean = true;
-  currentTrack: any;
-  progressInterval: any;
+  myTracks: ITrackConstraint[];
+  playlist: ITrackConstraint[] = [];
 
-  constructor() {
-    this.tracks = [
-      { title: 'Something About You', artist: 'ODESZA', playing: false, progress: 0 },
-      { title: 'Run', artist: 'Allison Wonderland', playing: false, progress: 0 },
-      { title: 'Breathe', artist: 'Seeb Neev', playing: false, progress: 0 },
-      { title: 'HyperParadise', artist: 'Hermitude', playing: false, progress: 0 },
-      { title: 'Lifespan', artist: 'Vaults', playing: false, progress: 0 },
-      { title: 'Stay High', artist: 'Tove Lo', playing: false, progress: 0 },
-      { title: 'Lean On', artist: 'Major Lazer', playing: false, progress: 0 },
-      { title: 'They Say', artist: 'Kilter', playing: false, progress: 0 },
+  currentIndex: number = -1;
+  currentTrack: ITrackConstraint;
+
+  constructor(private _cdRef: ChangeDetectorRef) {
+    // plugin won't preload data by default, unless preload property is defined within json object - defaults to 'none'
+    this.myTracks = [
+      {
+        src: 'https://archive.org/download/JM2013-10-05.flac16/V0/jm2013-10-05-t12-MP3-V0.mp3',
+        artist: 'John Mayer',
+        title: 'Why Georgia',
+        art:
+          'https://www.biography.com/.image/t_share/MTE1ODA0OTcxMjkwNTYwMDEz/michael-jackson-pepsi-commercial-raw.jpg',
+        preload: 'metadata', // tell the plugin to preload metadata such as duration for this track, set to 'none' to turn off
+      },
+      {
+        src: 'https://archive.org/download/JM2013-10-05.flac16/V0/jm2013-10-05-t30-MP3-V0.mp3',
+        artist: 'John Mayer',
+        title: 'Who Says',
+        art:
+          'https://www.biography.com/.image/t_share/MTE1ODA0OTcxMjkwNTYwMDEz/michael-jackson-pepsi-commercial-raw.jpg',
+        preload: 'metadata', // tell the plugin to preload metadata such as duration for this track,  set to 'none' to turn off
+      },
+
+      {
+        src:
+          'https://archive.org/download/swrembel2010-03-07.tlm170.flac16/swrembel2010-03-07s1t05.mp3',
+        artist: 'Stephane Wrembel',
+        title: 'Stephane Wrembel Live',
+        art:
+          'https://www.biography.com/.image/t_share/MTE1ODA0OTcxMjkwNTYwMDEz/michael-jackson-pepsi-commercial-raw.jpg',
+        preload: 'metadata', // tell the plugin to preload metadata such as duration for this track,  set to 'none' to turn off
+      },
     ];
-
-    this.currentTrack = this.tracks[0];
   }
 
-  playTrack(track) {
-    // First stop any currently playing tracks
+  add(track: ITrackConstraint) {
+    this.playlist.push(track);
+  }
 
-    for (let checkTrack of this.tracks) {
-      if (checkTrack.playing) {
-        this.pauseTrack(checkTrack);
-      }
-    }
-
-    track.playing = true;
+  play(track: ITrackConstraint, index: number) {
     this.currentTrack = track;
-
-    // Simulate track playing
-    this.progressInterval = setInterval(() => {
-      track.progress < 100 ? track.progress++ : (track.progress = 0);
-    }, 1000);
+    this.currentIndex = index;
   }
 
-  pauseTrack(track) {
-    track.playing = false;
-    clearInterval(this.progressInterval);
+  next() {
+    // if there is a next track on the list play it
+    if (
+      this.playlist.length > 0 &&
+      this.currentIndex >= 0 &&
+      this.currentIndex < this.playlist.length - 1
+    ) {
+      let i = this.currentIndex + 1;
+      let track = this.playlist[i];
+      this.play(track, i);
+      this._cdRef.detectChanges(); // needed to ensure UI update
+    } else if (this.currentIndex == -1 && this.playlist.length > 0) {
+      // if no track is playing then start with the first track on the list
+      this.play(this.playlist[0], 0);
+    }
   }
 
-  nextTrack() {
-    let index = this.tracks.indexOf(this.currentTrack);
-    index >= this.tracks.length - 1 ? (index = 0) : index++;
-
-    this.playTrack(this.tracks[index]);
+  onTrackFinished(track: any) {
+    this.next();
   }
 
-  prevTrack() {
-    let index = this.tracks.indexOf(this.currentTrack);
-    index > 0 ? index-- : (index = this.tracks.length - 1);
-
-    this.playTrack(this.tracks[index]);
+  clear() {
+    this.playlist = [];
   }
 }

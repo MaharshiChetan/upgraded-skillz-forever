@@ -102,5 +102,10 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.3">
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.766344988044-rq4ldcpfb22dggipn58a03te59nhen25" />
     </plugin>
+    <plugin name="cordova-plugin-media" spec="~5.0.2" />
+    <plugin name="cordova-plugin-music-controls" spec="2.2.0" />
+    <plugin name="cordova-plugin-media-capture" spec="3.0.2" />
+    <plugin name="cordova-plugin-streaming-media" spec="2.2.0" />
+    <plugin name="com.moust.cordova.videoplayer" spec="https://github.com/moust/cordova-plugin-videoplayer.git" />
     <engine name="android" spec="7.1.4" />
 </widget>

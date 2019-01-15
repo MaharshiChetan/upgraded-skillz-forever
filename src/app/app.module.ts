@@ -23,6 +23,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+
 import { Message } from '../providers/message/message';
 import { FollowProvider } from '../providers/follow/follow';
 import { PostProvider } from '../providers/post/post';
@@ -32,6 +33,13 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { Keyboard } from '@ionic-native/keyboard';
 import { DataProvider } from '../providers/data/data';
 
+import {
+  IonicAudioModule,
+  WebAudioProvider,
+  CordovaMediaProvider,
+  defaultAudioProviderFactory,
+} from 'ionic-audio';
+
 import { PopoverComponent } from '../components/popover/popover';
 import { HeaderColor } from '@ionic-native/header-color';
 import { SuperTabsModule } from 'ionic2-super-tabs';
@@ -40,6 +48,11 @@ import { NewPopoverComponent } from '../components/new-popover/new-popover';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserPostProvider } from '../providers/user-post/user-post';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
+import { StreamingMedia } from '@ionic-native/streaming-media';
+
+export function myCustomAudioProviderFactory() {
+  return window.hasOwnProperty('cordova') ? new CordovaMediaProvider() : new WebAudioProvider();
+}
 
 @NgModule({
   declarations: [MyApp, PopoverComponent, NewPopoverComponent],
@@ -48,6 +61,7 @@ import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-ima
     HttpClientModule,
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(config),
+    IonicAudioModule.forRoot(defaultAudioProviderFactory),
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: true,
       animate: false,

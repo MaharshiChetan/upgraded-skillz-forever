@@ -22,7 +22,25 @@ export class TitlesProvider {
   }
 
   removeTitle(key: string) {
-    return this.db.object(`titles/${this.uid}/${key}`).remove();
+    try {
+      return firebase
+        .storage()
+        .ref('/titleImages')
+        .child(`${this.uid}/${key}`)
+        .delete()
+        .then(() => {
+          firebase
+            .storage()
+            .ref('/titleImages')
+            .child(`${this.uid}/thumb_${key}`)
+            .delete()
+            .catch(e => alert('Error deleting the title'));
+          return this.db.object(`titles/${this.uid}/${key}`).remove();
+        })
+        .catch(e => alert('Error deleting the title'));
+    } catch (e) {
+      return e;
+    }
   }
 
   updateTitle(titleId: string, title: any) {

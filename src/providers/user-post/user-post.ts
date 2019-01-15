@@ -30,7 +30,7 @@ export class UserPostProvider {
 
   deletePost(post: any, postId: string) {
     try {
-      firebase
+      return firebase
         .storage()
         .ref('/userPostsImages')
         .child(`${this.uid}/${post.imageId}`)

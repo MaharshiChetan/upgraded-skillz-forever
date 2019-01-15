@@ -13,15 +13,24 @@ export class CameraProvider {
     return this.getImage(this.camera.PictureSourceType.PHOTOLIBRARY, crop);
   }
 
+  getVideoFromCamera(crop) {
+    return this.getVideo(this.camera.PictureSourceType.CAMERA, crop);
+  }
+
+  getVideoFromPhotoLibrary(crop) {
+    return this.getVideo(this.camera.PictureSourceType.PHOTOLIBRARY, crop);
+  }
+
+  getVideo(a, b) {}
   // This method takes optional parameters to make it more customizable
-  getImage(pictureSourceType, crop = true, quality = 100, allowEdit = true, saveToAlbum = true) {
+  getImage(pictureSourceType, crop = true) {
     const options = {
-      quality,
-      allowEdit,
+      quality: 100,
+      allowEdit: true,
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: pictureSourceType,
-      encodingType: this.camera.EncodingType.PNG,
-      saveToPhotoAlbum: saveToAlbum,
+      encodingType: this.camera.EncodingType.JPEG,
+      saveToPhotoAlbum: true,
     };
 
     // If set to crop, restricts the image to a square of 600 by 600

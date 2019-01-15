@@ -13,24 +13,23 @@
 <ion-content #content>
   <div *ngIf="!comments" class="spinner-container"><ion-spinner></ion-spinner></div>
   <ion-list>
-    <ion-item
+    <div
       *ngFor="let comment of comments"
       class="click"
       (press)="showActionSheet(post.key, eventId, comment.key, comment.uid)"
     >
-      <ion-avatar
-        *ngIf="comment.userDetails"
-        item-start
-        (click)="goToProfilePage(comment.userDetails)"
-      >
-        <img class="comment-image" [src]="comment.userDetails.profilePhoto" />
-      </ion-avatar>
-      <h2 (click)="goToProfilePage(comment.userDetails)" *ngIf="comment.userDetails">
-        {{ comment?.userDetails.userName }}
-      </h2>
-      <pre>{{ comment.comment }}</pre>
-      <p>{{ comment.date | date: 'MMM d' }} at {{ comment.date | date: 'h:mm a' }}</p>
-    </ion-item>
+      <ion-item *ngIf="comment.userDetails">
+        <ion-avatar item-start (click)="goToProfilePage(comment.userDetails)">
+          <img
+            class="comment-image"
+            [src]="comment.userDetails.thumbnail || comment.userDetails.profilePhoto"
+          />
+        </ion-avatar>
+        <h2 (click)="goToProfilePage(comment.userDetails)">{{ comment.userDetails.userName }}</h2>
+        <pre>{{ comment.comment }}</pre>
+        <p>{{ comment.date | date: 'MMM d' }} at {{ comment.date | date: 'h:mm a' }}</p>
+      </ion-item>
+    </div>
   </ion-list>
 </ion-content>
 
@@ -38,7 +37,7 @@
   <ion-toolbar>
     <ion-item>
       <ion-avatar *ngIf="currentUserDetails" item-start>
-        <img [src]="currentUserDetails.profilePhoto" />
+        <img [src]="currentUserDetails.thumbnail || currentUserDetails.profilePhoto" />
       </ion-avatar>
       <ion-textarea
         placeholder="Write a comment..."

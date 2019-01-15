@@ -133,6 +133,7 @@ export class PostPage implements OnInit {
           text: 'Delete',
           handler: () => {
             this.userPostService.deletePost(post, post.key);
+            this.navCtrl.pop();
           },
         },
       ],
