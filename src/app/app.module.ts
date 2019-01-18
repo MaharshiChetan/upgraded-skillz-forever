@@ -48,7 +48,6 @@ import { NewPopoverComponent } from '../components/new-popover/new-popover';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserPostProvider } from '../providers/user-post/user-post';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
-import { StreamingMedia } from '@ionic-native/streaming-media';
 
 export function myCustomAudioProviderFactory() {
   return window.hasOwnProperty('cordova') ? new CordovaMediaProvider() : new WebAudioProvider();

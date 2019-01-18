@@ -60,7 +60,7 @@ exports.generateThumbnail = functions.storage.object().onFinalize(async object =
   const metadata = {
     contentType: contentType,
     // To enable Client-side caching you can set the Cache-Control headers here. Uncomment below.
-    // 'Cache-Control': 'public,max-age=3600',
+    'Cache-Control': 'public,max-age=3600',
   };
 
   // Create the temp directory where the storage file will be downloaded.

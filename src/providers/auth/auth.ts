@@ -345,7 +345,15 @@ export class AuthProvider {
     });
   }
 
-  updateUser(uid, name, username, profilePhoto, bio: string, email: string) {
+  updateUser(
+    uid,
+    name,
+    username,
+    profilePhoto,
+    bio: string,
+    email: string,
+    google: boolean = false
+  ) {
     return new Promise(resolve => {
       this.updateUsername(username, uid, email).then(() => {
         firebase
@@ -355,24 +363,57 @@ export class AuthProvider {
             photoURL: profilePhoto,
           })
           .then(res => {
-            this.usersdata
-              .child(firebase.auth().currentUser.uid)
-              .child('personalData')
-              .set({
-                uid: firebase.auth().currentUser.uid,
-                displayName: name,
-                email: email,
-                userName: username,
-                bio: bio || '',
-                profilePhoto: profilePhoto,
-              })
-              .then(res => {
-                resolve(true);
-              })
-              .catch(err => {
-                console.error(err);
-                resolve(false);
-              });
+            if (google) {
+              this.usersdata
+                .child(firebase.auth().currentUser.uid)
+                .child('personalData')
+                .once('value', snapshot => {
+                  if (!snapshot.val()) {
+                    this.usersdata
+                      .child(firebase.auth().currentUser.uid)
+                      .child('personalData')
+                      .update({
+                        uid: firebase.auth().currentUser.uid,
+                        displayName: name,
+                        email: email,
+                        userName: username,
+                        bio: bio || '',
+                        profilePhoto: profilePhoto,
+                      })
+                      .then(res => {
+                        resolve(true);
+                      })
+                      .catch(err => {
+                        console.error(err);
+                        resolve(false);
+                      });
+                  } else {
+                    resolve(true);
+                  }
+                })
+                .catch(e => {
+                  resolve(false);
+                });
+            } else {
+              this.usersdata
+                .child(firebase.auth().currentUser.uid)
+                .child('personalData')
+                .update({
+                  uid: firebase.auth().currentUser.uid,
+                  displayName: name,
+                  email: email,
+                  userName: username,
+                  bio: bio || '',
+                  profilePhoto: profilePhoto,
+                })
+                .then(res => {
+                  resolve(true);
+                })
+                .catch(err => {
+                  console.error(err);
+                  resolve(false);
+                });
+            }
           })
           .catch(err => {
             console.error(err);

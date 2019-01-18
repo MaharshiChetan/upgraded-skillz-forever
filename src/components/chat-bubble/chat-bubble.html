@@ -18,7 +18,8 @@
     </div>
     <div *ngIf="message.imageUrl" class="chat-bubble-img  left" (press)="presentPopover(message)">
       <img
-        [src]="message.thumbnail || message.imageUrl"
+        [defaultImage]="grayPlaceholder"
+        [lazyLoad]="message.thumbnail || message.imageUrl"
         class="cover-image"
         [imageViewer]="message.imageUrl"
       />
@@ -38,7 +39,8 @@
     </div>
     <div *ngIf="message.imageUrl" class="chat-bubble-img  right" (press)="presentPopover(message)">
       <img
-        [src]="message.thumbnail || message.imageUrl"
+        [defaultImage]="grayPlaceholder"
+        [lazyLoad]="message.thumbnail || message.imageUrl"
         class="cover-image"
         [imageViewer]="message.imageUrl"
       />

@@ -14,6 +14,7 @@ export class ChatBubbleComponent {
   @Input('otherUserDetails') otherUserDetails: any;
   @Input('currentUserDetails') currentUserDetails: any;
   usersdata = firebase.database().ref('/users');
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
 
   constructor(
     private navCtrl: NavController,

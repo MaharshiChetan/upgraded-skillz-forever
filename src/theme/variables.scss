@@ -34,7 +34,7 @@ $theme-color-3: #5e5874;
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 $popover-md-width: 200px;
-
+$font-path: '../assets/fonts';
 $colors: (
   primary: #49575c,
   primary-one: #119081,
@@ -119,3 +119,4 @@ $colors: (
 // http://ionicframework.com/docs/v2/ionicons/
 $ionicons-font-path: '../assets/fonts';
 @import 'ionic.ionicons';
+@import 'videogular';

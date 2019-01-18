@@ -163,7 +163,7 @@
         <div *ngIf="post.imageUrl">
           <img
             class="contain-image click"
-            [defaultImage]="post.thumbnail || post.imageUrl"
+            [defaultImage]="post.thumbnail || grayPlaceholder"
             [lazyLoad]="post.imageUrl"
             #postImage
             (click)="presentImage(postImage)"

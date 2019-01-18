@@ -12,7 +12,6 @@ import { DataProvider } from '../../providers/data/data';
 export class EventsPage {
   events: any[];
   subscription: any;
-  animate: boolean = true;
   searchTerm: string;
   searchEvents: any[];
   placeholderImage = 'assets/placeholder.jpg';
@@ -27,10 +26,6 @@ export class EventsPage {
   ionViewWillEnter() {
     this.tabsPage.showFabButton();
     this.fetchEvents(null);
-  }
-
-  ionViewDidLeave() {
-    this.animate = false;
   }
 
   fetchEvents(refresher) {

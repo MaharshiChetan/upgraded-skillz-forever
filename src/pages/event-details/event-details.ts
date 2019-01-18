@@ -32,6 +32,7 @@ export class EventDetailsPage {
   content: Content;
 
   fileTransfer: FileTransferObject = this.transfer.create();
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
   start = 0;
   usersdata = firebase.database().ref('/users');
   slideHeaderPrevious = 0;
