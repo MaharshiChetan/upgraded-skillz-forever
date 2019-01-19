@@ -15,10 +15,6 @@ export class SettingsPage {
     public storage: Storage
   ) {}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingsPage');
-  }
-
   goToEditProfilePage() {
     this.navCtrl.push('EditProfilePage');
   }

@@ -6,12 +6,12 @@ import {
   NavController,
   ActionSheetController,
   Platform,
-  LoadingController,
   NavParams,
 } from 'ionic-angular';
 import { CameraProvider } from '../../providers/camera/camera';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Message } from '../../providers/message/message';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -29,7 +29,7 @@ export class EditProfilePage {
     private actionsheetCtrl: ActionSheetController,
     private platform: Platform,
     private cameraService: CameraProvider,
-    private loadingCtrl: LoadingController,
+    private loadingService: LoadingService,
     private authService: AuthProvider,
     private presentMessage: Message
   ) {
@@ -62,8 +62,7 @@ export class EditProfilePage {
   }
 
   updateUserProfile(name, username, bio, uid) {
-    const loader = this.loadingCtrl.create();
-    loader.present();
+    this.loadingService.show('Updating profile...');
     if (this.chosenPicture) {
       const imageStore = firebase
         .storage()
@@ -74,12 +73,12 @@ export class EditProfilePage {
           this.authService
             .updateUser(uid, name, username, url, bio, this.userProfile.email)
             .then(res => {
-              loader.dismissAll();
+              this.loadingService.hide();
               this.presentMessage.showToast('Succefully updated your profile!', 'success-toast');
               this.navCtrl.pop();
             })
             .catch(e => {
-              loader.dismissAll();
+              this.loadingService.hide();
               this.presentMessage.showToast('Failed to updated your profile!', 'fail-toast');
             });
         });
@@ -88,7 +87,7 @@ export class EditProfilePage {
       this.authService
         .updateUser(uid, name, username, this.userProfile.profilePhoto, bio, this.userProfile.email)
         .then(res => {
-          loader.dismissAll();
+          this.loadingService.hide();
           if (this.userProfile.userName !== username) {
             this.authService.removeUsername(this.userProfile.userName);
           }
@@ -96,15 +95,14 @@ export class EditProfilePage {
           this.navCtrl.pop();
         })
         .catch(e => {
-          loader.dismissAll();
+          this.loadingService.hide();
           this.presentMessage.showToast('Failed to updated your profile!', 'fail-toast');
         });
     }
   }
 
   submitForm() {
-    const loader = this.loadingCtrl.create();
-    loader.present();
+    this.loadingService.show('Updating profile...');
     const name = this.form.get('name').value;
     const username = this.form.get('username').value;
     const bio = this.form.get('bio').value;
@@ -115,7 +113,7 @@ export class EditProfilePage {
         .once('value')
         .then(snapshot => {
           if (snapshot.val()) {
-            loader.dismissAll();
+            this.loadingService.hide();
             this.presentMessage.showToast(`Username ${username} is already taken!`, 'fail-toast');
             return;
           } else {
@@ -134,7 +132,7 @@ export class EditProfilePage {
 
   changePicture() {
     const actionsheet = this.actionsheetCtrl.create({
-      title: 'upload picture',
+      title: 'Upload picture',
       buttons: [
         {
           text: 'Camera',
@@ -164,9 +162,7 @@ export class EditProfilePage {
   }
 
   takePicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromCamera(true).then(
       picture => {
         if (picture) {
@@ -179,7 +175,7 @@ export class EditProfilePage {
                 : picture;
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);
@@ -188,9 +184,7 @@ export class EditProfilePage {
   }
 
   getPicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromPhotoLibrary(true).then(
       picture => {
         if (picture) {
@@ -203,7 +197,7 @@ export class EditProfilePage {
                 : picture;
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);

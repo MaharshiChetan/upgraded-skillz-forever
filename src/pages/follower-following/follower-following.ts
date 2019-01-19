@@ -87,8 +87,6 @@ export class FollowerFollowingPage {
   }
 
   doInfinite(infiniteScroll) {
-    console.log(this.type, ' 1');
-
     if (this.type === 'Dropers') {
       this.fetchFollowers()
         .then(() => {

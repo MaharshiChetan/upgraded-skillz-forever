@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
-import {
-  IonicPage,
-  NavController,
-  ToastController,
-  LoadingController,
-  ModalController,
-} from 'ionic-angular';
+import { IonicPage, NavController, ToastController, ModalController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -26,14 +21,10 @@ export class RegisterPage {
     private navCtrl: NavController,
     private authService: AuthProvider,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController,
+    private loadingService: LoadingService,
     private modal: ModalController
   ) {
     this.createForm();
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SignupPage');
   }
 
   createForm() {
@@ -46,17 +37,14 @@ export class RegisterPage {
   }
 
   emailRegister() {
-    const loader = this.loadingCtrl.create({
-      spinner: 'dots',
-      content: 'Creating Account',
-    });
+    this.loadingService.show('Creating Account...');
     const { name, username, email } = this.trimValues();
     this.authService
       .checkUsername(username)
       .once('value')
       .then(snapshot => {
         if (snapshot.val()) {
-          loader.dismiss();
+          this.loadingService.hide();
           this.toastCtrl
             .create({
               message: 'Username already exists!',
@@ -67,13 +55,11 @@ export class RegisterPage {
             .present();
           return;
         } else if (name && username && email) {
-          loader.present();
+          this.loadingService.show('Creating Account...');
           this.authService
             .registerWithEmail(email, this.password, name, username)
             .then(res => {
-              loader.dismiss();
-              console.log('res: ', res);
-
+              this.loadingService.hide();
               if (res === true) {
                 this.navCtrl.setRoot('TabsPage');
               } else if (res === 'verify') {
@@ -87,7 +73,7 @@ export class RegisterPage {
                   .present();
                 this.navCtrl.setRoot('LoginPage');
               } else if (res === 'email') {
-                loader.dismiss();
+                this.loadingService.hide();
                 this.toastCtrl
                   .create({
                     message: 'This Email Already Exists',
@@ -97,7 +83,7 @@ export class RegisterPage {
                   })
                   .present();
               } else {
-                loader.dismiss();
+                this.loadingService.hide();
                 this.toastCtrl
                   .create({
                     message: 'There was an error. Please try again',
@@ -109,7 +95,7 @@ export class RegisterPage {
               }
             })
             .catch(err => {
-              loader.dismiss();
+              this.loadingService.hide();
               this.toastCtrl
                 .create({
                   message: 'There was an error. Please try again',
@@ -124,19 +110,15 @@ export class RegisterPage {
   }
 
   googleRegister() {
-    var loader = this.loadingCtrl.create({
-      spinner: 'dots',
-      content: 'Logging In',
-    });
-    loader.present();
+    this.loadingService.show('Logging In');
     this.authService
       .registerWithGoogle()
       .then(res => {
         if (res === true) {
-          loader.dismiss();
+          this.loadingService.hide();
           this.navCtrl.setRoot('TabsPage');
         } else if (res === 'email') {
-          loader.dismiss();
+          this.loadingService.hide();
           this.toastCtrl
             .create({
               message: 'This Email Already Exists',
@@ -146,7 +128,7 @@ export class RegisterPage {
             })
             .present();
         } else {
-          loader.dismiss();
+          this.loadingService.hide();
           this.toastCtrl
             .create({
               message: 'Please Try Again',
@@ -158,7 +140,7 @@ export class RegisterPage {
         }
       })
       .catch(err => {
-        loader.dismiss();
+        this.loadingService.hide();
         this.toastCtrl
           .create({
             message: 'There was an error. Please try again',
@@ -172,19 +154,15 @@ export class RegisterPage {
   }
 
   facebookRegister() {
-    var loader = this.loadingCtrl.create({
-      spinner: 'dots',
-      content: 'Logging In',
-    });
-    loader.present();
+    this.loadingService.show('Logging In');
     this.authService
       .registerWithFacebook()
       .then(res => {
         if (res === true) {
-          loader.dismiss();
+          this.loadingService.hide();
           this.navCtrl.setRoot('TabsPage');
         } else if (res === 'email') {
-          loader.dismiss();
+          this.loadingService.hide();
           this.toastCtrl
             .create({
               message: 'This Email Already Exists',
@@ -194,7 +172,7 @@ export class RegisterPage {
             })
             .present();
         } else {
-          loader.dismiss();
+          this.loadingService.hide();
           this.toastCtrl
             .create({
               message: 'Please Try Again',
@@ -206,7 +184,7 @@ export class RegisterPage {
         }
       })
       .catch(err => {
-        loader.dismiss();
+        this.loadingService.hide();
         this.toastCtrl
           .create({
             message: 'There was an error. Please try again',

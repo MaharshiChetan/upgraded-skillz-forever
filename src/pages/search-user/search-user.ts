@@ -3,9 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'reviews-page',
-  templateUrl: 'reviews.html',
+  selector: 'search-user-page',
+  templateUrl: 'search-user.html',
 })
-export class ReviewsPage {
+export class SearchUserPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 }

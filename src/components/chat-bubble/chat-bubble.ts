@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, ActionSheetController } from 'ionic-angular';
 import firebase from 'firebase';
 import { Message } from '../../providers/message/message';
 import { Clipboard } from '@ionic-native/clipboard';
@@ -21,7 +21,7 @@ export class ChatBubbleComponent {
     private clipboard: Clipboard,
     private presentMessage: Message,
     private chatService: ChatProvider,
-    private alertCtrl: AlertController
+    private actionsheetCtrl: ActionSheetController
   ) {}
 
   goToProfilePage(user) {
@@ -38,37 +38,41 @@ export class ChatBubbleComponent {
       });
   }
 
-  presentPopover(message) {
-    let alert = this.alertCtrl.create();
-    alert.setTitle('Take action');
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Delete',
-      value: 'delete',
+  presentPopover(message: any) {
+    const actionsheet = this.actionsheetCtrl.create({
+      title: 'Upload picture',
+      buttons: [
+        {
+          text: 'Copy',
+          icon: 'copy',
+          handler: () => {
+            if (message.imageUrl) {
+              this.clipboard.copy(message.imageUrl);
+            } else {
+              this.clipboard.copy(message.message);
+            }
+            this.presentMessage.showToast('Text copied to clipboard!');
+          },
+        },
+        {
+          text: 'Delete',
+          icon: 'trash',
+          handler: () => {
+            this.deleteMessage(message.key);
+          },
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'destructive',
+          handler: () => {
+            console.log('the user has cancelled the interaction.');
+          },
+        },
+      ],
     });
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Copy',
-      value: 'copy',
-    });
-
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'OK',
-      handler: data => {
-        if (data === 'delete') {
-          this.deleteMessage(message.key);
-        } else if (data === 'copy') {
-          this.clipboard.copy(message.message);
-          this.presentMessage.showToast('Text copied to clipboard!');
-        }
-      },
-    });
-    alert.present();
+    return actionsheet.present();
   }
-
   deleteMessage(messageId) {
     this.chatService.deleteMessage(
       this.currentUserDetails.uid,

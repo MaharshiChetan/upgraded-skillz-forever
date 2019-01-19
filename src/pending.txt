@@ -6,5 +6,5 @@
 6. delete image from storage if deleted from one-to-one-chat.
 7. delete all image from storage if deleted from chat-list or chat-settings.
 8. Optimize images.
-9. store 3 to4 thumbnail of image.
+9. store 3 to 4 thumbnail of image.
 10. compress images and video.

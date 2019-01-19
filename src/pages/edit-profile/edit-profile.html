@@ -2,14 +2,14 @@
   <ion-navbar color="primary"> <ion-title>Edit Profile</ion-title> </ion-navbar>
 </ion-header>
 <ion-content text-center>
-  <ion-card *ngIf="userProfile">
+  <ion-card *ngIf="userProfile" class="round-card">
     <ion-avatar (click)="changePicture()">
       <img
         class="image cover-image"
         [src]="chosenPicture || userProfile.thumbnail || userProfile.profilePhoto"
         onerror="this.src='userProfile.profilePhoto'"
       />
-      <button ion-button clear color="dark">Change image</button>
+      <button ion-button clear color="primary-one">Change image</button>
     </ion-avatar>
 
     <form [formGroup]="form" (ngSubmit)="submitForm()">

@@ -22,19 +22,9 @@ export class ExplorePage {
   ionViewWillEnter() {
     this.tabsPage.showFabButton();
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ExplorePage');
-  }
 
   initializeItems() {
-    this.items = [
-      'Flying Machine',
-      'Sonic',
-      'Flexx',
-      'Unstoppable',
-      'Chemical',
-      'Flowraw',
-    ];
+    this.items = ['Flying Machine', 'Sonic', 'Flexx', 'Unstoppable', 'Chemical', 'Flowraw'];
   }
 
   getItems(ev: any) {

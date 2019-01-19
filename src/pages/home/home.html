@@ -33,53 +33,38 @@
 
   <ion-card *ngFor="let card of cards" class="post-card">
     <ion-item>
-      <ion-avatar item-start>
-        <img class="card-profile-photo" [src]="card.avatarImageUrl" (click)="avatarTapped(card)" />
+      <ion-avatar tappable item-start>
+        <img class="cover-image card-profile-photo" [src]="card.avatarImageUrl" />
       </ion-avatar>
-      <h2>{{ card.name }}</h2>
+      <h2 tappable>{{ card.name }}</h2>
+      <div class="options">
+        <button ion-button icon-left clear large><ion-icon name="ios-more"></ion-icon></button>
+      </div>
       <p>{{ card.date }}</p>
     </ion-item>
-    <div *ngIf="card.postImageUrl">
-      <img [src]="card.postImageUrl" (click)="imageTapped(card)" />
-    </div>
-    <!-- <div *ngIf="card.postVideoUrl">
-      <vg-player>
-        <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin controls>
-          <source [src]="card.postVideoUrl" type="video/mp4" />
-          <track
-            kind="subtitles"
-            label="English"
-            src="http://static.videogular.com/assets/subs/pale-blue-dot.vtt"
-            srclang="en"
-            default
-          />
-          <track
-            kind="subtitles"
-            label="Español"
-            src="http://static.videogular.com/assets/subs/pale-blue-dot-es.vtt"
-            srclang="es"
-          />
-        </video>
-      </vg-player>
-    </div> -->
-    <ion-card-content>
-      <p>{{ card.postText }}</p>
+    <div><img class="contain-image click" [src]="card.postImageUrl" /></div>
+    <ion-card-content class="post-content">
+      <div>{{ card.postText }}</div>
+      <button ion-button clear small icon-left class="likes">
+        <ion-icon color="danger" name="heart"></ion-icon>
+        {{ card.likes }}
+      </button>
     </ion-card-content>
-    <ion-row>
+    <ion-row text-center>
       <ion-col>
-        <button ion-button color="primary" clear small icon-left (click)="like(card)">
-          <ion-icon name="thumbs-up"></ion-icon>
+        <button ion-button color="purple" clear small icon-left>
+          <ion-icon class="animated bounceIn" name="ios-heart" color="danger"></ion-icon>
           {{ card.likes }} Likes
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button color="primary" clear small icon-left (click)="comment(card)">
-          <ion-icon name="text"></ion-icon>
+        <button ion-button color="purple" clear small icon-left>
+          <ion-icon name="ios-text-outline"></ion-icon>
           {{ card.comments }} Comments
         </button>
       </ion-col>
-      <ion-col center text-center>
-        <ion-note> {{ card.timestamp }} </ion-note>
+      <ion-col align-self-center text-center>
+        <p style="color: gray">{{ card.timestamp }}</p>
       </ion-col>
     </ion-row>
   </ion-card>

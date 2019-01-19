@@ -3,8 +3,17 @@ home-page {
     width: 54px;
     height: 54px;
   }
+  .item-ios ion-avatar img {
+    width: 54px;
+    height: 54px;
+  }
 
   .card-header-md {
+    padding: 6px 11px 0px;
+    color: #414e53;
+    font-weight: bold;
+  }
+  .card-header-ios {
     padding: 6px 11px 0px;
     color: #414e53;
     font-weight: bold;
@@ -18,8 +27,19 @@ home-page {
     font-size: 1.3rem;
     text-transform: capitalize;
   }
+  .button-clear-ios.share-thought-btn {
+    padding: 0px;
+    margin: 0px;
+    color: #119081;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-transform: capitalize;
+  }
 
   .label-md {
+    margin: 13px 8px 4px 0;
+  }
+  .label-ios {
     margin: 13px 8px 4px 0;
   }
 
@@ -30,6 +50,7 @@ home-page {
 
   .discover-btn {
     float: right;
+    font-size: 1.4rem;
   }
 
   .col {
@@ -43,10 +64,21 @@ home-page {
   .item-md {
     padding-left: 8px;
   }
+
+  .item-ios {
+    padding-left: 8px;
+  }
+
   .item-md ion-avatar[item-left],
   .item-md ion-thumbnail[item-left],
   .item-md ion-avatar[item-start],
   .item-md ion-thumbnail[item-start] {
+    margin: 0px;
+  }
+  .item-ios ion-avatar[item-left],
+  .item-ios ion-thumbnail[item-left],
+  .item-ios ion-avatar[item-start],
+  .item-ios ion-thumbnail[item-start] {
     margin: 0px;
   }
 
@@ -54,16 +86,47 @@ home-page {
     border-radius: 0%;
   }
 
-  .card-profile-photo {
+  .item-md ion-avatar img.card-profile-photo {
     height: 42px;
     width: 42px;
+    margin: 8px 16px 8px 0;
   }
 
-  vg-player {
-    width: 100%;
-    max-height: 250px;
-    video {
-      width: 100%;
+  .item-ios ion-avatar img.card-profile-photo {
+    height: 42px;
+    width: 42px;
+    margin: 8px 16px 8px 0;
+  }
+
+  .image-container {
+    width: calc(100% - 1.2px);
+    height: 30vw;
+    margin-bottom: -2.8px;
+    background-size: cover;
+  }
+
+  .likes {
+    left: 89%;
+  }
+
+  .read-more {
+    color: gray;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .options {
+    .button-large-md {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    .button-large-ios {
+      position: absolute;
+      top: 0;
+      right: 0;
     }
   }
 }

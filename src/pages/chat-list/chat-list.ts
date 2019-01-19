@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, AlertController, App, ActionSheetController, Platform } from 'ionic-angular';
+import { IonicPage, App, ActionSheetController, Platform } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
 import firebase from 'firebase';
 import _ from 'lodash';
@@ -21,6 +21,7 @@ export class ChatListPage {
   usersdata = firebase.database().ref('/users');
   subscription: any;
   searchMessages;
+  messages: boolean = false;
   currentUserId: string;
   grayPlaceholder: string = 'assets/gray-placeholder.png';
 
@@ -59,9 +60,15 @@ export class ChatListPage {
     this.subscription = this.chatService
       .getDisplayMessages(this.currentUserId)
       .subscribe(displayMessages => {
+        if (displayMessages.length > 0) {
+          this.messages = true;
+        } else {
+          this.messages = false;
+        }
         this.displayMessages = _.sortBy(displayMessages, function(o) {
           return moment(o['timeStamp']);
         }).reverse();
+
         this.searchMessages = this.displayMessages;
       });
   }
@@ -115,5 +122,9 @@ export class ChatListPage {
 
   setFilteredItems(event) {
     this.displayMessages = this.dataService.filterMessages(this.searchMessages, this.searchTerm);
+  }
+
+  goToSearchUserPage() {
+    this.app.getRootNav().push('SearchUserPage');
   }
 }

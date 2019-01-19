@@ -2,6 +2,7 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Component } from '@angular/core';
 import { LoadingController, IonicPage, NavController, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -13,7 +14,7 @@ export class LoginPage {
   email: any;
   password: any;
   constructor(
-    private loadingCtrl: LoadingController,
+    private loadingService: LoadingService,
     private navCtrl: NavController,
     private toastCtrl: ToastController,
     private authService: AuthProvider
@@ -29,15 +30,11 @@ export class LoginPage {
   }
 
   loginWithEmail() {
-    const loader = this.loadingCtrl.create({
-      spinner: 'dots',
-      content: 'Logging In',
-    });
-    loader.present();
+    this.loadingService.show('Logging In');
     this.authService
       .loginwithEmail(this.email.trim(), this.password)
       .then(res => {
-        loader.dismiss();
+        this.loadingService.hide();
         if (res === true) {
           this.navCtrl.setRoot('TabsPage');
         } else if (res === 'verify') {
@@ -70,7 +67,7 @@ export class LoginPage {
         }
       })
       .catch(err => {
-        loader.dismiss();
+        this.loadingService.hide();
         this.toastCtrl
           .create({
             message: 'There was an error. Please try again',
@@ -105,19 +102,15 @@ export class LoginPage {
   // }
 
   googleLogin() {
-    const loader = this.loadingCtrl.create({
-      spinner: 'dots',
-      content: 'Logging In',
-    });
-    loader.present();
+    this.loadingService.show('Logging In');
     this.authService
       .registerWithGoogle()
       .then(res => {
         if (res === true) {
-          loader.dismiss();
+          this.loadingService.hide();
           this.navCtrl.setRoot('TabsPage');
         } else if (res === 'email') {
-          loader.dismiss();
+          this.loadingService.hide();
           this.toastCtrl
             .create({
               message: 'This Email Already Exists',
@@ -127,7 +120,7 @@ export class LoginPage {
             })
             .present();
         } else {
-          loader.dismiss();
+          this.loadingService.hide();
           this.toastCtrl
             .create({
               message: 'Please Try Again',
@@ -139,7 +132,7 @@ export class LoginPage {
         }
       })
       .catch(err => {
-        loader.dismiss();
+        this.loadingService.hide();
         this.toastCtrl
           .create({
             message: 'There was an error. Please try again',
@@ -153,19 +146,15 @@ export class LoginPage {
   }
 
   facebookLogin() {
-    const loader = this.loadingCtrl.create({
-      spinner: 'dots',
-      content: 'Logging In',
-    });
-    loader.present();
+    this.loadingService.show('Logging In');
     this.authService
       .registerWithFacebook()
       .then(res => {
         if (res === true) {
-          loader.dismiss();
+          this.loadingService.hide();
           this.navCtrl.setRoot('TabsPage');
         } else if (res === 'email') {
-          loader.dismiss();
+          this.loadingService.hide();
           this.toastCtrl
             .create({
               message: 'This Email Already Exists',
@@ -175,7 +164,7 @@ export class LoginPage {
             })
             .present();
         } else {
-          loader.dismiss();
+          this.loadingService.hide();
           this.toastCtrl
             .create({
               message: 'Please Try Again',
@@ -187,7 +176,7 @@ export class LoginPage {
         }
       })
       .catch(err => {
-        loader.dismiss();
+        this.loadingService.hide();
         this.toastCtrl
           .create({
             message: 'There was an error. Please try again',

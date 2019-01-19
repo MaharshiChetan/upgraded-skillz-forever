@@ -46,9 +46,17 @@ export class PostProvider {
           .child(`${eventId}/${post.imageId}`)
           .delete()
           .then(() => {
-            this.db.list(`eventPosts/${eventId}/${post.key}`).remove();
-            this.removePostLikes(post.key, eventId);
-            this.removePostComments(post.key, eventId);
+            firebase
+              .storage()
+              .ref('/eventPostsImages')
+              .child(`${eventId}/thumb_${post.imageId}`)
+              .delete()
+              .then(() => {
+                this.db.list(`eventPosts/${eventId}/${post.key}`).remove();
+                this.removePostLikes(post.key, eventId);
+                this.removePostComments(post.key, eventId);
+              })
+              .catch(e => alert('Error deleting the post'));
           });
       } else {
         this.db.list(`eventPosts/${eventId}/${post.key}`).remove();
@@ -56,6 +64,7 @@ export class PostProvider {
         this.removePostComments(post.key, eventId);
       }
     } catch (e) {
+      alert('Error deleting the post');
       return e;
     }
   }

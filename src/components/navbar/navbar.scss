@@ -4,7 +4,7 @@ navbar {
   }
 
   ion-select {
-    max-width: 70%;
+    max-width: 77%;
   }
 
   .select-md .select-icon {
@@ -19,5 +19,15 @@ navbar {
   .select-md {
     padding: 0px 8px 0px 0px;
     float: left;
+  }
+
+  .bar-button-ios[icon-only] ion-icon {
+    font-size: 1.6em;
+  }
+
+  .toolbar-ios-primary .toolbar-title-ios,
+  .toolbar-ios-primary .bar-button-clear-ios,
+  .toolbar-ios-primary .bar-button-default-ios {
+    margin: 0px 5px;
   }
 }

@@ -4,17 +4,17 @@
   </ion-refresher>
   <div *ngIf="!imagePosts" class="spinner-container"><ion-spinner></ion-spinner></div>
   <ion-row *ngIf="noPost"> <ion-col text-center class="no-post"> No post yet! </ion-col> </ion-row>
-  <ion-card *ngIf="imagePosts && imagePosts.length > 0" class="round-card">
-    <ion-list-header (click)="goToUserPostsPage()">
-      Photos <span *ngIf="imagePosts.length > 5">View All</span>
-    </ion-list-header>
-
+  <ion-card
+    *ngIf="imagePosts && imagePosts.length > 0"
+    class="round-card"
+    (click)="goToUserPostsPage()"
+  >
+    <ion-list-header> Photos <span *ngIf="imagePosts.length > 5">View All</span> </ion-list-header>
     <ion-row no-padding>
       <ion-col no-padding col-4 *ngFor="let post of imagePosts">
         <img
           [defaultImage]="grayPlaceholder"
           [lazyLoad]="post.thumbnail || post.imageUrl"
-          (click)="showPost(post)"
           class="image-container cover-image"
         />
       </ion-col>

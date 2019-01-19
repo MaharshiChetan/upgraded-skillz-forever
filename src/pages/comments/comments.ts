@@ -12,6 +12,7 @@ import firebase from 'firebase';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Message } from '../../providers/message/message';
 import { UserPostProvider } from '../../providers/user-post/user-post';
+import { Clipboard } from '@ionic-native/clipboard';
 
 @IonicPage()
 @Component({
@@ -38,7 +39,8 @@ export class CommentsPage {
     private userPostService: UserPostProvider,
     private authService: AuthProvider,
     private presentMessage: Message,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private clipboard: Clipboard
   ) {}
 
   scrollToBottom() {
@@ -133,8 +135,8 @@ export class CommentsPage {
     this.commentText = '';
   }
 
-  showActionSheet(postId: string, eventId: string, commentId: string, uid: string) {
-    if (uid === firebase.auth().currentUser.uid) {
+  showActionSheet(postId: string, eventId: string, comment) {
+    if (comment.uid === firebase.auth().currentUser.uid) {
       const actionSheet = this.actionSheetCtrl.create({
         title: 'Take Action',
         buttons: [
@@ -143,17 +145,17 @@ export class CommentsPage {
             icon: 'trash',
             handler: () => {
               if (eventId) {
-                this.postService.deleteComment(postId, eventId, commentId);
+                this.postService.deleteComment(postId, eventId, comment.key);
               } else {
-                this.userPostService.deleteComment(postId, commentId);
+                this.userPostService.deleteComment(postId, comment.key);
               }
             },
           },
           {
             text: 'Copy',
-            icon: 'md-copy',
+            icon: 'copy',
             handler: () => {
-              console.log('copy');
+              this.clipboard.copy(comment.comment);
             },
           },
           {

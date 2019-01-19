@@ -46,6 +46,9 @@ profile-page {
   .fab-md {
     margin-bottom: 77px;
   }
+  .fab-ios {
+    margin-bottom: 77px;
+  }
 
   ion-toolbar.toolbar .tab-buttons-container .tab-buttons super-tab-button {
     font-size: 11.5px;
@@ -68,10 +71,8 @@ profile-page {
     bottom: -63px;
   }
 
-  .drop-icon {
-    font-size: 33px;
-    position: absolute;
-    top: 61px;
-    right: 134px;
+  .bar-button-ios[icon-only] ion-icon {
+    font-size: 1.6em;
+    padding-left: 0.8em;
   }
 }

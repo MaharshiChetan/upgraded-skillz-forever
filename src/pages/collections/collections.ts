@@ -33,15 +33,9 @@ export class CollectionsPage {
     imageViewer.present();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CollectionsPage');
-  }
-
   getUserImagePosts(event?: any) {
     this.userPostService.getUserFirstSixPosts(this.uid).subscribe(posts => {
       this.imagePosts = posts;
-      console.log(this.imagePosts);
-
       this.noPost = this.imagePosts.length > 0 ? false : true;
       if (event) event.complete();
     });
@@ -61,11 +55,11 @@ export class CollectionsPage {
     });
   }
 
-  showPost(post: any) {
+  /* showPost(post: any) {
     this.app
       .getRootNav()
       .push('PostPage', { post: post, userDetails: this.authService.userDetails });
-  }
+  } */
 
   goToUserPostsPage() {
     this.app.getRootNav().push('UserPostsPage', { uid: this.uid });

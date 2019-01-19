@@ -47,7 +47,5 @@ export class NavbarComponent {
     });
   }
 
-  changeOption(event) {
-    console.log(event);
-  }
+  changeOption(event) {}
 }

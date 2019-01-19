@@ -4,7 +4,6 @@ import {
   NavParams,
   NavController,
   Content,
-  LoadingController,
   FabContainer,
   AlertController,
   ActionSheetController,
@@ -21,6 +20,7 @@ import { Platform } from 'ionic-angular/platform/platform';
 import { CameraProvider } from '../../providers/camera/camera';
 import { PostProvider } from '../../providers/post/post';
 import firebase from 'firebase';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -69,7 +69,7 @@ export class EventDetailsPage {
     private transfer: FileTransfer,
     private file: File,
     private presentMessage: Message,
-    private loadingCtrl: LoadingController,
+    private loadingService: LoadingService,
     private alertCtrl: AlertController,
     private cameraService: CameraProvider,
     private platform: Platform,
@@ -154,12 +154,11 @@ export class EventDetailsPage {
 
   shareOnWhatsApp(fab: FabContainer) {
     fab.close();
-    const loading = this.createLoading();
-    loading.present();
+    this.loadingService.show(null);
     this.fileTransfer
       .download(this.event.eventImage, this.file.dataDirectory + 'this.event.eventName' + '.jpeg')
       .then(image => {
-        loading.dismiss();
+        this.loadingService.hide();
         this.socialSharing
           .shareViaWhatsApp(
             `*Event Name*:- ${this.event.eventName}\n*Event Description*:- ${
@@ -168,24 +167,23 @@ export class EventDetailsPage {
             image.toURL()
           )
           .then(data => {
-            loading.dismiss();
+            this.loadingService.hide();
             if (data) {
               this.incrementShare();
             }
           })
           .catch(error => {
-            loading.dismiss();
+            this.loadingService.hide();
           });
       })
       .catch(e => {
-        loading.dismiss();
+        this.loadingService.hide();
       });
   }
 
   shareOnInstagram(fab: FabContainer) {
     fab.close();
-    const loading = this.createLoading();
-    loading.present();
+    this.loadingService.show(null);
     this.presentMessage.showAlert(
       'Hint!',
       'Event details are copied just paste in your instagram post.'
@@ -193,7 +191,7 @@ export class EventDetailsPage {
     this.fileTransfer
       .download(this.event.eventImage, this.file.dataDirectory + 'this.event.eventName' + '.jpeg')
       .then(image => {
-        loading.dismiss();
+        this.loadingService.hide();
         this.socialSharing
           .shareViaInstagram(
             `*Event Name:-* ${this.event.eventName}\n*Event Description:-* ${
@@ -202,18 +200,18 @@ export class EventDetailsPage {
             image.toURL()
           )
           .then(data => {
-            loading.dismiss();
+            this.loadingService.hide();
             if (data) {
               this.incrementShare();
             }
           })
           .catch(error => {
             alert(error);
-            loading.dismiss();
+            this.loadingService.hide();
           });
       })
       .catch(e => {
-        loading.dismiss();
+        this.loadingService.hide();
       });
   }
 
@@ -227,14 +225,6 @@ export class EventDetailsPage {
 
   incrementShare() {
     this.eventService.incrementShare(this.event.key, this.uid);
-  }
-
-  createLoading() {
-    return this.loadingCtrl.create({
-      content: 'Please wait...',
-      dismissOnPageChange: true,
-      enableBackdropDismiss: true,
-    });
   }
 
   bookTicket() {
@@ -326,9 +316,7 @@ export class EventDetailsPage {
   }
 
   takePicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show(null);
     return this.cameraService.getPictureFromCamera(false).then(
       picture => {
         if (picture) {
@@ -346,7 +334,7 @@ export class EventDetailsPage {
             });
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);
@@ -355,9 +343,7 @@ export class EventDetailsPage {
   }
 
   getPicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show(null);
     return this.cameraService.getPictureFromPhotoLibrary(false).then(
       picture => {
         if (picture) {
@@ -376,7 +362,7 @@ export class EventDetailsPage {
             });
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);

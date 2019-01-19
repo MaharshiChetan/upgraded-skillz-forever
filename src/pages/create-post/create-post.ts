@@ -1,17 +1,12 @@
 import { Component, HostListener, ElementRef } from '@angular/core';
-import {
-  IonicPage,
-  NavController,
-  NavParams,
-  AlertController,
-  LoadingController,
-} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import firebase from 'firebase';
 import { PostProvider } from '../../providers/post/post';
 import { Message } from '../../providers/message/message';
 import { ImageViewerController } from 'ionic-img-viewer';
 import { UserPostProvider } from '../../providers/user-post/user-post';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -40,7 +35,7 @@ export class CreatePostPage {
     private navParams: NavParams,
     private element: ElementRef,
     private alertCtrl: AlertController,
-    private loadingCtrl: LoadingController,
+    private loadingService: LoadingService,
     private db: AngularFireDatabase,
     private postService: PostProvider,
     private presentMessage: Message,
@@ -104,8 +99,7 @@ export class CreatePostPage {
   }
 
   createEventPost(text: any) {
-    const loader = this.loadingCtrl.create();
-    loader.present();
+    this.loadingService.show('Creating post...');
     let imageId = this.db.createPushId();
     this.imageStore = firebase
       .storage()
@@ -117,7 +111,7 @@ export class CreatePostPage {
         this.imageStore.getDownloadURL().then(url => {
           const post = this.getPostObject(text.value, url, imageId);
           this.postService.createEventPost(post, this.event.id, imageId).then(res => {
-            loader.dismiss();
+            this.loadingService.hide();
             this.presentMessage.showToast('Successfully created a post!', 'success-toast');
             this.showAlertMessage = false;
             this.navCtrl.pop();
@@ -127,7 +121,7 @@ export class CreatePostPage {
     } else {
       const post = this.getPostObject(text.value);
       this.postService.createEventPost(post, this.event.id, imageId).then(res => {
-        loader.dismiss();
+        this.loadingService.hide();
         this.presentMessage.showToast('Successfully created a post!', 'success-toast');
         this.showAlertMessage = false;
         this.navCtrl.pop();
@@ -136,8 +130,7 @@ export class CreatePostPage {
   }
 
   updateEventPost(text: any) {
-    const loader = this.loadingCtrl.create();
-    loader.present();
+    this.loadingService.show('Updating post...');
     if (this.post.imageUrl) {
       const post = this.getPostObject(
         text.value,
@@ -146,7 +139,7 @@ export class CreatePostPage {
         this.post.timeStamp
       );
       this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
-        loader.dismiss();
+        this.loadingService.hide();
         this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
         this.showAlertMessage = false;
         this.navCtrl.pop();
@@ -154,7 +147,7 @@ export class CreatePostPage {
     } else {
       const post = this.getPostObject(text.value);
       this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
-        loader.dismiss();
+        this.loadingService.hide();
         this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
         this.showAlertMessage = false;
         this.navCtrl.pop();
@@ -163,8 +156,7 @@ export class CreatePostPage {
   }
 
   createUserPost(text: any) {
-    const loader = this.loadingCtrl.create();
-    loader.present();
+    this.loadingService.show('Creating post...');
     let imageId = this.db.createPushId();
     this.imageStore = firebase
       .storage()
@@ -174,7 +166,7 @@ export class CreatePostPage {
       this.imageStore.getDownloadURL().then((url: string) => {
         const post = this.getPostObject(text.value, url, imageId);
         this.userPostService.createUserPost(post, imageId).then(res => {
-          loader.dismiss();
+          this.loadingService.hide();
           this.presentMessage.showToast('Successfully created a post!', 'success-toast');
           this.showAlertMessage = false;
           this.navCtrl.pop();
@@ -184,8 +176,7 @@ export class CreatePostPage {
   }
 
   updateUserPost(text: any) {
-    const loader = this.loadingCtrl.create();
-    loader.present();
+    this.loadingService.show('Updating post...');
     const post = this.getPostObject(
       text.value,
       this.post.imageUrl,
@@ -193,7 +184,7 @@ export class CreatePostPage {
       this.post.timeStamp
     );
     this.userPostService.updateUserPost(post, this.post.key).then(res => {
-      loader.dismiss();
+      this.loadingService.hide();
       this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
       this.showAlertMessage = false;
       this.navCtrl.pop();

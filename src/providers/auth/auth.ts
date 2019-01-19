@@ -192,7 +192,8 @@ export class AuthProvider {
                 userdata.email.substring(0, userdata.email.lastIndexOf('@')),
                 userdata.photoURL,
                 '',
-                userdata.email
+                userdata.email,
+                true
               )
                 .then(res => {
                   if (res === true) {
@@ -368,7 +369,7 @@ export class AuthProvider {
                 .child(firebase.auth().currentUser.uid)
                 .child('personalData')
                 .once('value', snapshot => {
-                  if (!snapshot.val()) {
+                  if (!snapshot.val().uid) {
                     this.usersdata
                       .child(firebase.auth().currentUser.uid)
                       .child('personalData')
@@ -377,7 +378,6 @@ export class AuthProvider {
                         displayName: name,
                         email: email,
                         userName: username,
-                        bio: bio || '',
                         profilePhoto: profilePhoto,
                       })
                       .then(res => {

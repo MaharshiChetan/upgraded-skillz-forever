@@ -11,14 +11,6 @@ follower-following-page {
     padding-left: 6px;
   }
 
-  .vertical-line {
-    border-left: 1px solid lightgray;
-    position: absolute;
-    height: 100%;
-    left: 99.7%;
-    top: 4px;
-  }
-
   .segment-button.segment-activated {
     font-weight: bold;
   }
@@ -27,8 +19,12 @@ follower-following-page {
     margin-bottom: -7px;
   }
 
-  .toolbar-background {
+  .toolbar-background-md {
     height: 90%;
+  }
+
+  .toolbar-background-ios {
+    height: 100%;
   }
 
   .image-spinner {

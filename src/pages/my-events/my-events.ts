@@ -3,6 +3,7 @@ import { IonicPage, NavController, AlertController, LoadingController } from 'io
 import { EventsProvider } from '../../providers/events/events';
 import firebase from 'firebase';
 import { PostProvider } from '../../providers/post/post';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -18,7 +19,7 @@ export class MyEventsPage {
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private postService: PostProvider,
-    private loadingCtrl: LoadingController
+    private loadingService: LoadingService
   ) {}
 
   ionViewWillEnter() {
@@ -58,12 +59,11 @@ export class MyEventsPage {
             text: 'Delete',
             handler: () => {
               alertPopup.dismiss().then(() => {
-                const loader = this.loadingCtrl.create();
-                loader.present();
+                this.loadingService.show('Deleting event...');
                 this.postService.deleteAllLikes(eventInfo.key);
                 this.postService.deleteAllPost(eventInfo.key);
                 this.eventService.deleteEvent(eventInfo);
-                loader.dismiss();
+                this.loadingService.hide();
               });
               return false;
             },
@@ -81,7 +81,5 @@ export class MyEventsPage {
     }
   }
 
-  goToTrackEventPage(event) {
-    console.log(event);
-  }
+  goToTrackEventPage(event) {}
 }

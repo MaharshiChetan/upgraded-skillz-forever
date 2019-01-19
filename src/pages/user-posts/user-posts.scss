@@ -1,12 +1,4 @@
 user-posts-page {
-  .vertical-line {
-    border-left: 1px solid lightgray;
-    position: absolute;
-    height: 100%;
-    left: 99.7%;
-    top: 4px;
-  }
-
   .segment-button.segment-activated {
     font-weight: bold;
   }
@@ -15,8 +7,12 @@ user-posts-page {
     margin-bottom: -7px;
   }
 
-  .toolbar-background {
+  .toolbar-background-md {
     height: 90%;
+  }
+
+  .toolbar-background-ios {
+    height: 100%;
   }
 
   .image-container {
@@ -28,25 +24,5 @@ user-posts-page {
 
   .list-md {
     margin: 2px 0 16px;
-  }
-
-  .likes {
-    left: 89%;
-  }
-
-  .read-more {
-    color: gray;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  .options {
-    .button-large-md {
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
   }
 }

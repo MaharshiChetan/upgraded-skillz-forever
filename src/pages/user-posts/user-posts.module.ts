@@ -6,12 +6,14 @@ import { MomentModule } from 'ngx-moment';
 import { ElasticHeaderModule } from 'ionic2-elastic-header/dist/';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { DeferLoadModule } from '@trademe/ng-defer-load';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   declarations: [UserPostsPage],
   imports: [
     IonicPageModule.forChild(UserPostsPage),
     IonicImageViewerModule,
+    ComponentsModule,
     MomentModule,
     ElasticHeaderModule,
     LazyLoadImageModule.forRoot({

@@ -9,6 +9,7 @@ import { MomentModule } from 'ngx-moment';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { ProgressBarComponent } from './progress-bar/progress-bar';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
+import { PostComponent } from './post/post';
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -17,6 +18,7 @@ import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-ima
     keyboardFix,
     ChatBubbleComponent,
     ProgressBarComponent,
+    PostComponent,
   ],
   imports: [
     IonicModule,
@@ -32,6 +34,7 @@ import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-ima
     // ShrinkingSegmentHeaderComponent,
     ChatBubbleComponent,
     ProgressBarComponent,
+    PostComponent,
   ],
 })
 export class ComponentsModule {}

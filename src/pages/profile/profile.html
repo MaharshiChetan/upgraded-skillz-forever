@@ -14,7 +14,7 @@
         color="drop"
         (click)="unfollow()"
       >
-        <ion-icon name="ios-water" class="animated bounce delay-2s"></ion-icon>
+        <ion-icon name="ios-water" class="animated bounce "></ion-icon>
       </button>
       <button ion-button icon-only (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>
@@ -53,17 +53,17 @@
     <button ion-fab color="secondary"><ion-icon name="add"></ion-icon></button>
     <ion-fab-list side="left">
       <button ion-fab (click)="goToTitlesFormPage(fab)">
-        <ion-icon name="md-musical-notes"></ion-icon>
+        <ion-icon name="musical-notes"></ion-icon>
       </button>
       <button ion-fab (click)="goToCreateEventPage(fab)">
-        <ion-icon name="md-videocam"></ion-icon>
+        <ion-icon name="videocam"></ion-icon>
       </button>
-      <button ion-fab (click)="changePicture(fab)"><ion-icon name="md-images"></ion-icon></button>
+      <button ion-fab (click)="changePicture(fab)"><ion-icon name="images"></ion-icon></button>
     </ion-fab-list>
   </ion-fab>
   <ion-fab bottom right #fab *ngIf="currentUser && fabIcon === 'titles'">
     <button ion-fab color="secondary" (click)="goToTitlesFormPage(fab)">
-      <ion-icon name="md-create"></ion-icon>
+      <ion-icon name="create"></ion-icon>
     </button>
   </ion-fab>
 
@@ -74,8 +74,8 @@
     indicatorColor="secondary"
     (tabSelect)="onTabSelect($event)"
   >
-    <super-tab root="SkillsPage" title="SKILLS" icon="md-snow"></super-tab>
-    <super-tab root="CollectionsPage" title="COLLECTIONS" icon="md-grid"></super-tab>
-    <super-tab root="TitlesPage" title="TITLES" icon="md-trophy"></super-tab>
+    <super-tab root="SkillsPage" title="SKILLS" icon="snow"></super-tab>
+    <super-tab root="CollectionsPage" title="COLLECTIONS" icon="grid"></super-tab>
+    <super-tab root="TitlesPage" title="TITLES" icon="trophy"></super-tab>
   </super-tabs>
 </ion-content>

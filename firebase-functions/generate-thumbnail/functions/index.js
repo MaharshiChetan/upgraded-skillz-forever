@@ -114,10 +114,16 @@ exports.generateThumbnail = functions.storage.object().onFinalize(async object =
       .update({ thumbnail: thumbFileUrl });
     return console.log('Thumbnail URLs saved to database.');
   } else if (fileDir.startsWith('eventImages')) {
+    await admin
+      .database()
+      .ref(`events/${fileName}`)
+      .update({ thumbnail: thumbFileUrl });
+    return console.log('Thumbnail URLs saved to database.');
+  } else if (fileDir.startsWith('eventPostsImages')) {
     const eventId = path.basename(fileDir);
     await admin
       .database()
-      .ref(`eventPostsImages/${eventId}/${fileName}`)
+      .ref(`eventPosts/${eventId}/${fileName}`)
       .update({ thumbnail: thumbFileUrl });
     return console.log('Thumbnail URLs saved to database.');
   }

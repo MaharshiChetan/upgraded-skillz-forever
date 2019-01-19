@@ -39,11 +39,11 @@
     <ion-row text-center icon-only class="interested-going">
       <ion-col tappable class="click">
         <div *ngIf="!interested" (click)="incrementInterestedOrGoing(event.key, 'interested')">
-          <ion-icon color="gray" ios="ios-star-outline" md="md-star-outline"> </ion-icon>
+          <ion-icon color="gray" name="star-outline"> </ion-icon>
           <p class="responsive-font">Interested</p>
         </div>
         <div *ngIf="interested" (click)="decrementInterestedOrGoing(event.key, 'interested')">
-          <ion-icon color="primary" ios="ios-star" md="md-star"></ion-icon>
+          <ion-icon color="primary" name="star"></ion-icon>
           <p class="responsive-font active">Interested</p>
         </div>
       </ion-col>
@@ -62,14 +62,14 @@
   <hr />
   <ion-grid>
     <ion-row class="time-location" icon-only>
-      <ion-col col-2> <ion-icon ios="ios-time" md="md-time"></ion-icon> </ion-col>
+      <ion-col col-2> <ion-icon name="time"></ion-icon> </ion-col>
       <ion-col>
         {{ event.startDateAndTime | date: 'mediumDate' }} -
         {{ event.endDateAndTime | date: 'mediumDate' }}
       </ion-col>
     </ion-row>
     <ion-row class="time-location" icon-only>
-      <ion-col col-2> <ion-icon ios="ios-locate" md="md-locate"></ion-icon> </ion-col>
+      <ion-col col-2> <ion-icon name="locate"></ion-icon> </ion-col>
       <ion-col>
         {{ event.eventCity }} <br />
         <div class="location">{{ event.eventLocation }}</div>
@@ -78,12 +78,24 @@
   </ion-grid>
   <hr />
   <ion-row text-center style="font-weight: bold">
-    <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('interested')">
+    <ion-col
+      tappable
+      class="click"
+      (click)="goToInterestedOrGoingUsersPage('interested')"
+      *ngIf="interestedUsers"
+    >
       Interested ({{ interestedUsers?.length }})
     </ion-col>
-    <ion-col tappable class="click" (click)="goToInterestedOrGoingUsersPage('going')">
+    <ion-col *ngIf="!interestedUsers"> <ion-spinner></ion-spinner> </ion-col>
+    <ion-col
+      tappable
+      class="click"
+      (click)="goToInterestedOrGoingUsersPage('going')"
+      *ngIf="goingUsers"
+    >
       Going ({{ goingUsers?.length }})
     </ion-col>
+    <ion-col *ngIf="!goingUsers"> <ion-spinner></ion-spinner> </ion-col>
   </ion-row>
 
   <hr class="hr" />
@@ -91,7 +103,6 @@
   <ion-segment [(ngModel)]="type">
     <ion-segment-button value="about" class="click">
       About
-      <div class="vertical-line full-line"></div>
     </ion-segment-button>
     <ion-segment-button class="click" value="discussion" (ionSelect)="fetchDiscussionPosts()">
       Discussion
@@ -106,7 +117,7 @@
               <ion-icon name="pin"></ion-icon>{{ event.eventCity }}
             </ion-col>
             <ion-col tappable class="round-card click" (click)="goToReviewsPage()">
-              <ion-icon ios="ios-star" md="md-star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
               Reviews
             </ion-col>
           </ion-row>
@@ -217,7 +228,7 @@
             *ngIf="post.totalLikes > 0"
             (click)="showUsers(post.likes)"
           >
-            <ion-icon color="danger" name="md-heart"></ion-icon>
+            <ion-icon color="danger" name="heart"></ion-icon>
             {{ post.totalLikes }}
           </button>
         </ion-card-content>
@@ -232,7 +243,7 @@
               (click)="like(post)"
               *ngIf="!post.isLiking"
             >
-              <ion-icon class="animated bounceIn" name="md-heart-outline"></ion-icon>
+              <ion-icon class="animated bounceIn" name="heart-outline"></ion-icon>
               {{ post.totalLikes }} Likes
             </button>
             <button

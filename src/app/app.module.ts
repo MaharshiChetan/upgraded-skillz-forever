@@ -48,6 +48,7 @@ import { NewPopoverComponent } from '../components/new-popover/new-popover';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserPostProvider } from '../providers/user-post/user-post';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
+import { LoadingService } from '../services/loading-service';
 
 export function myCustomAudioProviderFactory() {
   return window.hasOwnProperty('cordova') ? new CordovaMediaProvider() : new WebAudioProvider();
@@ -63,7 +64,8 @@ export function myCustomAudioProviderFactory() {
     IonicAudioModule.forRoot(defaultAudioProviderFactory),
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: true,
-      animate: false,
+      // animate: false,
+      mode: 'ios',
       ios: {
         scrollAssist: false,
         autoFocusAssist: false,
@@ -108,6 +110,8 @@ export function myCustomAudioProviderFactory() {
     Clipboard,
     DataProvider,
     UserPostProvider,
+
+    LoadingService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

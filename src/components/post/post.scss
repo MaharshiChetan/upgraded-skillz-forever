@@ -1,0 +1,26 @@
+post {
+  .likes {
+    left: 89%;
+  }
+
+  .read-more {
+    color: gray;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .options {
+    .button-large-md {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    .button-large-ios {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}

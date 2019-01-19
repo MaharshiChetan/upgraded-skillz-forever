@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content text-center>
-  <ion-card>
+  <ion-card class="round-card">
     <form [formGroup]="eventForm">
       <ion-list>
         <div class="container" (click)="uploadPicture()">
@@ -110,7 +110,7 @@
             </ion-item>
             <ion-item-options side="right">
               <button ion-button color="danger" (click)="removeCategory(i)">
-                <ion-icon ios="ios-trash" md="md-trash"></ion-icon>
+                <ion-icon name="trash"></ion-icon>
               </button>
             </ion-item-options>
           </ion-item-sliding>

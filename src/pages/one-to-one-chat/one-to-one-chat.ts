@@ -5,7 +5,6 @@ import {
   NavParams,
   Content,
   ActionSheetController,
-  LoadingController,
   Platform,
 } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
@@ -14,6 +13,7 @@ import firebase from 'firebase';
 import { Keyboard } from '@ionic-native/keyboard';
 import { CameraProvider } from '../../providers/camera/camera';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -48,7 +48,7 @@ export class OneToOneChatPage {
     private authService: AuthProvider,
     private actionSheetCtrl: ActionSheetController,
     private cameraService: CameraProvider,
-    private loadingCtrl: LoadingController,
+    private loadingService: LoadingService,
     private keyboard: Keyboard,
     private platform: Platform,
     private renderer: Renderer,
@@ -128,9 +128,7 @@ export class OneToOneChatPage {
   }
 
   takePicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromCamera(false).then(
       picture => {
         if (picture) {
@@ -144,7 +142,7 @@ export class OneToOneChatPage {
             this.sendImageMessage();
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);
@@ -153,9 +151,7 @@ export class OneToOneChatPage {
   }
 
   getPicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromPhotoLibrary(false).then(
       picture => {
         if (picture) {
@@ -169,7 +165,7 @@ export class OneToOneChatPage {
             this.sendImageMessage();
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);
@@ -179,8 +175,7 @@ export class OneToOneChatPage {
 
   sendImageMessage() {
     if (this.chosenPicture) {
-      const loader = this.loadingCtrl.create();
-      loader.present();
+      this.loadingService.show();
       let imageId = this.db.createPushId();
 
       const imageStore = firebase
@@ -194,7 +189,7 @@ export class OneToOneChatPage {
             imageId: imageId,
           };
           this.chatService.sendImageMessage(this.currentUserDetails, this.otherUserDetails, image);
-          loader.dismiss();
+          this.loadingService.hide();
         });
       });
     }

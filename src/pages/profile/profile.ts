@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   IonicPage,
   NavController,
-  LoadingController,
   Platform,
   ActionSheetController,
   NavParams,
@@ -16,6 +15,7 @@ import firebase from 'firebase';
 import { Message } from '../../providers/message/message';
 import { FollowProvider } from '../../providers/follow/follow';
 import { PopoverComponent } from '../../components/popover/popover';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -48,7 +48,7 @@ export class ProfilePage {
     private navParams: NavParams,
     private navCtrl: NavController,
     private authService: AuthProvider,
-    private loadingCtrl: LoadingController,
+    private loadingService: LoadingService,
     private cameraService: CameraProvider,
     private actionsheetCtrl: ActionSheetController,
     private platform: Platform,
@@ -101,7 +101,6 @@ export class ProfilePage {
   fetchUserProfile(refresher) {
     this.usersdata.child(`${this.userDetails.uid}/personalData`).once('value', snapshot => {
       this.userDetails = snapshot.val();
-      console.log(this.userDetails);
       refresher.complete();
     });
     if (refresher) refresher.complete();
@@ -170,9 +169,7 @@ export class ProfilePage {
   }
 
   takePicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromCamera(true).then(
       picture => {
         if (picture) {
@@ -186,7 +183,7 @@ export class ProfilePage {
             this.navCtrl.push('CreatePostPage', { image: this.chosenPicture, type: 'userPost' });
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);
@@ -195,9 +192,7 @@ export class ProfilePage {
   }
 
   getPicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromPhotoLibrary(true).then(
       picture => {
         if (picture) {
@@ -210,7 +205,7 @@ export class ProfilePage {
             this.navCtrl.push('CreatePostPage', { image: this.chosenPicture, type: 'userPost' });
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);

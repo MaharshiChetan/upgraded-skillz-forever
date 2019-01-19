@@ -9,28 +9,29 @@ export class EventsProvider {
 
   constructor(private db: AngularFireDatabase) {}
 
-  createEvent(event) {
+  createEvent(event: any, key: string) {
     try {
-      const promise = this.db.list('events').push(event);
-      const key = promise.key;
-      // After successful push, get timestamp and overwrite with negative value
-      return promise.then(_ => {
-        firebase
-          .database()
-          .ref(`/events/${key}/timeStamp`)
-          .once('value')
-          .then(data => {
-            const timeStamp = data.val() * -1;
-            this.db.list(`/events/`).update(key, { timeStamp });
-          });
-      });
+      return this.db
+        .object(`events/${key}`)
+        .update(event)
+        .then(_ => {
+          // After successful push, get timestamp and overwrite with negative value
+          firebase
+            .database()
+            .ref(`/events/${key}/timeStamp`)
+            .once('value')
+            .then(data => {
+              const timeStamp = data.val() * -1;
+              this.db.list(`/events/`).update(key, { timeStamp });
+            });
+        });
     } catch (e) {
       alert(e);
       console.log(e);
     }
   }
 
-  updateEvent(event, key) {
+  updateEvent(event: any, key: string) {
     try {
       return this.db.object(`events/${key}`).update(event);
     } catch (e) {

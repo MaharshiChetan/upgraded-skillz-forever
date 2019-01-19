@@ -1,4 +1,10 @@
 <ion-navbar color="primary">
+  <ion-buttons start>
+    <button ion-button icon-only (click)="goToProfilePage()">
+      <ion-icon name="person"></ion-icon>
+    </button>
+  </ion-buttons>
+
   <ion-title *ngIf="navbarTitle !== 'Events'"> {{ navbarTitle }} </ion-title>
   <ion-title *ngIf="navbarTitle === 'Events'">
     <ion-select interface="popover" [(ngModel)]="options" (ionChange)="changeOption($event)">
@@ -9,13 +15,11 @@
       <ion-option value="classes">Classes</ion-option>
     </ion-select>
   </ion-title>
+
   <ion-buttons end>
-    <button ion-button icon-only (click)="goToProfilePage()">
-      <ion-icon name="person"></ion-icon>
-    </button>
-    <button ion-button icon-only (click)="goToNotificationPage()">
-      <ion-icon name="md-notifications"></ion-icon>
-    </button>
+    <!-- <button ion-button icon-only (click)="goToNotificationPage()">
+      <ion-icon name="notifications"></ion-icon>
+    </button> -->
     <button ion-button icon-only (click)="presentPopover($event)">
       <ion-icon name="more"></ion-icon>
     </button>

@@ -2,12 +2,16 @@
   <ion-refresher *ngIf="displayMessages" (ionRefresh)="fetchDisplayMessages($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-row *ngIf="displayMessages?.length === 0">
-    <ion-col text-center class="no-chat"> No Chats </ion-col>
+  <ion-row *ngIf="displayMessages?.length === 0 && !messages" text-center padding>
+    <ion-col text-center class="no-chat">
+      <h3 class="no-message">No messages</h3>
+      <p class="start-conversation-text">Start tour first conversation</p>
+      <button ion-button color="secondary" block (click)="goToSearchUserPage()">Get Started</button>
+    </ion-col>
   </ion-row>
   <ion-list no-lines>
     <ion-searchbar
-      *ngIf="displayMessages?.length > 0"
+      *ngIf="messages"
       [(ngModel)]="searchTerm"
       [showCancelButton]="shouldShowCancel"
       (ionInput)="setFilteredItems($event)"
@@ -56,4 +60,10 @@
       ></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </ion-list>
+
+  <ion-fab bottom right #fab *ngIf="messages">
+    <button ion-fab color="secondary" (click)="goToSearchUserPage()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

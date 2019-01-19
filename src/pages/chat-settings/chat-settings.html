@@ -3,7 +3,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngIf="userDetails">
+  <ion-card *ngIf="userDetails" class="round-card">
     <ion-list no-lines>
       <ion-item class="user-avatar" (click)="goToProfilePage()">
         <ion-avatar item-start> <img [src]="userDetails.profilePhoto" /> </ion-avatar>

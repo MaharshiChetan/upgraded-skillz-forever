@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage, App } from 'ionic-angular';
+import { NavController, IonicPage, App, LoadingController } from 'ionic-angular';
 import { EventsProvider } from '../../providers/events/events';
 import { TabsPage } from '../tabs/tabs';
 import { DataProvider } from '../../providers/data/data';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -20,7 +21,8 @@ export class EventsPage {
     private eventService: EventsProvider,
     private dataService: DataProvider,
     private tabsPage: TabsPage,
-    private app: App
+    private app: App,
+    private loadingService: LoadingService
   ) {}
 
   ionViewWillEnter() {
@@ -41,6 +43,7 @@ export class EventsPage {
   }
 
   goToEventDetails(event) {
+    this.loadingService.show();
     this.app.getRootNav().push('EventDetailsPage', { event: event });
     this.tabsPage.hideFabButton();
   }

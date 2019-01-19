@@ -5,7 +5,6 @@ import {
   NavController,
   NavParams,
   Platform,
-  LoadingController,
   ActionSheetController,
   AlertController,
 } from 'ionic-angular';
@@ -15,6 +14,7 @@ import firebase from 'firebase';
 import { AuthProvider } from '../../providers/auth/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Message } from '../../providers/message/message';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -46,7 +46,7 @@ export class CreateEventPage implements AfterViewInit {
     private navParams: NavParams,
     private element: ElementRef,
     private cameraService: CameraProvider,
-    private loadingCtrl: LoadingController,
+    private loadingService: LoadingService,
     private presentMessage: Message,
     private actionsheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
@@ -135,7 +135,7 @@ export class CreateEventPage implements AfterViewInit {
 
   uploadPicture() {
     const actionsheet = this.actionsheetCtrl.create({
-      title: 'upload picture',
+      title: 'Upload picture',
       buttons: [
         {
           text: 'Camera',
@@ -165,9 +165,7 @@ export class CreateEventPage implements AfterViewInit {
   }
 
   takePicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromCamera(false).then(
       picture => {
         if (picture) {
@@ -181,7 +179,7 @@ export class CreateEventPage implements AfterViewInit {
             this.imageChoice = 'Change Event Image';
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);
@@ -190,9 +188,7 @@ export class CreateEventPage implements AfterViewInit {
   }
 
   getPicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromPhotoLibrary(false).then(
       picture => {
         if (picture) {
@@ -206,7 +202,7 @@ export class CreateEventPage implements AfterViewInit {
             this.imageChoice = 'Change Event Image';
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);
@@ -255,8 +251,7 @@ export class CreateEventPage implements AfterViewInit {
       this.presentMessage.showToast('Please upload event image, Its mandatory!', 'fail-toast');
       return;
     }
-    const loader = this.loadingCtrl.create();
-    loader.present();
+    this.loadingService.show('Updating event...');
     const uid = this.authService.getActiveUser().uid;
     let imageId = this.eventData ? this.eventData.imageId : this.db.createPushId();
 
@@ -271,13 +266,13 @@ export class CreateEventPage implements AfterViewInit {
           this.eventService
             .updateEvent(event, this.eventData.key)
             .then(res => {
-              loader.dismiss();
+              this.loadingService.hide();
               this.presentMessage.showToast('Successfully updated event!', 'success-toast');
               this.showAlertMessage = false;
               this.navCtrl.pop();
             })
             .catch(e => {
-              loader.dismiss();
+              this.loadingService.hide();
               this.presentMessage.showToast('Failed to update event!', 'fail-toast');
             });
         });
@@ -287,21 +282,21 @@ export class CreateEventPage implements AfterViewInit {
       this.eventService
         .updateEvent(event, this.eventData.key)
         .then(res => {
-          loader.dismiss();
+          this.loadingService.hide();
           this.presentMessage.showToast('Successfully updated event!', 'success-toast');
           this.showAlertMessage = false;
           this.navCtrl.pop();
         })
         .catch(e => {
-          loader.dismiss();
+          this.loadingService.hide();
           this.presentMessage.showToast('Failed to update event!', 'fail-toast');
         });
     } else {
       this.imageStore.putString(this.chosenPicture, 'data_url').then(res => {
         this.imageStore.getDownloadURL().then(url => {
           const event = this.updateForm(description, uid, imageId, url);
-          this.eventService.createEvent(event).then(res => {
-            loader.dismiss();
+          this.eventService.createEvent(event, imageId).then(res => {
+            this.loadingService.hide();
             this.presentMessage.showToast('Successfully created event!', 'success-toast');
             this.showAlertMessage = false;
             this.navCtrl.pop();

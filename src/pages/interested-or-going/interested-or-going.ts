@@ -95,8 +95,6 @@ export class InterestedOrGoingPage {
   }
 
   doInfinite(infiniteScroll) {
-    console.log(this.type, ' 1');
-
     if (this.type === 'interested') {
       this.fetchInterestedUsers()
         .then(() => {

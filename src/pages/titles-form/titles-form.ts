@@ -4,7 +4,6 @@ import {
   NavController,
   NavParams,
   AlertController,
-  LoadingController,
   Platform,
   ActionSheetController,
 } from 'ionic-angular';
@@ -13,6 +12,7 @@ import { TitlesProvider } from '../../providers/titles/titles';
 import firebase from 'firebase';
 import { CameraProvider } from '../../providers/camera/camera';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
@@ -37,7 +37,7 @@ export class TitlesFormPage {
     private actionsheetCtrl: ActionSheetController,
     private cameraService: CameraProvider,
     private platform: Platform,
-    private loadingCtrl: LoadingController,
+    private loadingService: LoadingService,
     private navParams: NavParams,
     private db: AngularFireDatabase
   ) {
@@ -47,10 +47,6 @@ export class TitlesFormPage {
     }
     this.type = this.navParams.get('type');
     this.createForm();
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TitlesFormPage');
   }
 
   createForm() {
@@ -115,8 +111,7 @@ export class TitlesFormPage {
   }
 
   createTitle() {
-    const loader = this.loadingCtrl.create();
-    loader.present();
+    this.loadingService.show('Logging In');
     let imageId = this.db.createPushId();
     if (this.title) {
       imageId = this.title.title.imageId;
@@ -131,11 +126,11 @@ export class TitlesFormPage {
           this.updateTitleDetails(url, imageId);
           if (this.type == 'edit') {
             this.updateTitle();
-            loader.dismiss();
+            this.loadingService.hide();
             this.navCtrl.pop();
           } else {
             this.titlesService.createTitle(this.title, imageId);
-            loader.dismiss();
+            this.loadingService.hide();
             this.navCtrl.pop();
           }
         });
@@ -144,11 +139,11 @@ export class TitlesFormPage {
       this.updateTitleDetails();
       if (this.type == 'edit') {
         this.updateTitle();
-        loader.dismiss();
+        this.loadingService.hide();
         this.navCtrl.pop();
       } else {
         this.titlesService.createTitle(this.title, imageId);
-        loader.dismiss();
+        this.loadingService.hide();
         this.navCtrl.pop();
       }
     }
@@ -183,7 +178,7 @@ export class TitlesFormPage {
 
   changePicture() {
     const actionsheet = this.actionsheetCtrl.create({
-      title: 'upload picture',
+      title: 'Upload picture',
       buttons: [
         {
           text: 'Camera',
@@ -213,9 +208,7 @@ export class TitlesFormPage {
   }
 
   takePicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromCamera(true).then(
       picture => {
         if (picture) {
@@ -228,7 +221,7 @@ export class TitlesFormPage {
                 : picture;
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);
@@ -237,9 +230,7 @@ export class TitlesFormPage {
   }
 
   getPicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
+    this.loadingService.show();
     return this.cameraService.getPictureFromPhotoLibrary(true).then(
       picture => {
         if (picture) {
@@ -252,7 +243,7 @@ export class TitlesFormPage {
                 : picture;
           });
         }
-        loading.dismiss();
+        this.loadingService.hide();
       },
       error => {
         alert(error);
