@@ -49,6 +49,8 @@ export class CameraProvider {
         fileUri => {
           return this.crop.crop('file://' + fileUri, {
             quality: 75,
+            targetWidth: -1,
+            targetHeight: -1,
           });
         },
         error => {

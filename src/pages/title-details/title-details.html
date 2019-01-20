@@ -9,8 +9,8 @@
         <img
           [imageViewer]="title.image"
           class="image cover-image"
-          [defaultImage]="title.thumbnail || title.image"
-          [lazyLoad]="title.image"
+          [defaultImage]="grayPlaceholder || title.thumbnail || title.image"
+          [lazyLoad]="title.thumbnail || title.image"
         />
       </ion-avatar>
     </div>

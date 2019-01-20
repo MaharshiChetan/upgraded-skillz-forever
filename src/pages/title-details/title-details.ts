@@ -9,7 +9,7 @@ import { IonicPage, NavParams } from 'ionic-angular';
 export class TitleDetailsPage implements OnInit {
   title: any;
   showMore: boolean = false;
-
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
   constructor(private navParams: NavParams) {}
 
   ngOnInit() {

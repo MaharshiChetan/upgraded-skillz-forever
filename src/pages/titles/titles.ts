@@ -14,6 +14,7 @@ export class TitlesPage implements OnInit {
   chosenPicture: any;
   currentUserId: string = firebase.auth().currentUser.uid;
   uid: string = this.authService.userDetails.uid;
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
   constructor(
     private titlesService: TitlesProvider,
     private alertCtrl: AlertController,
