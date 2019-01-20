@@ -3,6 +3,7 @@ import { App, PopoverController } from 'ionic-angular';
 import { NewPopoverComponent } from '../new-popover/new-popover';
 import { AuthProvider } from '../../providers/auth/auth';
 import { NavController } from 'ionic-angular/navigation/nav-controller';
+import { LoadingService } from '../../services/loading-service';
 
 @Component({
   selector: 'navbar',
@@ -17,11 +18,13 @@ export class NavbarComponent {
     private app: App,
     private navCtrl: NavController,
     private popoverCtrl: PopoverController,
-    private authService: AuthProvider
+    private authService: AuthProvider,
+    private loadingService: LoadingService
   ) {}
 
   goToProfilePage() {
     if (this.authService.currentUserDetails) {
+      this.loadingService.show();
       this.app
         .getRootNav()
         .push('ProfilePage', { currentUser: this.authService.currentUserDetails });

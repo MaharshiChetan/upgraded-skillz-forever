@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef } from '@angular/core';
+import { Component, HostListener, ElementRef, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import firebase from 'firebase';
@@ -13,7 +13,7 @@ import { LoadingService } from '../../services/loading-service';
   selector: 'create-post-page',
   templateUrl: 'create-post.html',
 })
-export class CreatePostPage {
+export class CreatePostPage implements OnInit {
   image: string;
   showAlertMessage = true;
   event = {
@@ -43,13 +43,11 @@ export class CreatePostPage {
     private userPostService: UserPostProvider
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.post = this.navParams.get('post');
     this.image = this.navParams.get('image');
     this.type = this.navParams.get('type');
-    this.event.name = this.navParams.get('eventName');
     this.event.id = this.navParams.get('eventId');
-    console.log(this.event);
   }
 
   ionViewCanLeave() {

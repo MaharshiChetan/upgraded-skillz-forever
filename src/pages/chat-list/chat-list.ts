@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, App, ActionSheetController, Platform } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
 import firebase from 'firebase';
@@ -13,7 +13,7 @@ import { AuthProvider } from '../../providers/auth/auth';
   selector: 'chat-list-page',
   templateUrl: 'chat-list.html',
 })
-export class ChatListPage {
+export class ChatListPage implements OnInit {
   loader;
   searchTerm;
   loadingText;
@@ -34,7 +34,7 @@ export class ChatListPage {
     private actionSheetCtrl: ActionSheetController
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.authService.getUserDetails().then(userData => {
       this.currentUserId = userData['uid'];
       this.getDisplayMessages();

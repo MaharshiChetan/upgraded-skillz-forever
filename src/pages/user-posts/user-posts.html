@@ -2,7 +2,7 @@
   <ion-navbar color="primary"> <ion-title>Posts</ion-title> </ion-navbar>
   <ion-toolbar color="primary" no-border>
     <ion-segment [(ngModel)]="type" color="light">
-      <ion-segment-button value="ThumbnailPost">
+      <ion-segment-button value="ThumbnailPost" (ionSelect)="getPostsDetail()">
         <ion-icon name="albums"></ion-icon>
       </ion-segment-button>
       <ion-segment-button value="DetailPost" (ionSelect)="getPostsDetail()">
@@ -15,19 +15,7 @@
 <ion-content fullscreen #myContent>
   <div [ngSwitch]="type">
     <div *ngSwitchCase="'ThumbnailPost'" no-lines>
-      <div *ngIf="!posts" class="spinner-container"><ion-spinner></ion-spinner></div>
-      <div *ngIf="posts && posts.length > 0">
-        <ion-row no-padding>
-          <ion-col no-padding col-4 *ngFor="let post of posts">
-            <img
-              (click)="showPost(post)"
-              class="image-container cover-image"
-              [defaultImage]="grayPlaceholder"
-              [lazyLoad]="post.thumbnail || post.imageUrl"
-            />
-          </ion-col>
-        </ion-row>
-      </div>
+      <thumbnail-post [posts]="posts"></thumbnail-post>
     </div>
 
     <div *ngSwitchCase="'DetailPost'" no-lines><post [posts]="posts"></post></div>

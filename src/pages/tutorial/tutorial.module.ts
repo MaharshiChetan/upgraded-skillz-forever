@@ -6,6 +6,7 @@ import { VgCoreModule } from 'videogular2/core';
 import { VgControlsModule } from 'videogular2/controls';
 import { VgOverlayPlayModule } from 'videogular2/overlay-play';
 import { VgBufferingModule } from 'videogular2/buffering';
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [TutorialPage],
@@ -16,6 +17,9 @@ import { VgBufferingModule } from 'videogular2/buffering';
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
+    LazyLoadImageModule.forRoot({
+      preset: intersectionObserverPreset,
+    }),
   ],
 })
 export class TutorialPageModule {}

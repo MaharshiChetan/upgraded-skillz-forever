@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import firebase from 'firebase';
 import {
@@ -18,7 +18,7 @@ import { LoadingService } from '../../services/loading-service';
   selector: 'edit-profile-page',
   templateUrl: 'edit-profile.html',
 })
-export class EditProfilePage {
+export class EditProfilePage implements OnInit {
   chosenPicture: any;
   userProfile: any;
   form: FormGroup;
@@ -36,7 +36,7 @@ export class EditProfilePage {
     this.createForm();
   }
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.userProfile = this.navParams.get('userDetails');
     if (!this.userProfile) {
       this.fetchCurrentUserProfile();
@@ -178,6 +178,7 @@ export class EditProfilePage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );
@@ -200,6 +201,7 @@ export class EditProfilePage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );

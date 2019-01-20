@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavParams, NavController } from 'ionic-angular';
 import firebase from 'firebase';
 
@@ -7,7 +7,7 @@ import firebase from 'firebase';
   selector: 'interested-or-going-page',
   templateUrl: 'interested-or-going.html',
 })
-export class InterestedOrGoingPage {
+export class InterestedOrGoingPage implements OnInit {
   interestedUsersKeys = [];
   goingUsersKeys = [];
   interestedUsers = [];
@@ -22,7 +22,7 @@ export class InterestedOrGoingPage {
 
   constructor(private navCtrl: NavController, private navParams: NavParams) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.interestedUsersKeys = this.navParams.get('interestedUsers');
     this.goingUsersKeys = this.navParams.get('goingUsers');
     this.type = this.navParams.get('type');

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 
@@ -7,7 +7,7 @@ import { TabsPage } from '../tabs/tabs';
   selector: 'page-explore',
   templateUrl: 'explore.html',
 })
-export class ExplorePage {
+export class ExplorePage implements OnInit {
   searchQuery: string = '';
   items: string[];
 
@@ -19,7 +19,7 @@ export class ExplorePage {
     this.initializeItems();
   }
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.tabsPage.showFabButton();
   }
 

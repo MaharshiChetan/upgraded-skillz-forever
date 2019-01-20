@@ -1,4 +1,4 @@
-import { Component, ViewChild, Renderer } from '@angular/core';
+import { Component, ViewChild, Renderer, OnInit } from '@angular/core';
 import {
   IonicPage,
   NavController,
@@ -20,7 +20,7 @@ import { LoadingService } from '../../services/loading-service';
   selector: 'one-to-one-chat-page',
   templateUrl: 'one-to-one-chat.html',
 })
-export class OneToOneChatPage {
+export class OneToOneChatPage implements OnInit {
   @ViewChild(Content) content: Content;
 
   inputElement;
@@ -55,7 +55,7 @@ export class OneToOneChatPage {
     private db: AngularFireDatabase
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.otherUserDetails = this.navParams.get('userDetails');
 
     if (this.otherUserDetails.key) {
@@ -145,6 +145,7 @@ export class OneToOneChatPage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );
@@ -168,6 +169,7 @@ export class OneToOneChatPage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Camera } from '@ionic-native/camera';
+import { Crop } from '@ionic-native/crop';
+import { Base64 } from '@ionic-native/base64';
 
 @Injectable()
 export class CameraProvider {
-  constructor(private camera: Camera) {}
+  constructor(private camera: Camera, private crop: Crop, private base64: Base64) {}
 
   getPictureFromCamera(crop) {
     return this.getImage(this.camera.PictureSourceType.CAMERA, crop);
@@ -25,29 +27,40 @@ export class CameraProvider {
   // This method takes optional parameters to make it more customizable
   getImage(pictureSourceType, crop = true) {
     const options = {
-      quality: 100,
+      quality: 75,
       allowEdit: true,
-      destinationType: this.camera.DestinationType.DATA_URL,
+      destinationType: this.camera.DestinationType.FILE_URI,
       sourceType: pictureSourceType,
       encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: true,
+      correctOrientation: true,
     };
 
     // If set to crop, restricts the image to a square of 600 by 600
     if (crop) {
-      options['targetWidth'] = 600;
-      options['targetHeight'] = 600;
+      options['targetWidth'] = 800;
+      options['targetHeight'] = 800;
     }
 
-    return this.camera.getPicture(options).then(
-      imageData => {
-        const base64Image = 'data:image/png;base64,' + imageData;
-        return base64Image;
-      },
-      error => {
-        console.log('CAMERA ERROR -> ' + JSON.stringify(error));
-      }
-    );
+    return this.camera
+      .getPicture(options)
+      .then(
+        fileUri => {
+          return this.crop.crop('file://' + fileUri, {
+            quality: 75,
+          });
+        },
+        error => {
+          console.log('CAMERA ERROR -> ' + JSON.stringify(error));
+        }
+      )
+      .then((path: any) => {
+        return this.base64.encodeFile(path);
+      })
+      .then(image => {
+        return image;
+      });
   }
 
   generateFromImage(img, quality, callback) {
@@ -59,7 +72,7 @@ export class CameraProvider {
       canvas.height = image.height;
 
       const ctx = canvas.getContext('2d');
-      ctx.drawImage(image, 0, 0, image.width, image.height);
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
       const dataUrl = canvas.toDataURL('image/jpeg', quality);
 

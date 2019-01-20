@@ -182,6 +182,7 @@ export class CreateEventPage implements AfterViewInit {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );
@@ -205,6 +206,7 @@ export class CreateEventPage implements AfterViewInit {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );

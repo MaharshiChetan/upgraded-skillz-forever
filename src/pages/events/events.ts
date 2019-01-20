@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, IonicPage, App, LoadingController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { NavController, IonicPage, App } from 'ionic-angular';
 import { EventsProvider } from '../../providers/events/events';
 import { TabsPage } from '../tabs/tabs';
 import { DataProvider } from '../../providers/data/data';
@@ -10,7 +10,7 @@ import { LoadingService } from '../../services/loading-service';
   selector: 'events-page',
   templateUrl: 'events.html',
 })
-export class EventsPage {
+export class EventsPage implements OnInit {
   events: any[];
   subscription: any;
   searchTerm: string;
@@ -25,7 +25,7 @@ export class EventsPage {
     private loadingService: LoadingService
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.tabsPage.showFabButton();
     this.fetchEvents(null);
   }

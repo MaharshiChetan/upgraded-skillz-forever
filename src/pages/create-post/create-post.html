@@ -1,7 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>{{ event.name || 'Create Post' }}</ion-title>
-  </ion-navbar>
+  <ion-navbar color="primary"> <ion-title>Create Post</ion-title> </ion-navbar>
 </ion-header>
 
 <ion-content>
@@ -15,7 +13,7 @@
       <ion-col>
         <ion-textarea
           placeholder="Write something..."
-          rows="5"
+          rows="4"
           [value]="post?.textualContent"
           #myInput
           (keyup)="adjust()"

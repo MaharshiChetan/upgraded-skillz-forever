@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, AlertController, App } from 'ionic-angular';
 import { TitlesProvider } from '../../providers/titles/titles';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -9,7 +9,7 @@ import firebase from 'firebase';
   selector: 'titles-page',
   templateUrl: 'titles.html',
 })
-export class TitlesPage {
+export class TitlesPage implements OnInit {
   titles: any;
   chosenPicture: any;
   currentUserId: string = firebase.auth().currentUser.uid;
@@ -21,7 +21,7 @@ export class TitlesPage {
     private authService: AuthProvider
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.getTitles();
   }
 

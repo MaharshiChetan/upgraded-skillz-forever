@@ -34,4 +34,17 @@ one-to-one-chat-page {
   .bar-button-md[icon-only].send-button {
     padding-bottom: 3px;
   }
+
+  img.ng-lazyloaded {
+    animation: fadein 0.5s;
+  }
+
+  @keyframes fadein {
+    from {
+      opacity: 0.4;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }

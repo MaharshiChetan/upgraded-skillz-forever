@@ -49,6 +49,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserPostProvider } from '../providers/user-post/user-post';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { LoadingService } from '../services/loading-service';
+import { PostLikesProvider } from '../providers/post-likes/post-likes';
+import { PostCommentsProvider } from '../providers/post-comments/post-comments';
+import { Crop } from '@ionic-native/crop';
+import { Base64 } from '@ionic-native/base64';
 
 export function myCustomAudioProviderFactory() {
   return window.hasOwnProperty('cordova') ? new CordovaMediaProvider() : new WebAudioProvider();
@@ -96,6 +100,8 @@ export function myCustomAudioProviderFactory() {
     FileTransfer,
     File,
     HeaderColor,
+    Crop,
+    Base64,
     Keyboard,
 
     AuthProvider,
@@ -112,6 +118,8 @@ export function myCustomAudioProviderFactory() {
     UserPostProvider,
 
     LoadingService,
+    PostLikesProvider,
+    PostCommentsProvider,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

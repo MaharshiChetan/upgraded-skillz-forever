@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   IonicPage,
   NavController,
@@ -22,7 +22,7 @@ import { LoadingService } from '../../services/loading-service';
   selector: 'profile-page',
   templateUrl: 'profile.html',
 })
-export class ProfilePage {
+export class ProfilePage implements OnInit {
   start = 0;
   fabIcon: any = 'collections';
   dropParentButton = 'post';
@@ -58,7 +58,7 @@ export class ProfilePage {
     private app: App
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     if (this.userDetails) {
       this.authService.userDetails = this.userDetails;
     }
@@ -186,6 +186,7 @@ export class ProfilePage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );
@@ -208,6 +209,7 @@ export class ProfilePage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );

@@ -10,6 +10,9 @@ import { UserPostProvider } from '../../providers/user-post/user-post';
 import { ImageViewerController } from 'ionic-img-viewer';
 import firebase from 'firebase';
 import { LoadingService } from '../../services/loading-service';
+import { PostProvider } from '../../providers/post/post';
+import { PostLikesProvider } from '../../providers/post-likes/post-likes';
+import { PostCommentsProvider } from '../../providers/post-comments/post-comments';
 
 @Component({
   selector: 'post',
@@ -17,6 +20,8 @@ import { LoadingService } from '../../services/loading-service';
 })
 export class PostComponent {
   @Input('posts') posts: any;
+  @Input('eventId') eventId: string;
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
   uid: string = firebase.auth().currentUser.uid;
   showMore: boolean = false;
   constructor(
@@ -27,7 +32,10 @@ export class PostComponent {
     private userPostService: UserPostProvider,
     private alertCtrl: AlertController,
     private imageViewerCtrl: ImageViewerController,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private postService: PostProvider,
+    private postLikesService: PostLikesProvider,
+    private postCommentsService: PostCommentsProvider
   ) {}
 
   presentImage(image: any) {
@@ -35,21 +43,19 @@ export class PostComponent {
     imageViewer.present();
   }
 
-  showUsers(users) {
+  showUsers(users: any) {
     this.navCtrl.push('UsersLikesPage', { users: users, type: 'Likes' });
   }
 
-  like(post) {
-    this.userPostService.likeUserPost(post.key, this.uid);
+  likePost(post: any) {
+    this.postLikesService.likePost(post.key, this.uid);
   }
 
-  unlike(post) {
-    this.userPostService.unlikeUserPost(post.key, this.uid);
+  unlikePost(post: any) {
+    this.postLikesService.unlikePost(post.key, this.uid);
   }
 
   goToProfilePage(user: any) {
-    console.log(user);
-
     if (this.uid === user.uid) {
       this.navCtrl.push('ProfilePage', { currentUser: user });
     } else {
@@ -61,7 +67,7 @@ export class PostComponent {
     this.showMore = !this.showMore;
   }
 
-  presentPopover(post) {
+  presentPopover(post: any) {
     const actionsheet = this.actionsheetCtrl.create({
       title: 'Take Action',
       buttons: [
@@ -69,10 +75,7 @@ export class PostComponent {
           text: 'Edit',
           icon: !this.platform.is('ios') ? 'create' : null,
           handler: () => {
-            this.navCtrl.push('CreatePostPage', {
-              post: post,
-              type: 'userPost',
-            });
+            this.editPost(post);
           },
         },
         {
@@ -109,11 +112,7 @@ export class PostComponent {
         {
           text: 'Delete',
           handler: () => {
-            this.loadingService.show('Deleting post...');
-            this.userPostService.deletePost(post, post.key);
-            if (this.posts.length < 3) {
-              this.navCtrl.pop();
-            }
+            this.deletePost(post);
           },
         },
       ],
@@ -121,10 +120,49 @@ export class PostComponent {
     confirm.present();
   }
 
+  editPost(post: any) {
+    if (this.eventId) {
+      this.navCtrl.push('CreatePostPage', {
+        eventId: this.eventId,
+        post: post,
+      });
+    } else {
+      this.navCtrl.push('CreatePostPage', {
+        post: post,
+        type: 'userPost',
+      });
+    }
+  }
+
+  deletePost(post: any) {
+    this.loadingService.show('Deleting post...');
+    if (this.eventId) {
+      this.postService.deletePost(post, this.eventId);
+      this.postLikesService.removePostLikes(post.key);
+      this.postCommentsService.removePostComments(post.key);
+    } else {
+      this.userPostService.deletePost(post, post.key);
+      this.postLikesService.removePostLikes(post.key);
+      this.postCommentsService.removePostComments(post.key);
+    }
+    if (this.posts.length < 3) {
+      this.navCtrl.pop();
+    }
+    this.loadingService.hide();
+  }
+
   openCommentsModal(post: any) {
-    const modal = this.modalCtrl.create('CommentsPage', {
-      post: post,
-    });
-    modal.present();
+    if (this.eventId) {
+      const modal = this.modalCtrl.create('CommentsPage', {
+        post: post,
+        eventId: this.eventId,
+      });
+      modal.present();
+    } else {
+      const modal = this.modalCtrl.create('CommentsPage', {
+        post: post,
+      });
+      modal.present();
+    }
   }
 }

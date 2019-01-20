@@ -224,6 +224,7 @@ export class TitlesFormPage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );
@@ -246,6 +247,7 @@ export class TitlesFormPage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );

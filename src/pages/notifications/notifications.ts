@@ -8,6 +8,4 @@ import { IonicPage, NavController } from 'ionic-angular';
 })
 export class NotificationsPage {
   constructor(public navCtrl: NavController) {}
-
-  ionViewWillEnter() {}
 }

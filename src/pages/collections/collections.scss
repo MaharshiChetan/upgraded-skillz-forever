@@ -28,4 +28,17 @@ collections-page {
   .no-post {
     padding: 50% 0%;
   }
+
+  img.ng-lazyloaded {
+    animation: fadein 0.5s;
+  }
+
+  @keyframes fadein {
+    from {
+      opacity: 0.4;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }

@@ -16,7 +16,7 @@
     <div
       *ngFor="let comment of comments"
       class="click"
-      (press)="showActionSheet(post.key, eventId, comment)"
+      (press)="showActionSheet(post.key, comment)"
     >
       <ion-item *ngIf="comment.userDetails">
         <ion-avatar item-start (click)="goToProfilePage(comment.userDetails)">
@@ -45,10 +45,7 @@
         #comment
         (keyup)="adjust()"
       ></ion-textarea>
-      <button *ngIf="eventId" ion-button clear item-end (click)="createEventPostComment(comment)">
-        <ion-icon class="footer-btn" name="send"></ion-icon>
-      </button>
-      <button *ngIf="!eventId" ion-button clear item-end (click)="createUserPostComment(comment)">
+      <button ion-button clear item-end (click)="createPostComment(comment)">
         <ion-icon class="footer-btn" name="send"></ion-icon>
       </button>
     </ion-item>

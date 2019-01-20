@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
 import firebase from 'firebase';
@@ -8,7 +8,7 @@ import firebase from 'firebase';
   selector: 'chat-settings-page',
   templateUrl: 'chat-settings.html',
 })
-export class ChatSettingsPage {
+export class ChatSettingsPage implements OnInit {
   userDetails: any;
   constructor(
     private navCtrl: NavController,
@@ -17,7 +17,7 @@ export class ChatSettingsPage {
     private alertCtrl: AlertController
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.userDetails = this.navParams.get('otherUser');
   }
 

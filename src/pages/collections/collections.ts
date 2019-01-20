@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, App } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { UserPostProvider } from '../../providers/user-post/user-post';
@@ -9,7 +9,7 @@ import { ImageViewerController } from 'ionic-img-viewer';
   selector: 'collections-page',
   templateUrl: 'collections.html',
 })
-export class CollectionsPage {
+export class CollectionsPage implements OnInit {
   uid: string = this.authService.userDetails.uid;
   imagePosts: any;
   videoPosts: any;
@@ -24,7 +24,7 @@ export class CollectionsPage {
     private imageViewerCtrl: ImageViewerController
   ) {}
 
-  ionViewWillLoad() {
+  ngOnInit() {
     this.getUserImagePosts();
   }
 

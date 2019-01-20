@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, PopoverController, App } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { PopoverComponent } from '../../components/popover/popover';
+import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
 @Component({
   selector: 'home-page',
   templateUrl: 'home.html',
 })
-export class HomePage {
+export class HomePage implements OnInit {
   userDetails;
   grayPlaceholder: string = 'assets/gray-placeholder.png';
   cards = [
@@ -51,10 +52,11 @@ export class HomePage {
     private navCtrl: NavController,
     private authService: AuthProvider,
     private popoverCtrl: PopoverController,
-    private app: App
+    private app: App,
+    private loadingService: LoadingService
   ) {}
 
-  ionViewWillLoad() {
+  ngOnInit() {
     this.fetchCurrentUserProfile(null);
   }
 
@@ -70,6 +72,7 @@ export class HomePage {
   }
 
   goToProfilePage() {
+    this.loadingService.show();
     this.app.getRootNav().push('ProfilePage', { currentUser: this.authService.currentUserDetails });
   }
 

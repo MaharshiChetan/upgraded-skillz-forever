@@ -84,7 +84,6 @@
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
-    <plugin name="cordova-plugin-crop" spec="^0.4.0" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-clipboard" spec="^1.2.1" />
@@ -105,5 +104,7 @@
     <plugin name="cordova-plugin-media" spec="~5.0.2" />
     <plugin name="cordova-plugin-music-controls" spec="2.2.0" />
     <plugin name="cordova-plugin-media-capture" spec="3.0.2" />
+    <plugin name="cordova-plugin-crop" spec="^0.4.0" />
+    <plugin name="com-badrit-base64" spec="0.2.0" />
     <engine name="android" spec="7.1.4" />
 </widget>

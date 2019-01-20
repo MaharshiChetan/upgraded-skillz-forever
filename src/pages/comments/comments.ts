@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef, ViewChild } from '@angular/core';
+import { Component, HostListener, ElementRef, ViewChild, OnInit } from '@angular/core';
 import {
   IonicPage,
   NavController,
@@ -13,34 +13,32 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { Message } from '../../providers/message/message';
 import { UserPostProvider } from '../../providers/user-post/user-post';
 import { Clipboard } from '@ionic-native/clipboard';
+import { PostCommentsProvider } from '../../providers/post-comments/post-comments';
 
 @IonicPage()
 @Component({
   selector: 'comments-page',
   templateUrl: 'comments.html',
 })
-export class CommentsPage {
+export class CommentsPage implements OnInit {
   @ViewChild('content')
   content: any;
-
   post: any;
-  eventId: string;
   comments: any;
   usersdata = firebase.database().ref('/users');
   currentUserDetails: any;
   commentText: any;
   constructor(
-    private navCtrl: NavController,
     private platform: Platform,
     private navParams: NavParams,
     private viewCtrl: ViewController,
+    private navCtrl: NavController,
     private element: ElementRef,
-    private postService: PostProvider,
-    private userPostService: UserPostProvider,
     private authService: AuthProvider,
     private presentMessage: Message,
     private actionSheetCtrl: ActionSheetController,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
+    private postCommentService: PostCommentsProvider
   ) {}
 
   scrollToBottom() {
@@ -49,15 +47,10 @@ export class CommentsPage {
     }, 800);
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.fetchCurrentUserProfile();
     this.post = this.navParams.get('post');
-    this.eventId = this.navParams.get('eventId');
-    if (this.eventId) {
-      this.getAllEventPostComments(this.post.key, this.eventId);
-    } else {
-      this.getAllUserPostComments(this.post.key);
-    }
+    this.getAllPostComments(this.post.key);
   }
 
   @HostListener('document:keydown.enter', ['$event'])
@@ -86,20 +79,8 @@ export class CommentsPage {
     });
   }
 
-  getAllEventPostComments(postKey: string, eventId: string) {
-    this.postService.getAllComments(postKey, eventId).subscribe(comments => {
-      this.comments = comments;
-      this.comments.forEach((comment, i) => {
-        this.usersdata.child(`${comment.uid}/personalData`).once('value', snapshot => {
-          this.comments[i].userDetails = snapshot.val();
-        });
-      });
-      this.scrollToBottom();
-    });
-  }
-
-  getAllUserPostComments(postKey: string) {
-    this.userPostService.getAllComments(postKey).subscribe(comments => {
+  getAllPostComments(postKey: string) {
+    this.postCommentService.getAllComments(postKey).subscribe(comments => {
       this.comments = comments;
       this.comments.forEach((comment: any, i: number) => {
         this.usersdata.child(`${comment.uid}/personalData`).once('value', snapshot => {
@@ -110,24 +91,11 @@ export class CommentsPage {
     });
   }
 
-  createEventPostComment(comment: any) {
+  createPostComment(comment: any) {
     if (comment.value === '') {
       return this.presentMessage.showToast('Enter some comment!', 'fail-toast');
     }
-    this.postService.createComment(
-      this.post.key,
-      this.eventId,
-      firebase.auth().currentUser.uid,
-      comment.value
-    );
-    this.commentText = '';
-  }
-
-  createUserPostComment(comment: any) {
-    if (comment.value === '') {
-      return this.presentMessage.showToast('Enter some comment!', 'fail-toast');
-    }
-    this.userPostService.createComment(
+    this.postCommentService.createComment(
       this.post.key,
       firebase.auth().currentUser.uid,
       comment.value
@@ -135,7 +103,7 @@ export class CommentsPage {
     this.commentText = '';
   }
 
-  showActionSheet(postId: string, eventId: string, comment) {
+  showActionSheet(postId: string, comment: any) {
     if (comment.uid === firebase.auth().currentUser.uid) {
       const actionSheet = this.actionSheetCtrl.create({
         title: 'Take Action',
@@ -144,11 +112,7 @@ export class CommentsPage {
             text: 'Delete',
             icon: 'trash',
             handler: () => {
-              if (eventId) {
-                this.postService.deleteComment(postId, eventId, comment.key);
-              } else {
-                this.userPostService.deleteComment(postId, comment.key);
-              }
+              this.postCommentService.deleteComment(postId, comment.key);
             },
           },
           {
@@ -172,7 +136,7 @@ export class CommentsPage {
     }
   }
 
-  goToProfilePage(user) {
+  goToProfilePage(user: any) {
     if (firebase.auth().currentUser.uid === user.uid) {
       this.navCtrl.push('ProfilePage', { currentUser: user });
     } else {

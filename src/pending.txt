@@ -8,3 +8,5 @@
 8. Optimize images.
 9. store 3 to 4 thumbnail of image.
 10. compress images and video.
+11. https://github.com/tjoskar/ng-lazyload-image/blob/master/example/changing-image.component.ts
+  For changing image. you have to make 3 thumbnail of 1 image

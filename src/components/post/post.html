@@ -87,7 +87,7 @@
           clear
           small
           icon-left
-          (click)="like(post)"
+          (click)="likePost(post)"
           *ngIf="!post?.isLiking"
         >
           <ion-icon class="animated bounceIn" name="heart-outline"></ion-icon>
@@ -99,7 +99,7 @@
           clear
           small
           icon-left
-          (click)="unlike(post)"
+          (click)="unlikePost(post)"
           *ngIf="post?.isLiking"
         >
           <ion-icon class="animated bounceIn" name="ios-heart" color="danger"></ion-icon>

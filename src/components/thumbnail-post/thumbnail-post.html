@@ -1,0 +1,13 @@
+<div *ngIf="!posts" class="spinner-container"><ion-spinner></ion-spinner></div>
+<div *ngIf="posts && posts.length > 0">
+  <ion-row no-padding>
+    <ion-col no-padding col-4 *ngFor="let post of posts">
+      <img
+        (click)="showPost(post)"
+        class="image-container cover-image"
+        [defaultImage]="grayPlaceholder"
+        [lazyLoad]="post.thumbnail || post.imageUrl"
+      />
+    </ion-col>
+  </ion-row>
+</div>

@@ -12,12 +12,16 @@ create-post-page {
     height: 70px;
     width: 70px;
   }
-  .text-input-md {
-    margin: 0px 0px;
-  }
 
-  .input-cover {
+  .text-input-md {
     border: 1px solid lightgray;
     margin: -5px;
+    margin: 0px;
+  }
+
+  .text-input-ios {
+    border: 1px solid lightgray;
+    margin: -5px;
+    margin: 0px;
   }
 }

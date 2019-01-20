@@ -10,6 +10,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { ProgressBarComponent } from './progress-bar/progress-bar';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { PostComponent } from './post/post';
+import { ThumbnailPostComponent } from './thumbnail-post/thumbnail-post';
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -19,6 +20,7 @@ import { PostComponent } from './post/post';
     ChatBubbleComponent,
     ProgressBarComponent,
     PostComponent,
+    ThumbnailPostComponent,
   ],
   imports: [
     IonicModule,
@@ -35,6 +37,7 @@ import { PostComponent } from './post/post';
     ChatBubbleComponent,
     ProgressBarComponent,
     PostComponent,
+    ThumbnailPostComponent,
   ],
 })
 export class ComponentsModule {}

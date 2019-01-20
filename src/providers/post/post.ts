@@ -33,7 +33,6 @@ export class PostProvider {
     this.getEventPosts(eventId).subscribe(posts => {
       this.deleteAllEventPostImages(eventId, posts);
     });
-    this.deleteAllComments(eventId);
     this.db.list(`eventPosts/${eventId}`).remove();
   }
 
@@ -53,15 +52,11 @@ export class PostProvider {
               .delete()
               .then(() => {
                 this.db.list(`eventPosts/${eventId}/${post.key}`).remove();
-                this.removePostLikes(post.key, eventId);
-                this.removePostComments(post.key, eventId);
               })
               .catch(e => alert('Error deleting the post'));
           });
       } else {
         this.db.list(`eventPosts/${eventId}/${post.key}`).remove();
-        this.removePostLikes(post.key, eventId);
-        this.removePostComments(post.key, eventId);
       }
     } catch (e) {
       alert('Error deleting the post');
@@ -69,74 +64,11 @@ export class PostProvider {
     }
   }
 
-  removePostLikes(postId, eventId) {
-    this.db.object(`eventPostLikes/${eventId}/${postId}`).remove();
-  }
-
-  removePostComments(postId, eventId) {
-    this.db.object(`eventPostComments/${eventId}/${postId}`).remove();
-  }
-
   getEventPosts(eventId) {
     return this.db
       .list(`eventPosts/${eventId}`)
       .snapshotChanges()
       .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
-  }
-
-  deleteAllLikes(eventId: string) {
-    this.db.object(`eventPostLikes/${eventId}`).remove();
-  }
-
-  likeEventPost(postId: string, uid: string, eventId: string) {
-    this.db.object(`eventPostLikes/${eventId}/${postId}`).update({ [uid]: true });
-  }
-
-  checkLike(postId: string, uid: string, eventId: string) {
-    return this.db.object(`eventPostLikes/${eventId}/${postId}/${uid}`).snapshotChanges();
-  }
-
-  getTotalLikes(postId: string, eventId: string) {
-    // Used to build the likes count
-    return this.db
-      .list(`eventPostLikes/${eventId}/${postId}`)
-      .snapshotChanges()
-      .pipe(map(actions => actions.map(a => ({ key: a.key }))));
-  }
-
-  unlikeEventPost(postId: string, uid: string, eventId: string) {
-    this.db.object(`eventPostLikes/${eventId}/${postId}/${uid}`).remove();
-  }
-
-  createComment(postId: string, eventId: string, uid: string, comment: string) {
-    this.db.list(`eventPostComments/${eventId}/${postId}`).push({
-      uid: uid,
-      date: '' + new Date(),
-      comment: comment,
-    });
-  }
-
-  deleteAllComments(eventId: string) {
-    this.db.object(`eventPostComments/${eventId}`).remove();
-  }
-
-  getAllComments(postId: string, eventId: string) {
-    return this.db
-      .list(`eventPostComments/${eventId}/${postId}`)
-      .snapshotChanges()
-      .pipe(map(actions => actions.map(a => ({ key: a.key, ...a.payload.val() }))));
-  }
-
-  getTotalComments(postId: string, eventId: string) {
-    // Used to build the likes count
-    return this.db
-      .list(`eventPostComments/${eventId}/${postId}`)
-      .snapshotChanges()
-      .pipe(map(actions => actions.map(a => ({ key: a.key }))));
-  }
-
-  deleteComment(postId: string, eventId: string, commentId) {
-    this.db.object(`eventPostComments/${eventId}/${postId}/${commentId}`).remove();
   }
 
   deleteAllEventPostImages(eventId, posts) {

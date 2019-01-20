@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 @IonicPage()
@@ -6,7 +6,7 @@ import firebase from 'firebase';
   selector: 'follower-following-page',
   templateUrl: 'follower-following.html',
 })
-export class FollowerFollowingPage {
+export class FollowerFollowingPage implements OnInit {
   followerKeys = [];
   followingKeys = [];
   followers = [];
@@ -22,7 +22,7 @@ export class FollowerFollowingPage {
 
   constructor(private navCtrl: NavController, private navParams: NavParams) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.userDetails = this.navParams.get('userDetails');
     this.followerKeys = this.navParams.get('followers');
     this.followingKeys = this.navParams.get('followings');

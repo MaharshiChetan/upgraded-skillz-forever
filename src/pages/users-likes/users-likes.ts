@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 
@@ -7,7 +7,7 @@ import firebase from 'firebase';
   selector: 'users-likes-page',
   templateUrl: 'users-likes.html',
 })
-export class UsersLikesPage {
+export class UsersLikesPage implements OnInit {
   users = [];
   userKeys = [];
   type;
@@ -17,7 +17,7 @@ export class UsersLikesPage {
   usersdata = firebase.database().ref('/users');
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.userKeys = this.navParams.get('users');
     this.type = this.navParams.get('type');
     this.fetchUsers();

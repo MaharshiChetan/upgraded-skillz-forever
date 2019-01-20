@@ -1,16 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, AlertController, LoadingController } from 'ionic-angular';
 import { EventsProvider } from '../../providers/events/events';
 import firebase from 'firebase';
 import { PostProvider } from '../../providers/post/post';
 import { LoadingService } from '../../services/loading-service';
+import { PostLikesProvider } from '../../providers/post-likes/post-likes';
+import { PostCommentsProvider } from '../../providers/post-comments/post-comments';
 
 @IonicPage()
 @Component({
   selector: 'my-events-page',
   templateUrl: 'my-events.html',
 })
-export class MyEventsPage {
+export class MyEventsPage implements OnInit {
   events: any;
   subscription: any;
 
@@ -22,7 +24,7 @@ export class MyEventsPage {
     private loadingService: LoadingService
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.getMyEvents(null);
   }
 
@@ -60,7 +62,6 @@ export class MyEventsPage {
             handler: () => {
               alertPopup.dismiss().then(() => {
                 this.loadingService.show('Deleting event...');
-                this.postService.deleteAllLikes(eventInfo.key);
                 this.postService.deleteAllPost(eventInfo.key);
                 this.eventService.deleteEvent(eventInfo);
                 this.loadingService.hide();

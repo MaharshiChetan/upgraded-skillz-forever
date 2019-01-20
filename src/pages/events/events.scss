@@ -20,6 +20,20 @@ events-page {
 
   ion-card .original {
     max-height: 170px;
+    width: 100%;
+  }
+
+  img.ng-lazyloaded {
+    animation: fadein 0.5s;
+  }
+
+  @keyframes fadein {
+    from {
+      opacity: 0.4;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   .date {

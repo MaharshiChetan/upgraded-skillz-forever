@@ -10,8 +10,8 @@
           <ion-col (click)="goToProfilePage()">
             <ion-avatar item-start>
               <img
-                [defaultImage]="userDetails.thumbnail || grayPlaceholder"
-                [lazyLoad]="userDetails.profilePhoto"
+                [defaultImage]="grayPlaceholder"
+                [lazyLoad]="userDetails.thumbnail"
                 class="cover-image"
               />
             </ion-avatar>

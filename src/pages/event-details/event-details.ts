@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import {
   IonicPage,
   NavParams,
@@ -7,7 +7,6 @@ import {
   FabContainer,
   AlertController,
   ActionSheetController,
-  ModalController,
 } from 'ionic-angular';
 import { ImageViewerController } from 'ionic-img-viewer';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -21,13 +20,15 @@ import { CameraProvider } from '../../providers/camera/camera';
 import { PostProvider } from '../../providers/post/post';
 import firebase from 'firebase';
 import { LoadingService } from '../../services/loading-service';
+import { PostLikesProvider } from '../../providers/post-likes/post-likes';
+import { PostCommentsProvider } from '../../providers/post-comments/post-comments';
 
 @IonicPage()
 @Component({
   selector: 'event-details-page',
   templateUrl: 'event-details.html',
 })
-export class EventDetailsPage {
+export class EventDetailsPage implements OnInit {
   @ViewChild(Content)
   content: Content;
 
@@ -57,7 +58,6 @@ export class EventDetailsPage {
 
   currentUserDetails: any;
   type = 'about';
-  showMore: boolean = false;
 
   constructor(
     private navParams: NavParams,
@@ -75,12 +75,13 @@ export class EventDetailsPage {
     private platform: Platform,
     private actionsheetCtrl: ActionSheetController,
     private postService: PostProvider,
-    private modalCtrl: ModalController
+    private postLikesService: PostLikesProvider,
+    private postCommentsService: PostCommentsProvider
   ) {
     this.event = this.navParams.get('event');
   }
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.fetchCurrentUserProfile();
 
     this.interestedSubscription = this.eventService
@@ -259,19 +260,19 @@ export class EventDetailsPage {
           if (post.uid === firebase.auth().currentUser.uid) {
             this.posts[i].myPost = true;
           }
-          this.postService.getTotalLikes(post.key, this.event.key).subscribe(likes => {
+          this.postLikesService.getTotalLikes(post.key).subscribe(likes => {
             if (this.posts.length > 0) {
               this.posts[i].likes = likes;
               this.posts[i].totalLikes = likes.length;
             }
           });
-          this.postService.getTotalComments(post.key, this.event.key).subscribe(comments => {
+          this.postCommentsService.getTotalComments(post.key).subscribe(comments => {
             if (this.posts.length > 0) {
               this.posts[i].totalComments = comments.length;
             }
           });
-          this.postService
-            .checkLike(post.key, firebase.auth().currentUser.uid, this.event.key)
+          this.postLikesService
+            .checkLike(post.key, firebase.auth().currentUser.uid)
             .subscribe(data => {
               if (data.key && this.posts.length > 0) {
                 this.posts[i].isLiking = true;
@@ -337,6 +338,7 @@ export class EventDetailsPage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );
@@ -365,6 +367,7 @@ export class EventDetailsPage {
         this.loadingService.hide();
       },
       error => {
+        this.loadingService.hide();
         alert(error);
       }
     );
@@ -395,70 +398,5 @@ export class EventDetailsPage {
     alertPopup.present();
   }
 
-  doInfinite(infinite) {}
-
-  goToProfilePage(user) {
-    if (firebase.auth().currentUser.uid === user.uid) {
-      this.navCtrl.push('ProfilePage', { currentUser: user });
-    } else {
-      this.navCtrl.push('ProfilePage', { user: user });
-    }
-  }
-
-  like(post) {
-    this.postService.likeEventPost(post.key, firebase.auth().currentUser.uid, this.event.key);
-  }
-
-  unlike(post) {
-    this.postService.unlikeEventPost(post.key, firebase.auth().currentUser.uid, this.event.key);
-  }
-
-  openCommentsModal(post: any, eventId: string) {
-    const modal = this.modalCtrl.create('CommentsPage', {
-      post: post,
-      eventId: eventId,
-    });
-    modal.present();
-  }
-
-  presentPopover(post, eventId) {
-    let alert = this.alertCtrl.create();
-    alert.setTitle('Take action');
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Delete',
-      value: 'delete',
-    });
-    alert.addInput({
-      type: 'radio',
-      label: 'Edit',
-      value: 'edit',
-    });
-
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'OK',
-      handler: data => {
-        if (data === 'delete') {
-          this.postService.deletePost(post, eventId);
-        } else if (data === 'edit') {
-          this.navCtrl.push('CreatePostPage', {
-            eventName: this.event.eventName,
-            eventId: eventId,
-            post: post,
-          });
-        }
-      },
-    });
-    alert.present();
-  }
-
-  changeContentLength() {
-    this.showMore = !this.showMore;
-  }
-
-  showUsers(users) {
-    this.navCtrl.push('UsersLikesPage', { users: users, type: 'Likes' });
-  }
+  doInfinite(event) {}
 }
