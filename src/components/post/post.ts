@@ -22,6 +22,7 @@ export class PostComponent {
   @Input('posts') posts: any;
   @Input('eventId') eventId: string;
   grayPlaceholder: string = 'assets/gray-placeholder.png';
+
   uid: string = firebase.auth().currentUser.uid;
   showMore: boolean = false;
   constructor(

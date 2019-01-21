@@ -15,7 +15,6 @@ export class CollectionsPage implements OnInit {
   videoPosts: any;
   audioPosts: any;
   noPost: boolean = false;
-  grayPlaceholder: string = 'assets/gray-placeholder.png';
 
   constructor(
     private authService: AuthProvider,

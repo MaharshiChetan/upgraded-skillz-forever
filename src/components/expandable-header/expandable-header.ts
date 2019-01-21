@@ -1,10 +1,10 @@
-import { Component, Input, ElementRef, Renderer } from '@angular/core';
+import { Component, Input, ElementRef, Renderer, OnInit } from '@angular/core';
 
 @Component({
   selector: 'expandable-header',
   templateUrl: 'expandable-header.html',
 })
-export class ExpandableHeader {
+export class ExpandableHeader implements OnInit {
   @Input('scrollArea') scrollArea: any;
   @Input('headerHeight') headerHeight: number;
   newHeaderHeight: any;

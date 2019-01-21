@@ -3,7 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { CollectionsPage } from './collections';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
-
+import { ComponentsModule } from '../../components/components.module';
 @NgModule({
   declarations: [CollectionsPage],
   imports: [
@@ -12,6 +12,7 @@ import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-ima
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset,
     }),
+    ComponentsModule,
   ],
 })
 export class CollectionsPageModule {}

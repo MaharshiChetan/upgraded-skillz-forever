@@ -18,8 +18,18 @@
     </ion-item>
     <div>
       <img
+        *ngIf="!eventId"
         class="contain-image click"
         [defaultImage]="post.thumbnail || post.imageUrl"
+        [lazyLoad]="post.imageUrl"
+        [useSrcset]="true"
+        offset="100"
+        (press)="presentImage(image)"
+      />
+      <img
+        *ngIf="eventId"
+        class="contain-image click"
+        [defaultImage]="grayPlaceholder || post.thumbnail || post.imageUrl"
         [lazyLoad]="post.imageUrl"
         [useSrcset]="true"
         offset="100"

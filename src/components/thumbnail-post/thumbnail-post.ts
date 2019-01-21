@@ -7,8 +7,9 @@ import { App } from 'ionic-angular';
 })
 export class ThumbnailPostComponent {
   @Input('posts') posts: any;
-  constructor(private app: App) {}
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
 
+  constructor(private app: App) {}
   showPost(post: any) {
     this.app.getRootNav().push('PostPage', { post: post });
   }

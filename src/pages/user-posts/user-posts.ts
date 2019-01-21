@@ -19,7 +19,6 @@ export class UserPostsPage implements OnInit {
   fetched: boolean = false;
   usersdata = firebase.database().ref('/users');
   uid = firebase.auth().currentUser.uid;
-  grayPlaceholder: string = 'assets/gray-placeholder.png';
   constructor(
     private navParams: NavParams,
     private userPostService: UserPostProvider,

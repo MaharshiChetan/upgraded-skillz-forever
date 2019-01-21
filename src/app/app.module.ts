@@ -69,6 +69,7 @@ export function myCustomAudioProviderFactory() {
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: true,
       // animate: false,
+      pageTransition: 'wp-transition',
       mode: 'ios',
       ios: {
         scrollAssist: false,

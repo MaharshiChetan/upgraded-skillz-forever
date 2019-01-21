@@ -10,15 +10,7 @@
     (click)="goToUserPostsPage()"
   >
     <ion-list-header> Photos <span *ngIf="imagePosts.length > 5">View All</span> </ion-list-header>
-    <ion-row no-padding>
-      <ion-col no-padding col-4 *ngFor="let post of imagePosts">
-        <img
-          [defaultImage]="grayPlaceholder"
-          [lazyLoad]="post.thumbnail || post.imageUrl"
-          class="image-container cover-image"
-        />
-      </ion-col>
-    </ion-row>
+    <thumbnail-post [posts]="imagePosts"></thumbnail-post>
   </ion-card>
 
   <ion-card *ngIf="videoPosts && videoPosts.length > 0" class="round-card">

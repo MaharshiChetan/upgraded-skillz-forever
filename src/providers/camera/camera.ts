@@ -27,8 +27,7 @@ export class CameraProvider {
   // This method takes optional parameters to make it more customizable
   getImage(pictureSourceType, crop = true) {
     const options = {
-      quality: 75,
-      allowEdit: true,
+      quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
       sourceType: pictureSourceType,
       encodingType: this.camera.EncodingType.JPEG,
@@ -38,19 +37,17 @@ export class CameraProvider {
     };
 
     // If set to crop, restricts the image to a square of 600 by 600
-    if (crop) {
-      options['targetWidth'] = 800;
-      options['targetHeight'] = 800;
-    }
+    // if (crop) {
+    //   options['targetWidth'] = 800;
+    //   options['targetHeight'] = 800;
+    // }
 
     return this.camera
       .getPicture(options)
       .then(
         fileUri => {
           return this.crop.crop('file://' + fileUri, {
-            quality: 75,
-            targetWidth: -1,
-            targetHeight: -1,
+            quality: 100,
           });
         },
         error => {
