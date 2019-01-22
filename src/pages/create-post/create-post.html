@@ -7,7 +7,7 @@
     <ion-row>
       <ion-col col-3 *ngIf="image || post?.imageUrl">
         <ion-thumbnail item-start (click)="presentImage(myImage)">
-          <img class="cover-image" [src]="image || post?.imageUrl" alt="" #myImage />
+          <img alt="" class="cover-image" [src]="image || post?.imageUrl" alt="" #myImage />
         </ion-thumbnail>
       </ion-col>
       <ion-col>

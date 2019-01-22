@@ -21,6 +21,7 @@
       <ion-item *ngIf="comment.userDetails">
         <ion-avatar item-start (click)="goToProfilePage(comment.userDetails)">
           <img
+            alt=""
             class="comment-image"
             [src]="comment.userDetails.thumbnail || comment.userDetails.profilePhoto"
           />
@@ -37,7 +38,7 @@
   <ion-toolbar>
     <ion-item>
       <ion-avatar *ngIf="currentUserDetails" item-start>
-        <img [src]="currentUserDetails.thumbnail || currentUserDetails.profilePhoto" />
+        <img alt="" [src]="currentUserDetails.thumbnail || currentUserDetails.profilePhoto" />
       </ion-avatar>
       <ion-textarea
         placeholder="Write a comment..."

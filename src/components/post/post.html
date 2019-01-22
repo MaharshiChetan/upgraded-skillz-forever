@@ -4,6 +4,7 @@
     <ion-item>
       <ion-avatar tappable item-start (click)="goToProfilePage(post.userDetails)">
         <img
+        alt=""
           class="cover-image"
           [src]="post.userDetails.thumbnail || post.userDetails.profilePhoto"
         />
@@ -18,6 +19,7 @@
     </ion-item>
     <div>
       <img
+      alt=""
         *ngIf="!eventId"
         class="contain-image click"
         [defaultImage]="post.thumbnail || post.imageUrl"
@@ -27,6 +29,7 @@
         (press)="presentImage(image)"
       />
       <img
+      alt=""
         *ngIf="eventId"
         class="contain-image click"
         [defaultImage]="grayPlaceholder || post.thumbnail || post.imageUrl"
@@ -35,7 +38,7 @@
         offset="100"
         (press)="presentImage(image)"
       />
-      <img [src]="post.imageUrl" style="display: none" #image />
+      <img alt="" [src]="post.imageUrl" style="display: none" #image />
     </div>
     <ion-card-content class="post-content">
       <div

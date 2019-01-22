@@ -10,6 +10,7 @@
           <ion-col (click)="goToProfilePage()">
             <ion-avatar item-start>
               <img
+                alt=""
                 [defaultImage]="grayPlaceholder"
                 [lazyLoad]="userDetails.thumbnail"
                 class="cover-image"
@@ -34,7 +35,7 @@
   <ion-card *ngFor="let card of cards" class="post-card">
     <ion-item>
       <ion-avatar tappable item-start>
-        <img class="cover-image card-profile-photo" [src]="card.avatarImageUrl" />
+        <img alt="" class="cover-image card-profile-photo" [src]="card.avatarImageUrl" />
       </ion-avatar>
       <h2 tappable>{{ card.name }}</h2>
       <div class="options">
@@ -42,7 +43,7 @@
       </div>
       <p>{{ card.date }}</p>
     </ion-item>
-    <div><img class="contain-image click" [src]="card.postImageUrl" /></div>
+    <div><img alt="" class="contain-image click" [src]="card.postImageUrl" /></div>
     <ion-card-content class="post-content">
       <div>{{ card.postText }}</div>
       <button ion-button clear small icon-left class="likes">

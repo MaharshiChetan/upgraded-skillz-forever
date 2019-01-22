@@ -28,6 +28,7 @@
     >
       <ion-avatar item-start *ngIf="message" class="image-container">
         <img
+          alt=""
           [defaultImage]="grayPlaceholder"
           [lazyLoad]="message?.thumbnail || message?.profilePhoto"
           class="cover-image"

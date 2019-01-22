@@ -6,6 +6,7 @@
   <ion-card class="round-card">
     <ion-avatar (click)="changePicture()">
       <img
+        alt=""
         class="image cover-image"
         [src]="chosenPicture || title?.title?.image || defaultPicture"
       />

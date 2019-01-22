@@ -7,6 +7,7 @@
 <ion-content fullscreen #myContent>
   <section class="housing-image click">
     <img
+      alt=""
       tappable
       class="eventImage cover-image animated fadeIn"
       [defaultImage]="placeholderImage"
@@ -136,6 +137,7 @@
         <ion-item tappable class="profile-avatar click" (click)="createPost()">
           <ion-avatar item-start>
             <img
+              alt=""
               class="cover-image"
               [src]="currentUserDetails.thumbnail || currentUserDetails.profilePhoto"
             />

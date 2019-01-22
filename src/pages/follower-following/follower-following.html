@@ -26,6 +26,7 @@
       <ion-item class="click" *ngFor="let user of followers" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
           <img
+            alt=""
             class="cover-image"
             [defaultImage]="grayPlaceholder"
             [lazyLoad]="user.thumbnail || user.profilePhoto"
@@ -52,6 +53,7 @@
       <ion-item class="click" *ngFor="let user of following" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
           <img
+            alt=""
             class="cover-image"
             [defaultImage]="grayPlaceholder"
             [lazyLoad]="user.thumbnail || user.profilePhoto"

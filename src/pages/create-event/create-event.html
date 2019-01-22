@@ -15,6 +15,7 @@
       <ion-list>
         <div class="container" (click)="uploadPicture()">
           <img
+            alt=""
             class="cover-image"
             *ngIf="chosenPicture || eventData?.imageUrl"
             [src]="chosenPicture || eventData?.imageUrl"

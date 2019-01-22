@@ -28,11 +28,12 @@
   <div class="profile profile-background">
     <div>
       <ion-avatar *ngIf="!userDetails">
-        <img [src]="defaultUserImage" class="cover-image" />
+        <img alt="" [src]="defaultUserImage" class="cover-image" />
         <ion-icon *ngIf="otherUser && !isFollowing" (click)="follow()" name="ios-water"></ion-icon>
       </ion-avatar>
       <ion-avatar *ngIf="userDetails">
         <img
+          alt=""
           [defaultImage]="userDetails.thumbnail || userDetails.profilePhoto"
           [lazyLoad]="userDetails.profilePhoto"
           [imageViewer]="userDetails.profilePhoto"

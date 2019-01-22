@@ -1,6 +1,6 @@
 <ion-content>
   <ion-item *ngFor="let track of myTracks" (click)="currentTrack = track">
-    <ion-thumbnail item-left> <img src="{{ track.art }}" /> </ion-thumbnail>
+    <ion-thumbnail item-left> <img alt="" src="{{ track.art }}" /> </ion-thumbnail>
     <h2>{{ track.title }}</h2>
   </ion-item>
 

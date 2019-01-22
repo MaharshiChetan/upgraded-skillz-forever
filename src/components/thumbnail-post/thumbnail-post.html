@@ -3,6 +3,7 @@
   <ion-row no-padding>
     <ion-col no-padding col-4 *ngFor="let post of posts">
       <img
+        alt=""
         (click)="showPost(post)"
         class="image-container cover-image"
         [defaultImage]="grayPlaceholder"

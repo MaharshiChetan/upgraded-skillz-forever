@@ -5,6 +5,7 @@
   <ion-card *ngIf="userProfile" class="round-card">
     <ion-avatar (click)="changePicture()">
       <img
+        alt=""
         class="image cover-image"
         [src]="chosenPicture || userProfile.thumbnail || userProfile.profilePhoto"
         onerror="this.src='userProfile.profilePhoto'"

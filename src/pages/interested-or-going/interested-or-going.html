@@ -17,6 +17,7 @@
       <ion-item class="click" *ngFor="let user of interestedUsers" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
           <img
+            alt=""
             class="cover-image animated fadeIn delay-3s"
             [src]="user.thumbnail || user.profilePhoto"
           />
@@ -37,6 +38,7 @@
       <ion-item class="click" *ngFor="let user of goingUsers" (click)="goToProfilePage(user)">
         <ion-avatar item-start>
           <img
+            alt=""
             class="cover-image animated fadeIn delay-3s"
             [src]="user.thumbnail || user.profilePhoto"
           />
