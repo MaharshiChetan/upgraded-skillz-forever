@@ -111,7 +111,7 @@ export class TitlesFormPage {
   }
 
   createTitle() {
-    this.loadingService.show('Logging In');
+    this.loadingService.show('Creating title...');
     let imageId = this.db.createPushId();
     if (this.title) {
       imageId = this.title.title.imageId;

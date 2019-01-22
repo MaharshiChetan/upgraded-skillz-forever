@@ -53,6 +53,7 @@ export class EventsPage implements OnInit {
   }
 
   goToCreateEventPage() {
+    this.loadingService.show();
     this.app.getRootNav().push('CreateEventPage');
   }
 
