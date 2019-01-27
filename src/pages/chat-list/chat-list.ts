@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, App, ActionSheetController, Platform } from 'ionic-angular';
-import { ChatProvider } from '../../providers/chat/chat';
+import { ChatService } from '../../providers/chat/chat';
 import firebase from 'firebase';
 import _ from 'lodash';
 import moment from 'moment';
 import 'rxjs/add/operator/debounceTime';
-import { DataProvider } from '../../providers/data/data';
-import { AuthProvider } from '../../providers/auth/auth';
+import { DataService } from '../../providers/data/data';
+import { AuthService } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -27,9 +27,9 @@ export class ChatListPage implements OnInit {
 
   constructor(
     private platform: Platform,
-    private chatService: ChatProvider,
-    private dataService: DataProvider,
-    private authService: AuthProvider,
+    private chatService: ChatService,
+    private dataService: DataService,
+    private authService: AuthService,
     private app: App,
     private actionSheetCtrl: ActionSheetController
   ) {}

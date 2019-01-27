@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { App, PopoverController } from 'ionic-angular';
-import { NewPopoverComponent } from '../new-popover/new-popover';
-import { AuthProvider } from '../../providers/auth/auth';
+import { AuthService } from '../../providers/auth/auth';
 import { NavController } from 'ionic-angular/navigation/nav-controller';
 import { LoadingService } from '../../services/loading-service';
+import { PopoverComponent } from '../popover/popover';
 
 @Component({
   selector: 'navbar',
@@ -18,7 +18,7 @@ export class NavbarComponent {
     private app: App,
     private navCtrl: NavController,
     private popoverCtrl: PopoverController,
-    private authService: AuthProvider,
+    private authService: AuthService,
     private loadingService: LoadingService
   ) {}
 
@@ -35,8 +35,16 @@ export class NavbarComponent {
     this.navCtrl.push('NotificationsPage');
   }
 
-  presentPopover(event) {
-    let popover = this.popoverCtrl.create(NewPopoverComponent);
+  presentPopover(event: any) {
+    const popoverOptions = [
+      { name: 'Leaderboard', id: 1 },
+      { name: 'Invite Friends', id: 2 },
+      { name: 'Share', id: 3 },
+      { name: 'Rate', id: 4 },
+      { name: 'Feedback', id: 5 },
+      { name: 'Settings', id: 6 },
+    ];
+    let popover = this.popoverCtrl.create(PopoverComponent, { popoverOptions });
     popover.present({
       ev: event,
     });

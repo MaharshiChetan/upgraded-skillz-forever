@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { NavController, ActionSheetController } from 'ionic-angular';
 import firebase from 'firebase';
-import { Message } from '../../providers/message/message';
+import { MessageService } from '../../providers/message/message';
 import { Clipboard } from '@ionic-native/clipboard';
-import { ChatProvider } from '../../providers/chat/chat';
+import { ChatService } from '../../providers/chat/chat';
+import { ToastService } from '../../services/toast-service';
 
 @Component({
   selector: 'chat-bubble',
@@ -19,9 +20,9 @@ export class ChatBubbleComponent {
   constructor(
     private navCtrl: NavController,
     private clipboard: Clipboard,
-    private presentMessage: Message,
-    private chatService: ChatProvider,
-    private actionsheetCtrl: ActionSheetController
+    private chatService: ChatService,
+    private actionsheetCtrl: ActionSheetController,
+    private toastService: ToastService
   ) {}
 
   goToProfilePage(user) {
@@ -51,7 +52,7 @@ export class ChatBubbleComponent {
             } else {
               this.clipboard.copy(message.message);
             }
-            this.presentMessage.showToast('Text copied to clipboard!');
+            this.toastService.presentToast('Text copied to clipboard!');
           },
         },
         {

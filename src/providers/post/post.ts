@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import firebase from 'firebase';
 
 @Injectable()
-export class PostProvider {
+export class PostService {
   node;
   uid = firebase.auth().currentUser.uid;
   constructor(private db: AngularFireDatabase) {}

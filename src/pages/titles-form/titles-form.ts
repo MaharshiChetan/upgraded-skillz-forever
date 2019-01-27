@@ -8,9 +8,9 @@ import {
   ActionSheetController,
 } from 'ionic-angular';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { TitlesProvider } from '../../providers/titles/titles';
+import { TitlesService } from '../../providers/titles/titles';
 import firebase from 'firebase';
-import { CameraProvider } from '../../providers/camera/camera';
+import { CameraService } from '../../providers/camera/camera';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { LoadingService } from '../../services/loading-service';
 
@@ -33,9 +33,9 @@ export class TitlesFormPage {
   constructor(
     private navCtrl: NavController,
     private alertCtrl: AlertController,
-    private titlesService: TitlesProvider,
+    private titlesService: TitlesService,
     private actionsheetCtrl: ActionSheetController,
-    private cameraService: CameraProvider,
+    private cameraService: CameraService,
     private platform: Platform,
     private loadingService: LoadingService,
     private navParams: NavParams,

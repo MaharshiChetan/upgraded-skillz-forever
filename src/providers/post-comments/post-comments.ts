@@ -3,7 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class PostCommentsProvider {
+export class PostCommentsService {
   constructor(private db: AngularFireDatabase) {}
 
   createComment(postId: string, uid: string, comment: string) {

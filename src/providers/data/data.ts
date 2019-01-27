@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class DataProvider {
+export class DataService {
   constructor() {}
 
   filterMessages(messages, searchTerm) {

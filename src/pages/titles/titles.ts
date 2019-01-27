@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, AlertController, App } from 'ionic-angular';
-import { TitlesProvider } from '../../providers/titles/titles';
-import { AuthProvider } from '../../providers/auth/auth';
+import { TitlesService } from '../../providers/titles/titles';
+import { AuthService } from '../../providers/auth/auth';
 import firebase from 'firebase';
 
 @IonicPage()
@@ -16,10 +16,10 @@ export class TitlesPage implements OnInit {
   uid: string = this.authService.userDetails.uid;
   grayPlaceholder: string = 'assets/gray-placeholder.png';
   constructor(
-    private titlesService: TitlesProvider,
+    private titlesService: TitlesService,
     private alertCtrl: AlertController,
     private app: App,
-    private authService: AuthProvider
+    private authService: AuthService
   ) {}
 
   ngOnInit() {

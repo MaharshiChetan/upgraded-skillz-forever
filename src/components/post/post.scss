@@ -1,6 +1,6 @@
 post {
   .likes {
-    left: 89%;
+    left: 87.5%;
   }
 
   .read-more {
@@ -22,5 +22,17 @@ post {
       top: 0;
       right: 0;
     }
+  }
+
+  .ion-ios-heart {
+    font-size: 1.9em;
+  }
+
+  .ion-ios-heart-outline {
+    font-size: 1.9em;
+  }
+
+  .ion-ios-text-outline {
+    font-size: 1.9em;
   }
 }

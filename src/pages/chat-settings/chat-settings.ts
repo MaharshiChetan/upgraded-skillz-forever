@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { ChatProvider } from '../../providers/chat/chat';
+import { ChatService } from '../../providers/chat/chat';
 import firebase from 'firebase';
 
 @IonicPage()
@@ -13,7 +13,7 @@ export class ChatSettingsPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private navParams: NavParams,
-    private chatService: ChatProvider,
+    private chatService: ChatService,
     private alertCtrl: AlertController
   ) {}
 

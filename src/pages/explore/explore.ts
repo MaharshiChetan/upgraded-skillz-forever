@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
@@ -11,11 +11,7 @@ export class ExplorePage implements OnInit {
   searchQuery: string = '';
   items: string[];
 
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private tabsPage: TabsPage
-  ) {
+  constructor(private tabsPage: TabsPage) {
     this.initializeItems();
   }
 

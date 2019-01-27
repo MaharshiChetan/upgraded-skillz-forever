@@ -15,7 +15,7 @@ export class UsersLikesPage implements OnInit {
   loadingText;
   grayPlaceholder: string = 'assets/gray-placeholder.png';
   usersdata = firebase.database().ref('/users');
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(private navCtrl: NavController, private navParams: NavParams) {}
 
   ngOnInit() {
     this.userKeys = this.navParams.get('users');

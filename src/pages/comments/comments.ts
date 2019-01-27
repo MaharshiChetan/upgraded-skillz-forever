@@ -7,13 +7,11 @@ import {
   ActionSheetController,
   Platform,
 } from 'ionic-angular';
-import { PostProvider } from '../../providers/post/post';
 import firebase from 'firebase';
-import { AuthProvider } from '../../providers/auth/auth';
-import { Message } from '../../providers/message/message';
-import { UserPostProvider } from '../../providers/user-post/user-post';
+import { AuthService } from '../../providers/auth/auth';
 import { Clipboard } from '@ionic-native/clipboard';
-import { PostCommentsProvider } from '../../providers/post-comments/post-comments';
+import { PostCommentsService } from '../../providers/post-comments/post-comments';
+import { ToastService } from '../../services/toast-service';
 
 @IonicPage()
 @Component({
@@ -34,11 +32,11 @@ export class CommentsPage implements OnInit {
     private viewCtrl: ViewController,
     private navCtrl: NavController,
     private element: ElementRef,
-    private authService: AuthProvider,
-    private presentMessage: Message,
+    private authService: AuthService,
+    private toastService: ToastService,
     private actionSheetCtrl: ActionSheetController,
     private clipboard: Clipboard,
-    private postCommentService: PostCommentsProvider
+    private postCommentService: PostCommentsService
   ) {}
 
   scrollToBottom() {
@@ -93,7 +91,7 @@ export class CommentsPage implements OnInit {
 
   createPostComment(comment: any) {
     if (comment.value === '') {
-      return this.presentMessage.showToast('Enter some comment!', 'fail-toast');
+      return this.toastService.presentToast('Enter some comment!');
     }
     this.postCommentService.createComment(
       this.post.key,

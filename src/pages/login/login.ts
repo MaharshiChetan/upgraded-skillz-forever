@@ -1,7 +1,7 @@
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Component } from '@angular/core';
-import { LoadingController, IonicPage, NavController, ToastController } from 'ionic-angular';
-import { AuthProvider } from '../../providers/auth/auth';
+import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { AuthService } from '../../providers/auth/auth';
 import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
@@ -17,7 +17,7 @@ export class LoginPage {
     private loadingService: LoadingService,
     private navCtrl: NavController,
     private toastCtrl: ToastController,
-    private authService: AuthProvider
+    private authService: AuthService
   ) {
     this.createForm();
   }

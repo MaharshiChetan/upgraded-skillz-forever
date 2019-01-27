@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, ViewController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -7,11 +7,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
   templateUrl: 'privacy-policy.html',
 })
 export class PrivacyPolicyPage {
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private view: ViewController
-  ) {}
+  constructor(private view: ViewController) {}
 
   dismiss() {
     this.view.dismiss();

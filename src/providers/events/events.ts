@@ -4,7 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class EventsProvider {
+export class EventsService {
   imageStore = firebase.storage().ref('/eventImages');
 
   constructor(private db: AngularFireDatabase) {}

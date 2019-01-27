@@ -3,7 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class FollowProvider {
+export class FollowService {
   constructor(private db: AngularFireDatabase) {}
 
   getFollowers(userId: string) {

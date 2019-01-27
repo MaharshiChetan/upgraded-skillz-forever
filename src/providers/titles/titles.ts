@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import firebase from 'firebase';
 
 @Injectable()
-export class TitlesProvider {
+export class TitlesService {
   uid = firebase.auth().currentUser.uid;
   constructor(private db: AngularFireDatabase) {
     console.log('Hello TitlesProvider Provider');

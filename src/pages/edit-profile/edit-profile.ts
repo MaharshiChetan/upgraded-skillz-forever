@@ -8,10 +8,10 @@ import {
   Platform,
   NavParams,
 } from 'ionic-angular';
-import { CameraProvider } from '../../providers/camera/camera';
-import { AuthProvider } from '../../providers/auth/auth';
-import { Message } from '../../providers/message/message';
+import { CameraService } from '../../providers/camera/camera';
+import { AuthService } from '../../providers/auth/auth';
 import { LoadingService } from '../../services/loading-service';
+import { ToastService } from '../../services/toast-service';
 
 @IonicPage()
 @Component({
@@ -28,10 +28,10 @@ export class EditProfilePage implements OnInit {
     private navParams: NavParams,
     private actionsheetCtrl: ActionSheetController,
     private platform: Platform,
-    private cameraService: CameraProvider,
+    private cameraService: CameraService,
     private loadingService: LoadingService,
-    private authService: AuthProvider,
-    private presentMessage: Message
+    private authService: AuthService,
+    private toastService: ToastService
   ) {
     this.createForm();
   }
@@ -74,12 +74,12 @@ export class EditProfilePage implements OnInit {
             .updateUser(uid, name, username, url, bio, this.userProfile.email)
             .then(res => {
               this.loadingService.hide();
-              this.presentMessage.showToast('Succefully updated your profile!', 'success-toast');
+              this.toastService.presentToast('Succefully updated your profile!', 'success-toast');
               this.navCtrl.pop();
             })
             .catch(e => {
               this.loadingService.hide();
-              this.presentMessage.showToast('Failed to updated your profile!', 'fail-toast');
+              this.toastService.presentToast('Failed to updated your profile!', 'fail-toast');
             });
         });
       });
@@ -91,12 +91,12 @@ export class EditProfilePage implements OnInit {
           if (this.userProfile.userName !== username) {
             this.authService.removeUsername(this.userProfile.userName);
           }
-          this.presentMessage.showToast('Succefully updated your profile!', 'success-toast');
+          this.toastService.presentToast('Succefully updated your profile!', 'success-toast');
           this.navCtrl.pop();
         })
         .catch(e => {
           this.loadingService.hide();
-          this.presentMessage.showToast('Failed to updated your profile!', 'fail-toast');
+          this.toastService.presentToast('Failed to updated your profile!', 'fail-toast');
         });
     }
   }
@@ -114,7 +114,7 @@ export class EditProfilePage implements OnInit {
         .then(snapshot => {
           if (snapshot.val()) {
             this.loadingService.hide();
-            this.presentMessage.showToast(`Username ${username} is already taken!`, 'fail-toast');
+            this.toastService.presentToast(`Username ${username} is already taken!`, 'fail-toast');
             return;
           } else {
             this.updateUserProfile(name, username, bio, uid);

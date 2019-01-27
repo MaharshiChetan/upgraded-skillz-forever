@@ -1,14 +1,5 @@
-<ion-list *ngIf="type === 'currentUser'">
-  <ion-item
-    *ngFor="let option of currentUserOptions"
-    class="click"
-    (click)="optionSelected(option)"
-  >
-    {{ option.name }}
-  </ion-item>
-</ion-list>
-<ion-list *ngIf="type === 'otherUser'">
-  <ion-item *ngFor="let option of otherUserOptions" class="click" (click)="optionSelected(option)">
+<ion-list>
+  <ion-item *ngFor="let option of options" class="click" (click)="optionSelected(option)">
     {{ option.name }}
   </ion-item>
 </ion-list>

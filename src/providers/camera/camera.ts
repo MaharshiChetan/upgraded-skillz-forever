@@ -4,7 +4,7 @@ import { Crop } from '@ionic-native/crop';
 import { Base64 } from '@ionic-native/base64';
 
 @Injectable()
-export class CameraProvider {
+export class CameraService {
   constructor(private camera: Camera, private crop: Crop, private base64: Base64) {}
 
   getPictureFromCamera(crop) {

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Storage } from '@ionic/storage';
@@ -9,14 +8,13 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Platform } from 'ionic-angular';
 
 @Injectable()
-export class AuthProvider {
+export class AuthService {
   uid: any = null;
   query: any;
   usersdata = firebase.database().ref('/users');
   public currentUserDetails: any;
   public userDetails: any;
   constructor(
-    public http: HttpClient,
     private googlePlus: GooglePlus,
     private storage: Storage,
     private platform: Platform,

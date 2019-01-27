@@ -8,13 +8,13 @@ import {
   ActionSheetController,
   AlertController,
 } from 'ionic-angular';
-import { CameraProvider } from '../../providers/camera/camera';
-import { EventsProvider } from '../../providers/events/events';
+import { CameraService } from '../../providers/camera/camera';
+import { EventsService } from '../../providers/events/events';
 import firebase from 'firebase';
-import { AuthProvider } from '../../providers/auth/auth';
+import { AuthService } from '../../providers/auth/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Message } from '../../providers/message/message';
 import { LoadingService } from '../../services/loading-service';
+import { ToastService } from '../../services/toast-service';
 
 @IonicPage()
 @Component({
@@ -45,14 +45,14 @@ export class CreateEventPage implements AfterViewInit {
     private navCtrl: NavController,
     private navParams: NavParams,
     private element: ElementRef,
-    private cameraService: CameraProvider,
+    private cameraService: CameraService,
     private loadingService: LoadingService,
-    private presentMessage: Message,
+    private toastService: ToastService,
     private actionsheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     private platform: Platform,
-    private eventService: EventsProvider,
-    private authService: AuthProvider,
+    private eventService: EventsService,
+    private authService: AuthService,
     private db: AngularFireDatabase
   ) {
     this.eventData = this.navParams.get('eventData');
@@ -250,7 +250,7 @@ export class CreateEventPage implements AfterViewInit {
 
   updateEvent(description) {
     if (!(this.chosenPicture || this.eventData)) {
-      this.presentMessage.showToast('Please upload event image, Its mandatory!', 'fail-toast');
+      this.toastService.presentToast('Please upload event image, Its mandatory!', 'fail-toast');
       return;
     }
     this.loadingService.show('Updating event...');
@@ -269,13 +269,13 @@ export class CreateEventPage implements AfterViewInit {
             .updateEvent(event, this.eventData.key)
             .then(res => {
               this.loadingService.hide();
-              this.presentMessage.showToast('Successfully updated event!', 'success-toast');
+              this.toastService.presentToast('Successfully updated event!', 'success-toast');
               this.showAlertMessage = false;
               this.navCtrl.pop();
             })
             .catch(e => {
               this.loadingService.hide();
-              this.presentMessage.showToast('Failed to update event!', 'fail-toast');
+              this.toastService.presentToast('Failed to update event!', 'fail-toast');
             });
         });
       });
@@ -285,13 +285,13 @@ export class CreateEventPage implements AfterViewInit {
         .updateEvent(event, this.eventData.key)
         .then(res => {
           this.loadingService.hide();
-          this.presentMessage.showToast('Successfully updated event!', 'success-toast');
+          this.toastService.presentToast('Successfully updated event!', 'success-toast');
           this.showAlertMessage = false;
           this.navCtrl.pop();
         })
         .catch(e => {
           this.loadingService.hide();
-          this.presentMessage.showToast('Failed to update event!', 'fail-toast');
+          this.toastService.presentToast('Failed to update event!', 'fail-toast');
         });
     } else {
       this.imageStore.putString(this.chosenPicture, 'data_url').then(res => {
@@ -299,7 +299,7 @@ export class CreateEventPage implements AfterViewInit {
           const event = this.updateForm(description, uid, imageId, url);
           this.eventService.createEvent(event, imageId).then(res => {
             this.loadingService.hide();
-            this.presentMessage.showToast('Successfully created event!', 'success-toast');
+            this.toastService.presentToast('Successfully created event!', 'success-toast');
             this.showAlertMessage = false;
             this.navCtrl.pop();
           });

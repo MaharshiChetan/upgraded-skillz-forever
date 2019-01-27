@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
-import { UserPostProvider } from '../../providers/user-post/user-post';
+import { UserPostService } from '../../providers/user-post/user-post';
 import firebase from 'firebase';
 import { LoadingService } from '../../services/loading-service';
-import { PostLikesProvider } from '../../providers/post-likes/post-likes';
-import { PostCommentsProvider } from '../../providers/post-comments/post-comments';
+import { PostLikesService } from '../../providers/post-likes/post-likes';
+import { PostCommentsService } from '../../providers/post-comments/post-comments';
 
 @IonicPage()
 @Component({
@@ -21,10 +21,10 @@ export class UserPostsPage implements OnInit {
   uid = firebase.auth().currentUser.uid;
   constructor(
     private navParams: NavParams,
-    private userPostService: UserPostProvider,
+    private userPostService: UserPostService,
     private loadingService: LoadingService,
-    private postLikesService: PostLikesProvider,
-    private postCommentsService: PostCommentsProvider
+    private postLikesService: PostLikesService,
+    private postCommentsService: PostCommentsService
   ) {}
 
   ngOnInit() {

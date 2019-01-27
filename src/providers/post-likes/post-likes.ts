@@ -3,7 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class PostLikesProvider {
+export class PostLikesService {
   constructor(private db: AngularFireDatabase) {}
 
   likePost(postId: string, uid: string) {

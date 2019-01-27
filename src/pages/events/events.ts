@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, IonicPage, App } from 'ionic-angular';
-import { EventsProvider } from '../../providers/events/events';
+import { IonicPage, App } from 'ionic-angular';
+import { EventsService } from '../../providers/events/events';
 import { TabsPage } from '../tabs/tabs';
-import { DataProvider } from '../../providers/data/data';
+import { DataService } from '../../providers/data/data';
 import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
@@ -17,9 +17,8 @@ export class EventsPage implements OnInit {
   searchEvents: any[];
   placeholderImage = 'assets/placeholder.jpg';
   constructor(
-    public navCtrl: NavController,
-    private eventService: EventsProvider,
-    private dataService: DataProvider,
+    private eventService: EventsService,
+    private dataService: DataService,
     private tabsPage: TabsPage,
     private app: App,
     private loadingService: LoadingService

@@ -2,11 +2,11 @@ import { Component, HostListener, ElementRef, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import firebase from 'firebase';
-import { PostProvider } from '../../providers/post/post';
-import { Message } from '../../providers/message/message';
+import { PostService } from '../../providers/post/post';
 import { ImageViewerController } from 'ionic-img-viewer';
-import { UserPostProvider } from '../../providers/user-post/user-post';
+import { UserPostService } from '../../providers/user-post/user-post';
 import { LoadingService } from '../../services/loading-service';
+import { ToastService } from '../../services/toast-service';
 
 @IonicPage()
 @Component({
@@ -37,10 +37,10 @@ export class CreatePostPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingService: LoadingService,
     private db: AngularFireDatabase,
-    private postService: PostProvider,
-    private presentMessage: Message,
+    private postService: PostService,
     private imageViewerCtrl: ImageViewerController,
-    private userPostService: UserPostProvider
+    private userPostService: UserPostService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -110,7 +110,7 @@ export class CreatePostPage implements OnInit {
           const post = this.getPostObject(text.value, url, imageId);
           this.postService.createEventPost(post, this.event.id, imageId).then(res => {
             this.loadingService.hide();
-            this.presentMessage.showToast('Successfully created a post!', 'success-toast');
+            this.toastService.presentToast('Successfully created a post!', 'success-toast');
             this.showAlertMessage = false;
             this.navCtrl.pop();
           });
@@ -120,7 +120,7 @@ export class CreatePostPage implements OnInit {
       const post = this.getPostObject(text.value);
       this.postService.createEventPost(post, this.event.id, imageId).then(res => {
         this.loadingService.hide();
-        this.presentMessage.showToast('Successfully created a post!', 'success-toast');
+        this.toastService.presentToast('Successfully created a post!', 'success-toast');
         this.showAlertMessage = false;
         this.navCtrl.pop();
       });
@@ -138,7 +138,7 @@ export class CreatePostPage implements OnInit {
       );
       this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
         this.loadingService.hide();
-        this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
+        this.toastService.presentToast('Successfully updated a post!', 'success-toast');
         this.showAlertMessage = false;
         this.navCtrl.pop();
       });
@@ -146,7 +146,7 @@ export class CreatePostPage implements OnInit {
       const post = this.getPostObject(text.value);
       this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
         this.loadingService.hide();
-        this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
+        this.toastService.presentToast('Successfully updated a post!', 'success-toast');
         this.showAlertMessage = false;
         this.navCtrl.pop();
       });
@@ -165,7 +165,7 @@ export class CreatePostPage implements OnInit {
         const post = this.getPostObject(text.value, url, imageId);
         this.userPostService.createUserPost(post, imageId).then(res => {
           this.loadingService.hide();
-          this.presentMessage.showToast('Successfully created a post!', 'success-toast');
+          this.toastService.presentToast('Successfully created a post!', 'success-toast');
           this.showAlertMessage = false;
           this.navCtrl.pop();
         });
@@ -183,7 +183,7 @@ export class CreatePostPage implements OnInit {
     );
     this.userPostService.updateUserPost(post, this.post.key).then(res => {
       this.loadingService.hide();
-      this.presentMessage.showToast('Successfully updated a post!', 'success-toast');
+      this.toastService.presentToast('Successfully updated a post!', 'success-toast');
       this.showAlertMessage = false;
       this.navCtrl.pop();
     });

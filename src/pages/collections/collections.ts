@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, App } from 'ionic-angular';
-import { AuthProvider } from '../../providers/auth/auth';
-import { UserPostProvider } from '../../providers/user-post/user-post';
+import { AuthService } from '../../providers/auth/auth';
+import { UserPostService } from '../../providers/user-post/user-post';
 import { ImageViewerController } from 'ionic-img-viewer';
 
 @IonicPage()
@@ -17,8 +17,8 @@ export class CollectionsPage implements OnInit {
   noPost: boolean = false;
 
   constructor(
-    private authService: AuthProvider,
-    private userPostService: UserPostProvider,
+    private authService: AuthService,
+    private userPostService: UserPostService,
     private app: App,
     private imageViewerCtrl: ImageViewerController
   ) {}

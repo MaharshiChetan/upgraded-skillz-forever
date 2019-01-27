@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, AlertController, LoadingController } from 'ionic-angular';
-import { EventsProvider } from '../../providers/events/events';
+import { IonicPage, NavController, AlertController } from 'ionic-angular';
+import { EventsService } from '../../providers/events/events';
 import firebase from 'firebase';
-import { PostProvider } from '../../providers/post/post';
+import { PostService } from '../../providers/post/post';
 import { LoadingService } from '../../services/loading-service';
-import { PostLikesProvider } from '../../providers/post-likes/post-likes';
-import { PostCommentsProvider } from '../../providers/post-comments/post-comments';
 
 @IonicPage()
 @Component({
@@ -17,10 +15,10 @@ export class MyEventsPage implements OnInit {
   subscription: any;
 
   constructor(
-    private eventService: EventsProvider,
+    private eventService: EventsService,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
-    private postService: PostProvider,
+    private postService: PostService,
     private loadingService: LoadingService
   ) {}
 

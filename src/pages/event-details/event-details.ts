@@ -9,19 +9,19 @@ import {
   ActionSheetController,
 } from 'ionic-angular';
 import { ImageViewerController } from 'ionic-img-viewer';
-import { AuthProvider } from '../../providers/auth/auth';
-import { EventsProvider } from '../../providers/events/events';
+import { AuthService } from '../../providers/auth/auth';
+import { EventsService } from '../../providers/events/events';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
-import { Message } from '../../providers/message/message';
+import { MessageService } from '../../providers/message/message';
 import { Platform } from 'ionic-angular/platform/platform';
-import { CameraProvider } from '../../providers/camera/camera';
-import { PostProvider } from '../../providers/post/post';
+import { CameraService } from '../../providers/camera/camera';
+import { PostService } from '../../providers/post/post';
 import firebase from 'firebase';
 import { LoadingService } from '../../services/loading-service';
-import { PostLikesProvider } from '../../providers/post-likes/post-likes';
-import { PostCommentsProvider } from '../../providers/post-comments/post-comments';
+import { PostLikesService } from '../../providers/post-likes/post-likes';
+import { PostCommentsService } from '../../providers/post-comments/post-comments';
 
 @IonicPage()
 @Component({
@@ -34,6 +34,7 @@ export class EventDetailsPage implements OnInit {
 
   fileTransfer: FileTransferObject = this.transfer.create();
   grayPlaceholder: string = 'assets/gray-placeholder.png';
+  placeHolderImage: string = 'assets/placeholder.jpg';
   start = 0;
   usersdata = firebase.database().ref('/users');
   slideHeaderPrevious = 0;
@@ -63,20 +64,20 @@ export class EventDetailsPage implements OnInit {
     private navParams: NavParams,
     private navCtrl: NavController,
     private imageViewerCtrl: ImageViewerController,
-    private authService: AuthProvider,
-    private eventService: EventsProvider,
+    private authService: AuthService,
+    private eventService: EventsService,
     private socialSharing: SocialSharing,
     private transfer: FileTransfer,
     private file: File,
-    private presentMessage: Message,
+    private presentMessage: MessageService,
     private loadingService: LoadingService,
     private alertCtrl: AlertController,
-    private cameraService: CameraProvider,
+    private cameraService: CameraService,
     private platform: Platform,
     private actionsheetCtrl: ActionSheetController,
-    private postService: PostProvider,
-    private postLikesService: PostLikesProvider,
-    private postCommentsService: PostCommentsProvider
+    private postService: PostService,
+    private postLikesService: PostLikesService,
+    private postCommentsService: PostCommentsService
   ) {
     this.event = this.navParams.get('event');
   }

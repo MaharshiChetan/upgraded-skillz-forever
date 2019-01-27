@@ -5,17 +5,17 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { AuthProvider } from '../providers/auth/auth';
+import { AuthService } from '../providers/auth/auth';
 import { HttpClientModule } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
 import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
-import { CameraProvider } from '../providers/camera/camera';
+import { CameraService } from '../providers/camera/camera';
 import { Camera } from '@ionic-native/camera';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { EventsProvider } from '../providers/events/events';
+import { EventsService } from '../providers/events/events';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireModule } from 'angularfire2';
 import { config } from './app.firebase';
@@ -24,14 +24,14 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 
-import { Message } from '../providers/message/message';
-import { FollowProvider } from '../providers/follow/follow';
-import { PostProvider } from '../providers/post/post';
+import { MessageService } from '../providers/message/message';
+import { FollowService } from '../providers/follow/follow';
+import { PostService } from '../providers/post/post';
 import { ImageLoaderConfig } from 'ionic-image-loader';
-import { ChatProvider } from '../providers/chat/chat';
+import { ChatService } from '../providers/chat/chat';
 import { Clipboard } from '@ionic-native/clipboard';
 import { Keyboard } from '@ionic-native/keyboard';
-import { DataProvider } from '../providers/data/data';
+import { DataService } from '../providers/data/data';
 
 import {
   IonicAudioModule,
@@ -43,23 +43,23 @@ import {
 import { PopoverComponent } from '../components/popover/popover';
 import { HeaderColor } from '@ionic-native/header-color';
 import { SuperTabsModule } from 'ionic2-super-tabs';
-import { TitlesProvider } from '../providers/titles/titles';
-import { NewPopoverComponent } from '../components/new-popover/new-popover';
+import { TitlesService } from '../providers/titles/titles';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserPostProvider } from '../providers/user-post/user-post';
+import { UserPostService } from '../providers/user-post/user-post';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { LoadingService } from '../services/loading-service';
-import { PostLikesProvider } from '../providers/post-likes/post-likes';
-import { PostCommentsProvider } from '../providers/post-comments/post-comments';
+import { PostLikesService } from '../providers/post-likes/post-likes';
+import { PostCommentsService } from '../providers/post-comments/post-comments';
 import { Crop } from '@ionic-native/crop';
 import { Base64 } from '@ionic-native/base64';
+import { ToastService } from '../services/toast-service';
 
 export function myCustomAudioProviderFactory() {
   return window.hasOwnProperty('cordova') ? new CordovaMediaProvider() : new WebAudioProvider();
 }
 
 @NgModule({
-  declarations: [MyApp, PopoverComponent, NewPopoverComponent],
+  declarations: [MyApp, PopoverComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -69,8 +69,15 @@ export function myCustomAudioProviderFactory() {
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: true,
       // animate: false,
-      pageTransition: 'wp-transition',
       mode: 'ios',
+      platforms: {
+        ios: {
+          pageTransition: 'ios-transition',
+        },
+        android: {
+          pageTransition: 'wp-transition',
+        },
+      },
       ios: {
         scrollAssist: false,
         autoFocusAssist: false,
@@ -87,7 +94,7 @@ export function myCustomAudioProviderFactory() {
     BrowserAnimationsModule,
   ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, PopoverComponent, NewPopoverComponent],
+  entryComponents: [MyApp, PopoverComponent],
   providers: [
     StatusBar,
     SplashScreen,
@@ -105,22 +112,23 @@ export function myCustomAudioProviderFactory() {
     Base64,
     Keyboard,
 
-    AuthProvider,
-    CameraProvider,
-    EventsProvider,
-    Message,
-    FollowProvider,
-    PostProvider,
-    TitlesProvider,
+    AuthService,
+    CameraService,
+    EventsService,
+    MessageService,
+    FollowService,
+    PostService,
+    TitlesService,
     ImageLoaderConfig,
-    ChatProvider,
+    ChatService,
     Clipboard,
-    DataProvider,
-    UserPostProvider,
+    DataService,
+    UserPostService,
 
     LoadingService,
-    PostLikesProvider,
-    PostCommentsProvider,
+    PostLikesService,
+    PostCommentsService,
+    ToastService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

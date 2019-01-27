@@ -6,13 +6,13 @@ import {
   ActionSheetController,
   AlertController,
 } from 'ionic-angular';
-import { UserPostProvider } from '../../providers/user-post/user-post';
+import { UserPostService } from '../../providers/user-post/user-post';
 import { ImageViewerController } from 'ionic-img-viewer';
 import firebase from 'firebase';
 import { LoadingService } from '../../services/loading-service';
-import { PostProvider } from '../../providers/post/post';
-import { PostLikesProvider } from '../../providers/post-likes/post-likes';
-import { PostCommentsProvider } from '../../providers/post-comments/post-comments';
+import { PostService } from '../../providers/post/post';
+import { PostLikesService } from '../../providers/post-likes/post-likes';
+import { PostCommentsService } from '../../providers/post-comments/post-comments';
 
 @Component({
   selector: 'post',
@@ -30,13 +30,13 @@ export class PostComponent {
     private modalCtrl: ModalController,
     private platform: Platform,
     private actionsheetCtrl: ActionSheetController,
-    private userPostService: UserPostProvider,
+    private userPostService: UserPostService,
     private alertCtrl: AlertController,
     private imageViewerCtrl: ImageViewerController,
     private loadingService: LoadingService,
-    private postService: PostProvider,
-    private postLikesService: PostLikesProvider,
-    private postCommentsService: PostCommentsProvider
+    private postService: PostService,
+    private postLikesService: PostLikesService,
+    private postCommentsService: PostCommentsService
   ) {}
 
   presentImage(image: any) {

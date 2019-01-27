@@ -1,3 +1,3 @@
 export class Event {
-  constructor(public eventName) {}
+  constructor(private eventName) {}
 }

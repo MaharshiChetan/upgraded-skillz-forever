@@ -9,13 +9,13 @@ import {
   App,
   FabContainer,
 } from 'ionic-angular';
-import { AuthProvider } from '../../providers/auth/auth';
-import { CameraProvider } from '../../providers/camera/camera';
+import { AuthService } from '../../providers/auth/auth';
+import { CameraService } from '../../providers/camera/camera';
 import firebase from 'firebase';
-import { Message } from '../../providers/message/message';
-import { FollowProvider } from '../../providers/follow/follow';
+import { FollowService } from '../../providers/follow/follow';
 import { PopoverComponent } from '../../components/popover/popover';
 import { LoadingService } from '../../services/loading-service';
+import { ToastService } from '../../services/toast-service';
 
 @IonicPage()
 @Component({
@@ -47,14 +47,14 @@ export class ProfilePage implements OnInit {
   constructor(
     private navParams: NavParams,
     private navCtrl: NavController,
-    private authService: AuthProvider,
+    private authService: AuthService,
     private loadingService: LoadingService,
-    private cameraService: CameraProvider,
+    private cameraService: CameraService,
     private actionsheetCtrl: ActionSheetController,
     private platform: Platform,
-    private presentMessage: Message,
-    private followService: FollowProvider,
+    private followService: FollowService,
     private popoverCtrl: PopoverController,
+    private toastService: ToastService,
     private app: App
   ) {}
 
@@ -232,13 +232,13 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  goToOneToOneChatPage(userDetails) {
+  goToOneToOneChatPage(userDetails: any) {
     this.navCtrl.push('OneToOneChatPage', { userDetails: userDetails });
   }
 
   follow() {
     this.followService.follow(firebase.auth().currentUser.uid, this.userDetails.uid);
-    this.presentMessage.showToast(
+    this.toastService.presentToast(
       `You have given a drop to ${this.userDetails.userName}`,
       'success-toast'
     );
@@ -246,20 +246,34 @@ export class ProfilePage implements OnInit {
 
   unfollow() {
     this.followService.unfollow(firebase.auth().currentUser.uid, this.userDetails.uid);
-    this.presentMessage.showToast(
+    this.toastService.presentToast(
       `You have taken away a drop from ${this.userDetails.userName}`,
       'success-toast'
     );
   }
 
   presentPopover(ev) {
-    let type = '';
+    let popoverOptions = [];
     if (this.currentUser) {
-      type = 'currentUser';
+      popoverOptions = [
+        { name: 'Leaderboard' },
+        { name: 'Invite Friends' },
+        { name: 'Share' },
+        { name: 'My Events' },
+        { name: 'My Tutorials' },
+        { name: 'Edit Profile' },
+        { name: 'Settings' },
+      ];
     } else {
-      type = 'otherUser';
+      popoverOptions = [
+        { name: 'Drop' },
+        { name: 'Message' },
+        { name: 'Share' },
+        { name: 'Report' },
+        { name: 'Block' },
+      ];
     }
-    let popover = this.popoverCtrl.create(PopoverComponent, { type: type });
+    let popover = this.popoverCtrl.create(PopoverComponent, { popoverOptions });
     popover.present({
       ev: ev,
     });

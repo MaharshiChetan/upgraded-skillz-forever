@@ -3,7 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class ChatProvider {
+export class ChatService {
   constructor(private db: AngularFireDatabase) {}
 
   sendImageMessage(sender, receiver, image) {

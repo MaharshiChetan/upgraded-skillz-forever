@@ -3,10 +3,13 @@
 3. Make share option of facebook.
 4. Fix a bug of native-keyboard which is used in one-to-one-chat.
 5. Build an image processing system which make thumbnail of all images.
-6. delete image from storage if deleted from one-to-one-chat.
-7. delete all image from storage if deleted from chat-list or chat-settings.
+6. Delete image from storage if deleted from one-to-one-chat.
+7. Delete all image from storage if deleted from chat-list or chat-settings.
 8. Optimize images.
-9. store 3 to 4 thumbnail of image.
-10. compress images and video.
+9. Store 3 to 4 thumbnail of image.
+10. Compress images and video.
 11. https://github.com/tjoskar/ng-lazyload-image/blob/master/example/changing-image.component.ts
-  For changing image. you have to make 3 thumbnail of 1 image
+  For changing image. you have to make 3 thumbnail of 1 image.
+12. Make readme.md file for every component and page.
+13. Write Comments for everything.
+14. Notifications.

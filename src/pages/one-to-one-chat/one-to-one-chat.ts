@@ -7,11 +7,11 @@ import {
   ActionSheetController,
   Platform,
 } from 'ionic-angular';
-import { ChatProvider } from '../../providers/chat/chat';
-import { AuthProvider } from '../../providers/auth/auth';
+import { ChatService } from '../../providers/chat/chat';
+import { AuthService } from '../../providers/auth/auth';
 import firebase from 'firebase';
 import { Keyboard } from '@ionic-native/keyboard';
-import { CameraProvider } from '../../providers/camera/camera';
+import { CameraService } from '../../providers/camera/camera';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { LoadingService } from '../../services/loading-service';
 
@@ -44,10 +44,10 @@ export class OneToOneChatPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private navParams: NavParams,
-    private chatService: ChatProvider,
-    private authService: AuthProvider,
+    private chatService: ChatService,
+    private authService: AuthService,
     private actionSheetCtrl: ActionSheetController,
-    private cameraService: CameraProvider,
+    private cameraService: CameraService,
     private loadingService: LoadingService,
     private keyboard: Keyboard,
     private platform: Platform,

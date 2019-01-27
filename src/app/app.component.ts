@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, ToastController, MenuController, AlertController } from 'ionic-angular';
+import { Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -7,8 +7,8 @@ import { config } from './app.firebase';
 import firebase from 'firebase';
 import { Network } from '@ionic-native/network';
 import { Storage } from '@ionic/storage';
-import { Message } from '../providers/message/message';
 import { HeaderColor } from '@ionic-native/header-color';
+import { ToastService } from '../services/toast-service';
 
 @Component({
   templateUrl: 'app.html',
@@ -18,15 +18,13 @@ export class MyApp {
   isAuthenticated = false;
 
   constructor(
-    public platform: Platform,
-    public statusBar: StatusBar,
-    public splashScreen: SplashScreen,
-    public storage: Storage,
-    public network: Network,
-    public toastCtrl: ToastController,
-    public menuCtrl: MenuController,
+    private platform: Platform,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    private storage: Storage,
+    private network: Network,
     private alertCtrl: AlertController,
-    private presentMessage: Message,
+    private toastService: ToastService,
     private headerColor: HeaderColor
   ) {
     this.headerColor.tint('#414e53');
@@ -49,7 +47,7 @@ export class MyApp {
     //KEEPS CHECKING NETWORK CONNECTIVITY AND ALERTS USER IF DISCONNECTED
     this.network.onchange().subscribe(networkChange => {
       if (networkChange.type === 'online') {
-        this.presentMessage.showToast('Back Online', 'toastonline');
+        this.toastService.presentToast('Back Online', 'toastonline');
       } else if (networkChange.type === 'offline') {
         const alert = this.alertCtrl.create({
           title: 'Connection Failed!',
@@ -61,11 +59,11 @@ export class MyApp {
       }
     });
 
-    platform.ready().then(() => {
+    this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
   }
 }

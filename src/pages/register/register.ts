@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { IonicPage, NavController, ToastController, ModalController } from 'ionic-angular';
-import { AuthProvider } from '../../providers/auth/auth';
+import { AuthService } from '../../providers/auth/auth';
 import { LoadingService } from '../../services/loading-service';
 
 @IonicPage()
@@ -19,7 +19,7 @@ export class RegisterPage {
 
   constructor(
     private navCtrl: NavController,
-    private authService: AuthProvider,
+    private authService: AuthService,
     private toastCtrl: ToastController,
     private loadingService: LoadingService,
     private modal: ModalController

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 @IonicPage()
@@ -9,10 +9,9 @@ import { Storage } from '@ionic/storage';
 })
 export class SettingsPage {
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
+    private navCtrl: NavController,
     private alertCtrl: AlertController,
-    public storage: Storage
+    private storage: Storage
   ) {}
 
   goToEditProfilePage() {

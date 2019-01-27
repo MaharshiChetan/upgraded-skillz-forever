@@ -9,7 +9,7 @@ export class ExpandableHeader implements OnInit {
   @Input('headerHeight') headerHeight: number;
   newHeaderHeight: any;
 
-  constructor(public element: ElementRef, public renderer: Renderer) {}
+  constructor(private element: ElementRef, private renderer: Renderer) {}
 
   ngOnInit() {
     this.renderer.setElementStyle(this.element.nativeElement, 'height', this.headerHeight + 'px');
