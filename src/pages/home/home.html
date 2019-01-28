@@ -7,7 +7,7 @@
     <ion-list>
       <ion-item>
         <ion-row>
-          <ion-col (click)="goToProfilePage()">
+          <ion-col (click)="goToProfilePage()" col-2>
             <ion-avatar item-start>
               <img
                 alt=""
@@ -17,7 +17,7 @@
               />
             </ion-avatar>
           </ion-col>
-          <ion-col col-10>
+          <ion-col>
             <ion-card-header (click)="goToProfilePage()">{{
               userDetails.displayName
             }}</ion-card-header>
