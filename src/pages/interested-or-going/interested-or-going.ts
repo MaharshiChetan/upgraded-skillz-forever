@@ -17,7 +17,7 @@ export class InterestedOrGoingPage implements OnInit {
   goingLoader: any = '';
   interestedLoadingText: string;
   goingLoadingText: string;
-
+  grayPlaceholder: string = 'assets/gray-placeholder.png';
   usersdata = firebase.database().ref('/users');
 
   constructor(private navCtrl: NavController, private navParams: NavParams) {}

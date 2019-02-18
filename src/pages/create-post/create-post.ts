@@ -2,7 +2,7 @@ import { Component, HostListener, ElementRef, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import firebase from 'firebase';
-import { PostService } from '../../providers/post/post';
+import { EventPostService } from '../../providers/event-post/event-post';
 import { ImageViewerController } from 'ionic-img-viewer';
 import { UserPostService } from '../../providers/user-post/user-post';
 import { LoadingService } from '../../services/loading-service';
@@ -37,7 +37,7 @@ export class CreatePostPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingService: LoadingService,
     private db: AngularFireDatabase,
-    private postService: PostService,
+    private eventPostService: EventPostService,
     private imageViewerCtrl: ImageViewerController,
     private userPostService: UserPostService,
     private toastService: ToastService
@@ -108,7 +108,7 @@ export class CreatePostPage implements OnInit {
       this.imageStore.putString(this.image, 'data_url').then(res => {
         this.imageStore.getDownloadURL().then(url => {
           const post = this.getPostObject(text.value, url, imageId);
-          this.postService.createEventPost(post, this.event.id, imageId).then(res => {
+          this.eventPostService.createEventPost(post, this.event.id, imageId).then(res => {
             this.loadingService.hide();
             this.toastService.presentToast('Successfully created a post!', 'success-toast');
             this.showAlertMessage = false;
@@ -118,7 +118,7 @@ export class CreatePostPage implements OnInit {
       });
     } else {
       const post = this.getPostObject(text.value);
-      this.postService.createEventPost(post, this.event.id, imageId).then(res => {
+      this.eventPostService.createEventPost(post, this.event.id, imageId).then(res => {
         this.loadingService.hide();
         this.toastService.presentToast('Successfully created a post!', 'success-toast');
         this.showAlertMessage = false;
@@ -136,7 +136,7 @@ export class CreatePostPage implements OnInit {
         this.post.imageId,
         this.post.timeStamp
       );
-      this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
+      this.eventPostService.updateEventPost(post, this.event.id, this.post.key).then(res => {
         this.loadingService.hide();
         this.toastService.presentToast('Successfully updated a post!', 'success-toast');
         this.showAlertMessage = false;
@@ -144,7 +144,7 @@ export class CreatePostPage implements OnInit {
       });
     } else {
       const post = this.getPostObject(text.value);
-      this.postService.updateEventPost(post, this.event.id, this.post.key).then(res => {
+      this.eventPostService.updateEventPost(post, this.event.id, this.post.key).then(res => {
         this.loadingService.hide();
         this.toastService.presentToast('Successfully updated a post!', 'success-toast');
         this.showAlertMessage = false;
@@ -192,8 +192,8 @@ export class CreatePostPage implements OnInit {
   getPostObject(text: string, imageUrl?: string, imageId?: string, timeStamp?: string) {
     return {
       textualContent: text,
-      imageUrl: imageUrl || '',
-      imageId: imageId || '',
+      imageUrl: imageUrl || null,
+      imageId: imageId || null,
       date: '' + new Date(),
       uid: this.uid,
       timeStamp: timeStamp || firebase.database.ServerValue.TIMESTAMP,

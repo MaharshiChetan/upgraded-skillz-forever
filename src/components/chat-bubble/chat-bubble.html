@@ -6,7 +6,9 @@
       tappable
       (click)="goToProfilePage(otherUserDetails)"
       class="profile-pic left cover-image"
-      [src]="otherUserDetails.thumbnail || otherUserDetails.profilePhoto"
+      [defaultImage]="grayPlaceholder"
+      [lazyLoad]="otherUserDetails.thumbnail || otherUserDetails.profilePhoto"
+      [errorImage]="otherUserDetails.profilePhoto"
       onerror="this.onerror=null;this.src='assets/default-user.jpeg';"
     />
 
@@ -22,6 +24,7 @@
         alt=""
         [defaultImage]="grayPlaceholder"
         [lazyLoad]="message.thumbnail || message.imageUrl"
+        [errorImage]="message.imageUrl"
         class="cover-image"
         [imageViewer]="message.imageUrl"
       />
@@ -44,6 +47,7 @@
         alt=""
         [defaultImage]="grayPlaceholder"
         [lazyLoad]="message.thumbnail || message.imageUrl"
+        [errorImage]="message.imageUrl"
         class="cover-image"
         [imageViewer]="message.imageUrl"
       />

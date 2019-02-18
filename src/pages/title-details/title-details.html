@@ -12,6 +12,7 @@
           class="image cover-image"
           [defaultImage]="grayPlaceholder || title.thumbnail || title.image"
           [lazyLoad]="title.thumbnail || title.image"
+          [errorImage]="title.image"
         />
       </ion-avatar>
     </div>

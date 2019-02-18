@@ -57,7 +57,7 @@ export class EditProfilePage implements OnInit {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       username: new FormControl('', Validators.required),
-      bio: new FormControl('', Validators.required),
+      bio: new FormControl(''),
     });
   }
 

@@ -36,6 +36,7 @@
           alt=""
           [defaultImage]="userDetails.thumbnail || userDetails.profilePhoto"
           [lazyLoad]="userDetails.profilePhoto"
+          [errorImage]="userDetails.profilePhoto"
           [imageViewer]="userDetails.profilePhoto"
           class="cover-image"
           [ngClass]="{ 'animated fadeIn delay-3s': animate }"
@@ -51,16 +52,9 @@
     </div>
   </div>
   <ion-fab bottom right #fab *ngIf="currentUser && fabIcon === 'collections'">
-    <button ion-fab color="secondary"><ion-icon name="add"></ion-icon></button>
-    <ion-fab-list side="left">
-      <button ion-fab (click)="goToTitlesFormPage(fab)">
-        <ion-icon name="musical-notes"></ion-icon>
-      </button>
-      <button ion-fab (click)="goToCreateEventPage(fab)">
-        <ion-icon name="videocam"></ion-icon>
-      </button>
-      <button ion-fab (click)="changePicture(fab)"><ion-icon name="images"></ion-icon></button>
-    </ion-fab-list>
+    <button ion-fab color="secondary" (click)="changePicture(fab)">
+      <ion-icon name="add"></ion-icon>
+    </button>
   </ion-fab>
   <ion-fab bottom right #fab *ngIf="currentUser && fabIcon === 'titles'">
     <button ion-fab color="secondary" (click)="goToTitlesFormPage(fab)">

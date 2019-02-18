@@ -6,7 +6,9 @@
         <img
           alt=""
           class="cover-image"
-          [src]="post.userDetails.thumbnail || post.userDetails.profilePhoto"
+          [defaultImage]="grayPlaceholder"
+          [lazyLoad]="post.userDetails.thumbnail || post.userDetails.profilePhoto"
+          [errorImage]="post.userDetails.profilePhoto"
         />
       </ion-avatar>
       <h2 tappable (click)="goToProfilePage(post.userDetails)">{{ post.userDetails.userName }}</h2>
@@ -24,21 +26,23 @@
         class="contain-image click"
         [defaultImage]="post.thumbnail || post.imageUrl"
         [lazyLoad]="post.imageUrl"
+        [errorImage]="post.imageUrl"
         [useSrcset]="true"
         offset="100"
         (press)="presentImage(image)"
       />
       <img
         alt=""
-        *ngIf="eventId"
+        *ngIf="eventId && post.imageUrl"
         class="contain-image click"
         [defaultImage]="grayPlaceholder || post.thumbnail || post.imageUrl"
         [lazyLoad]="post.imageUrl"
+        [errorImage]="post.imageUrl"
         [useSrcset]="true"
         offset="100"
         (press)="presentImage(image)"
       />
-      <img alt="" [src]="post.imageUrl" style="display: none" #image />
+      <img alt="" *ngIf="post.imageUrl" [src]="post.imageUrl" style="display: none" #image />
     </div>
     <ion-card-content class="post-content">
       <div

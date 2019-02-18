@@ -31,6 +31,7 @@
           alt=""
           [defaultImage]="grayPlaceholder"
           [lazyLoad]="message?.thumbnail || message?.profilePhoto"
+          [errorImage]="message?.profilePhoto"
           class="cover-image"
           onerror="this.onerror=null;this.src='assets/default-user.jpeg';"
         />

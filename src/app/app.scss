@@ -13,7 +13,6 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-@import '../theme/common';
 .toastoffline .toast-container {
   background-color: red;
   height: 20px;
@@ -25,41 +24,6 @@
   height: 20px;
   text-align: center;
 }
-
-// .add-toast .toast-container {
-//   background-color: mediumpurple;
-//   text-align: center;
-//   border-radius: 10px;
-// }
-
-// .add-toast.toast-md .toast-wrapper {
-//   top: 60px;
-//   width: 90%;
-//   border-radius: 10px;
-// }
-
-// .fail-toast .toast-container {
-//   background-color: #cf457a;
-//   text-align: center;
-//   border-radius: 10px;
-// }
-
-// .fail-toast.toast-md .toast-wrapper {
-//   top: 60px;
-//   width: 90%;
-//   border-radius: 10px;
-// }
-// .success-toast .toast-container {
-//   background-color: #49b7f0;
-//   text-align: center;
-//   border-radius: 10px;
-// }
-
-// .success-toast.toast-md .toast-wrapper {
-//   top: 60px;
-//   width: 90%;
-//   border-radius: 10px;
-// }
 
 .contain-image {
   object-fit: contain;
@@ -81,19 +45,19 @@
   padding: 10px;
 }
 
-.content-md {
+/* .content-ios {
   background-color: #f7f7f7;
-}
+} */
 
-.item-input-has-focus .label-md[stacked],
-.input-has-focus .label-md[stacked],
-.item-input-has-focus .label-md[floating],
-.input-has-focus .label-md[floating] {
+.item-input-has-focus .label-ios[stacked],
+.input-has-focus .label-ios[stacked],
+.item-input-has-focus .label-ios[floating],
+.input-has-focus .label-ios[floating] {
   color: #008000;
 }
 
-.label-md[stacked],
-.label-md[floating] {
+.label-ios[stacked],
+.label-ios[floating] {
   color: gray;
 }
 
@@ -116,6 +80,7 @@
 .post-button {
   margin: 0px;
 }
+
 .post-content {
   padding: 8px 16px 0px 13px;
 }

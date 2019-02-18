@@ -4,9 +4,9 @@ import { map } from 'rxjs/operators';
 import firebase from 'firebase';
 
 @Injectable()
-export class PostService {
-  node;
+export class EventPostService {
   uid = firebase.auth().currentUser.uid;
+
   constructor(private db: AngularFireDatabase) {}
 
   createEventPost(post: any, eventId: string, pushId: string) {
@@ -30,8 +30,9 @@ export class PostService {
   }
 
   deleteAllPost(eventId: string) {
-    this.getEventPosts(eventId).subscribe(posts => {
+    const subscribe = this.getEventPosts(eventId).subscribe(posts => {
       this.deleteAllEventPostImages(eventId, posts);
+      subscribe.unsubscribe();
     });
     this.db.list(`eventPosts/${eventId}`).remove();
   }

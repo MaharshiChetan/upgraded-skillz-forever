@@ -12,6 +12,9 @@ event-details-page {
     margin-top: 100px;
   }
 
+  .toolbar-ios ion-title {
+    padding: 0 62px 1px 80px;
+  }
   .scroll-content {
     top: -56px !important;
     padding-top: 55px !important;
@@ -190,6 +193,16 @@ event-details-page {
     }
     to {
       opacity: 1;
+    }
+  }
+
+  .glow {
+    animation: glow 1s linear infinite;
+  }
+
+  @keyframes glow {
+    50% {
+      opacity: 0;
     }
   }
 }

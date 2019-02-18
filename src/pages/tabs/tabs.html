@@ -1,16 +1,16 @@
 <ion-header no-shadow no-border> <navbar [navbarTitle]="navbarTitle"></navbar> </ion-header>
 <ion-content>
   <super-tabs
-    selectedTabIndex="2"
+    selectedTabIndex="1"
     toolbarBackground="primary"
     toolbarColor="white"
     indicatorColor="secondary"
     (tabSelect)="onTabSelect($event)"
   >
-    <super-tab root="TutorialPage" icon="school"></super-tab>
-    <super-tab root="TrackPage" icon="musical-notes"></super-tab>
-    <super-tab root="HomePage" icon="home"></super-tab>
+    <!-- <super-tab root="TutorialPage" icon="school"></super-tab> -->
+    <!-- <super-tab root="TrackPage" icon="musical-notes"></super-tab> -->
     <super-tab root="EventsPage" icon="calendar"></super-tab>
+    <super-tab root="HomePage" icon="home"></super-tab>
     <super-tab root="ChatListPage" icon="chatbubbles"></super-tab>
   </super-tabs>
 </ion-content>

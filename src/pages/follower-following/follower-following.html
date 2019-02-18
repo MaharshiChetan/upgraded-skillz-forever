@@ -30,6 +30,7 @@
             class="cover-image"
             [defaultImage]="grayPlaceholder"
             [lazyLoad]="user.thumbnail || user.profilePhoto"
+            [errorImage]="user.profilePhoto"
           />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>
@@ -57,6 +58,7 @@
             class="cover-image"
             [defaultImage]="grayPlaceholder"
             [lazyLoad]="user.thumbnail || user.profilePhoto"
+            [errorImage]="user.profilePhoto"
           />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>

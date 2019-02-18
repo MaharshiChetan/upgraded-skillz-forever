@@ -27,34 +27,34 @@
         </div>
 
         <ion-item>
-          <ion-label floating>Event Name (Title)</ion-label>
+          <ion-label stacked>Event Name (Title)</ion-label>
           <ion-input formControlName="eventName"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label floating>Description of Event</ion-label>
+          <ion-label stacked>Description of Event</ion-label>
           <ion-textarea
             #myInput
-            rows="3"
             [value]="eventData?.eventDescription"
             (keyup)="adjust(0)"
+            rows="3"
           ></ion-textarea>
         </ion-item>
 
         <ion-item>
-          <ion-label floating>Location(Full Address)</ion-label>
+          <ion-label stacked>Location(Full Address)</ion-label>
           <ion-textarea formControlName="eventLocation" rows="2" (keyup)="adjust(1)"></ion-textarea>
         </ion-item>
         <ion-item>
-          <ion-label floating>State</ion-label>
+          <ion-label stacked>State</ion-label>
           <ion-input formControlName="eventState"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label floating>City</ion-label>
+          <ion-label stacked>City</ion-label>
           <ion-input formControlName="eventCity"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label floating>
-            <ion-icon name="cash"></ion-icon>
+          <ion-label stacked>
+            <i class="fas fa-rupee-sign"></i>
             Amount in Rupees
           </ion-label>
           <ion-input type="number" formControlName="eventPrice"></ion-input>
@@ -107,7 +107,7 @@
           <ion-item-sliding *ngFor="let category of categories; let i = index">
             <ion-item>
               {{ category.name }}
-              <div class="float"><i class="fas fa-rupee-sign"></i> {{ category.price }}</div>
+              <div class="float-right"><i class="fas fa-rupee-sign"></i> {{ category.price }}</div>
             </ion-item>
             <ion-item-options side="right">
               <button ion-button color="danger" (click)="removeCategory(i)">

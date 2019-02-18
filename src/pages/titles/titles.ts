@@ -27,8 +27,9 @@ export class TitlesPage implements OnInit {
   }
 
   getTitles(event?: any) {
-    this.titlesService.getTitles(this.uid).subscribe(titles => {
+    const subscribe = this.titlesService.getTitles(this.uid).subscribe(titles => {
       this.titles = titles;
+      subscribe.unsubscribe();
       if (event) event.complete();
     });
   }

@@ -66,7 +66,7 @@ export class CameraService {
       });
   }
 
-  generateFromImage(img, quality, callback) {
+  generateFromImage(img: any, quality: any, callback: any) {
     const canvas: any = document.createElement('canvas');
     const image = new Image();
 

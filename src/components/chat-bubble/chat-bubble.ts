@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NavController, ActionSheetController } from 'ionic-angular';
 import firebase from 'firebase';
-import { MessageService } from '../../providers/message/message';
 import { Clipboard } from '@ionic-native/clipboard';
 import { ChatService } from '../../providers/chat/chat';
 import { ToastService } from '../../services/toast-service';

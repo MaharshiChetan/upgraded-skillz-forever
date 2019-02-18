@@ -12,7 +12,6 @@ import { LoadingService } from '../../services/loading-service';
 })
 export class EventsPage implements OnInit {
   events: any[];
-  subscription: any;
   searchTerm: string;
   searchEvents: any[];
   placeholderImage = 'assets/placeholder.jpg';
@@ -30,18 +29,15 @@ export class EventsPage implements OnInit {
   }
 
   fetchEvents(refresher) {
-    this.subscription = this.eventService.fetchEvents().subscribe(events => {
+    const subscription = this.eventService.fetchEvents().subscribe(events => {
       this.events = events;
       this.searchEvents = this.events;
+      subscription.unsubscribe();
       if (refresher) refresher.complete();
     });
   }
 
-  ionViewWillLeave() {
-    this.subscription.unsubscribe();
-  }
-
-  goToEventDetails(event) {
+  goToEventDetails(event: any) {
     this.loadingService.show();
     this.app.getRootNav().push('EventDetailsPage', { event: event });
     this.tabsPage.hideFabButton();

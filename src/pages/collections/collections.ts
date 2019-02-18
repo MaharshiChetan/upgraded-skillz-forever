@@ -12,8 +12,6 @@ import { ImageViewerController } from 'ionic-img-viewer';
 export class CollectionsPage implements OnInit {
   uid: string = this.authService.userDetails.uid;
   imagePosts: any;
-  videoPosts: any;
-  audioPosts: any;
   noPost: boolean = false;
 
   constructor(
@@ -33,24 +31,11 @@ export class CollectionsPage implements OnInit {
   }
 
   getUserImagePosts(event?: any) {
-    this.userPostService.getUserFirstSixPosts(this.uid).subscribe(posts => {
+    const subscribe = this.userPostService.getUserFirstSixPosts(this.uid).subscribe(posts => {
       this.imagePosts = posts;
       this.noPost = this.imagePosts.length > 0 ? false : true;
       if (event) event.complete();
-    });
-  }
-
-  getUserVideoPosts() {
-    this.userPostService.getUserPosts(this.uid).subscribe(posts => {
-      this.videoPosts = posts;
-      this.noPost = this.imagePosts.length > 0 ? false : true;
-    });
-  }
-
-  getUserAudioPosts() {
-    this.userPostService.getUserPosts(this.uid).subscribe(posts => {
-      this.audioPosts = posts;
-      this.noPost = this.imagePosts.length > 0 ? false : true;
+      subscribe.unsubscribe();
     });
   }
 

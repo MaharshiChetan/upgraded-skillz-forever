@@ -10,7 +10,7 @@ export class TitlesService {
     console.log('Hello TitlesProvider Provider');
   }
 
-  createTitle(title: any, pushId) {
+  createTitle(title: any, pushId: any) {
     this.db.object(`titles/${this.uid}/${pushId}`).update(title);
   }
 

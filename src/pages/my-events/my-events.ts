@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, AlertController } from 'ionic-angular';
 import { EventsService } from '../../providers/events/events';
 import firebase from 'firebase';
-import { PostService } from '../../providers/post/post';
 import { LoadingService } from '../../services/loading-service';
+import { EventPostService } from '../../providers/event-post/event-post';
 
 @IonicPage()
 @Component({
@@ -18,7 +18,7 @@ export class MyEventsPage implements OnInit {
     private eventService: EventsService,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
-    private postService: PostService,
+    private eventPostService: EventPostService,
     private loadingService: LoadingService
   ) {}
 
@@ -60,7 +60,7 @@ export class MyEventsPage implements OnInit {
             handler: () => {
               alertPopup.dismiss().then(() => {
                 this.loadingService.show('Deleting event...');
-                this.postService.deleteAllPost(eventInfo.key);
+                this.eventPostService.deleteAllPost(eventInfo.key);
                 this.eventService.deleteEvent(eventInfo);
                 this.loadingService.hide();
               });

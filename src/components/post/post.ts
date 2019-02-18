@@ -10,9 +10,9 @@ import { UserPostService } from '../../providers/user-post/user-post';
 import { ImageViewerController } from 'ionic-img-viewer';
 import firebase from 'firebase';
 import { LoadingService } from '../../services/loading-service';
-import { PostService } from '../../providers/post/post';
 import { PostLikesService } from '../../providers/post-likes/post-likes';
 import { PostCommentsService } from '../../providers/post-comments/post-comments';
+import { EventPostService } from '../../providers/event-post/event-post';
 
 @Component({
   selector: 'post',
@@ -34,7 +34,7 @@ export class PostComponent {
     private alertCtrl: AlertController,
     private imageViewerCtrl: ImageViewerController,
     private loadingService: LoadingService,
-    private postService: PostService,
+    private eventPostService: EventPostService,
     private postLikesService: PostLikesService,
     private postCommentsService: PostCommentsService
   ) {}
@@ -138,7 +138,7 @@ export class PostComponent {
   deletePost(post: any) {
     this.loadingService.show('Deleting post...');
     if (this.eventId) {
-      this.postService.deletePost(post, this.eventId);
+      this.eventPostService.deletePost(post, this.eventId);
       this.postLikesService.removePostLikes(post.key);
       this.postCommentsService.removePostComments(post.key);
     } else {

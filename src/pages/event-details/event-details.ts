@@ -17,11 +17,11 @@ import { File } from '@ionic-native/file';
 import { MessageService } from '../../providers/message/message';
 import { Platform } from 'ionic-angular/platform/platform';
 import { CameraService } from '../../providers/camera/camera';
-import { PostService } from '../../providers/post/post';
 import firebase from 'firebase';
 import { LoadingService } from '../../services/loading-service';
 import { PostLikesService } from '../../providers/post-likes/post-likes';
 import { PostCommentsService } from '../../providers/post-comments/post-comments';
+import { EventPostService } from '../../providers/event-post/event-post';
 
 @IonicPage()
 @Component({
@@ -45,14 +45,14 @@ export class EventDetailsPage implements OnInit {
   bookingTitle: string = 'Book';
   posts: any;
   userDetails: any = [];
-  event;
+  event: any;
   interested = false;
   going = false;
-  interestedSubscription;
-  goingSubscription;
+  interestedSubscription: any;
+  goingSubscription: any;
 
-  interestedUsers;
-  goingUsers;
+  interestedUsers: any;
+  goingUsers: any;
 
   isLiking: boolean = false;
   uid = this.authService.getActiveUser().uid;
@@ -75,7 +75,7 @@ export class EventDetailsPage implements OnInit {
     private cameraService: CameraService,
     private platform: Platform,
     private actionsheetCtrl: ActionSheetController,
-    private postService: PostService,
+    private eventPostService: EventPostService,
     private postLikesService: PostLikesService,
     private postCommentsService: PostCommentsService
   ) {
@@ -89,7 +89,6 @@ export class EventDetailsPage implements OnInit {
       .fetchActivePeopleForEvents(this.event.key, 'interested')
       .subscribe(users => {
         this.interestedUsers = users;
-
         this.checkInterest();
       });
     this.goingSubscription = this.eventService
@@ -252,7 +251,7 @@ export class EventDetailsPage implements OnInit {
   }
 
   fetchDiscussionPosts() {
-    this.postService.getEventPosts(this.event.key).subscribe(eventPosts => {
+    this.eventPostService.getEventPosts(this.event.key).subscribe(eventPosts => {
       this.posts = eventPosts.reverse();
 
       this.posts.forEach((post, i) => {
@@ -261,17 +260,6 @@ export class EventDetailsPage implements OnInit {
           if (post.uid === firebase.auth().currentUser.uid) {
             this.posts[i].myPost = true;
           }
-          this.postLikesService.getTotalLikes(post.key).subscribe(likes => {
-            if (this.posts.length > 0) {
-              this.posts[i].likes = likes;
-              this.posts[i].totalLikes = likes.length;
-            }
-          });
-          this.postCommentsService.getTotalComments(post.key).subscribe(comments => {
-            if (this.posts.length > 0) {
-              this.posts[i].totalComments = comments.length;
-            }
-          });
           this.postLikesService
             .checkLike(post.key, firebase.auth().currentUser.uid)
             .subscribe(data => {
@@ -280,6 +268,23 @@ export class EventDetailsPage implements OnInit {
               } else if (this.posts.length > 0) {
                 this.posts[i].isLiking = false;
               }
+              const likeSubscription = this.postLikesService
+                .getTotalLikes(post.key)
+                .subscribe(likes => {
+                  if (this.posts.length > 0) {
+                    this.posts[i].likes = likes;
+                    this.posts[i].totalLikes = likes.length;
+                  }
+                  likeSubscription.unsubscribe();
+                });
+              const commentSubscription = this.postCommentsService
+                .getTotalComments(post.key)
+                .subscribe(comments => {
+                  if (this.posts.length > 0) {
+                    this.posts[i].totalComments = comments.length;
+                  }
+                  commentSubscription.unsubscribe();
+                });
             });
         });
       });
@@ -399,5 +404,9 @@ export class EventDetailsPage implements OnInit {
     alertPopup.present();
   }
 
-  doInfinite(event) {}
+  doInfinite(event: any) {}
+
+  goToVotingCategoryPage() {
+    this.navCtrl.push('VotingCategoryPage', { event: this.event });
+  }
 }

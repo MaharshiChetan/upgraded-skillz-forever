@@ -15,9 +15,17 @@
 <ion-content fullscreen #myContent>
   <div [ngSwitch]="type">
     <div *ngSwitchCase="'ThumbnailPost'" no-lines>
+      <ion-refresher *ngIf="posts" (ionRefresh)="getUserPosts($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <thumbnail-post [posts]="posts"></thumbnail-post>
     </div>
 
-    <div *ngSwitchCase="'DetailPost'" no-lines><post [posts]="posts"></post></div>
+    <div *ngSwitchCase="'DetailPost'" no-lines>
+      <ion-refresher *ngIf="posts" (ionRefresh)="getUserPosts($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+      <post [posts]="posts"></post>
+    </div>
   </div>
 </ion-content>

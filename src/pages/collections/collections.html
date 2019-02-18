@@ -12,36 +12,4 @@
     <ion-list-header> Photos <span *ngIf="imagePosts.length > 5">View All</span> </ion-list-header>
     <thumbnail-post [posts]="imagePosts"></thumbnail-post>
   </ion-card>
-
-  <ion-card *ngIf="videoPosts && videoPosts.length > 0" class="round-card">
-    <ion-list-header>
-      Videos <span *ngIf="videoPosts.length > 6">{{ videoPosts.length - 6 }}+</span>
-      <span *ngIf="7 > videoPosts.length">View All</span>
-    </ion-list-header>
-
-    <ion-row no-padding>
-      <ion-col no-padding col-4 *ngFor="let post of videoPosts">
-        <img
-          alt=""
-          class="image-container"
-          src="https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg"
-        />
-      </ion-col>
-    </ion-row>
-  </ion-card>
-  <ion-card *ngIf="audioPosts && audioPosts.length > 0" class="round-card">
-    <ion-list-header>
-      Tracks <span *ngIf="audioPosts.length > 6">{{ audioPosts.length - 6 }}+</span>
-      <span *ngIf="7 > audioPosts.length">View All</span>
-    </ion-list-header>
-    <ion-row no-padding>
-      <ion-col no-padding col-4 *ngFor="let post of audioPosts">
-        <img
-          alt=""
-          class="image-container"
-          src="https://www.history.com/.image/t_share/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg"
-        />
-      </ion-col>
-    </ion-row>
-  </ion-card>
 </ion-content>

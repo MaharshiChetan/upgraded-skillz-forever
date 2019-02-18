@@ -13,3 +13,4 @@
 12. Make readme.md file for every component and page.
 13. Write Comments for everything.
 14. Notifications.
+15. show 6 most liked post of the profile on collection page.

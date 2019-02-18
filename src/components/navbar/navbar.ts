@@ -13,7 +13,7 @@ export class NavbarComponent {
   @Input('navbarTitle') navbarTitle: string;
 
   options = 'all';
-  userDetails;
+  userDetails: any;
   constructor(
     private app: App,
     private navCtrl: NavController,

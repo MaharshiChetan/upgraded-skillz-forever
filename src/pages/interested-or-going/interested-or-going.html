@@ -19,7 +19,9 @@
           <img
             alt=""
             class="cover-image animated fadeIn delay-3s"
-            [src]="user.thumbnail || user.profilePhoto"
+            [defaultImage]="grayPlaceholder"
+            [lazyLoad]="user.thumbnail || user.profilePhoto"
+            [errorImage]="user.profilePhoto"
           />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>
@@ -40,7 +42,9 @@
           <img
             alt=""
             class="cover-image animated fadeIn delay-3s"
-            [src]="user.thumbnail || user.profilePhoto"
+            [defaultImage]="grayPlaceholder"
+            [lazyLoad]="user.thumbnail || user.profilePhoto"
+            [errorImage]="user.profilePhoto"
           />
         </ion-avatar>
         <h2>{{ user.userName }}</h2>

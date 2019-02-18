@@ -1,35 +1,10 @@
 create-event-page {
-  .float {
+  .item-ios {
+    border-bottom: 1px solid #c2c2c2;
+  }
+
+  .float-right {
     float: right;
-  }
-  .list-ios {
-    margin: -1px 0;
-  }
-  .item-md-light,
-  .item-divider-md-light {
-    font-weight: bold;
-  }
-
-  .card-md {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    margin: 4px;
-    width: 97%;
-    padding-bottom: 26px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  }
-
-  .item-input-has-focus .label-md[stacked],
-  .input-has-focus .label-md[stacked],
-  .item-input-has-focus .label-md[floating],
-  .input-has-focus .label-md[floating] {
-    color: #008000;
-  }
-
-  .label-md[stacked],
-  .label-md[floating] {
-    color: gray;
   }
 
   .centered {
@@ -41,7 +16,7 @@ create-event-page {
   }
 
   .img-placeholder {
-    background: black;
+    background: #000;
     height: 200px;
   }
 
@@ -50,9 +25,14 @@ create-event-page {
   }
 
   .container {
-    opacity: 0.8;
+    opacity: 0.9;
     position: relative;
     text-align: center;
-    color: white;
+    color: #fff;
+  }
+
+  .round-card {
+    margin: 0px;
+    width: 100%;
   }
 }

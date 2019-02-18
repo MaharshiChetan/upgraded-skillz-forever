@@ -12,7 +12,8 @@
               <img
                 alt=""
                 [defaultImage]="grayPlaceholder"
-                [lazyLoad]="userDetails.thumbnail"
+                [lazyLoad]="userDetails.thumbnail || userDetails.profilePhoto"
+                [errorImage]="userDetails.profilePhoto"
                 class="cover-image"
               />
             </ion-avatar>

@@ -1,0 +1,28 @@
+voting-category-page {
+  .category-image {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+  }
+
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: x-large;
+    font-family: sans-serif;
+    font-weight: bold;
+  }
+
+  .container {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+
+  ion-thumbnail {
+    background: #000;
+  }
+}

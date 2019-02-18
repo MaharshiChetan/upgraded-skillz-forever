@@ -78,7 +78,7 @@ export class CommentsPage implements OnInit {
   }
 
   getAllPostComments(postKey: string) {
-    this.postCommentService.getAllComments(postKey).subscribe(comments => {
+    const subscription = this.postCommentService.getAllComments(postKey).subscribe(comments => {
       this.comments = comments;
       this.comments.forEach((comment: any, i: number) => {
         this.usersdata.child(`${comment.uid}/personalData`).once('value', snapshot => {
@@ -86,6 +86,7 @@ export class CommentsPage implements OnInit {
         });
       });
       this.scrollToBottom();
+      subscription.unsubscribe();
     });
   }
 

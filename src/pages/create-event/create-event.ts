@@ -164,7 +164,7 @@ export class CreateEventPage implements AfterViewInit {
     return actionsheet.present();
   }
 
-  takePicture() {
+  async takePicture() {
     this.loadingService.show();
     return this.cameraService.getPictureFromCamera(false).then(
       picture => {
@@ -188,7 +188,7 @@ export class CreateEventPage implements AfterViewInit {
     );
   }
 
-  getPicture() {
+  async getPicture() {
     this.loadingService.show();
     return this.cameraService.getPictureFromPhotoLibrary(false).then(
       picture => {
@@ -212,7 +212,7 @@ export class CreateEventPage implements AfterViewInit {
     );
   }
 
-  adjust(index): void {
+  adjust(index: any): void {
     let textArea = this.element.nativeElement.getElementsByTagName('textarea')[index];
     textArea.style.overflow = 'hidden';
     textArea.style.height = 'auto';
@@ -248,7 +248,7 @@ export class CreateEventPage implements AfterViewInit {
     return event;
   }
 
-  updateEvent(description) {
+  updateEvent(description: any) {
     if (!(this.chosenPicture || this.eventData)) {
       this.toastService.presentToast('Please upload event image, Its mandatory!', 'fail-toast');
       return;

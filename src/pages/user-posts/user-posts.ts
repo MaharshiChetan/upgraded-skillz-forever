@@ -29,15 +29,17 @@ export class UserPostsPage implements OnInit {
 
   ngOnInit() {
     this.postUid = this.navParams.get('uid');
-    this.getUserPosts(this.postUid);
+    this.getUserPosts();
   }
 
-  getUserPosts(uid: string) {
-    this.userPostService.getUserPosts(uid).subscribe(posts => {
+  getUserPosts(event?: any) {
+    const subscribe = this.userPostService.getUserPosts(this.postUid).subscribe(posts => {
       this.fetched = false;
       this.posts = posts;
       this.getPostsDetail();
       this.loadingService.hide();
+      subscribe.unsubscribe();
+      if (event) event.complete();
     });
   }
 
@@ -50,15 +52,21 @@ export class UserPostsPage implements OnInit {
             this.posts[i].myPost = true;
           }
         });
-        this.postLikesService.getTotalLikes(post.key).subscribe(likes => {
-          this.posts[i].likes = likes;
-          this.posts[i].totalLikes = likes.length;
-        });
-        this.postCommentsService.getTotalComments(post.key).subscribe(comments => {
-          this.posts[i].totalComments = comments.length;
-        });
         this.postLikesService.checkLike(post.key, this.uid).subscribe(data => {
           this.posts[i].isLiking = data.key ? true : false;
+          const likeSubscription = this.postLikesService
+            .getTotalLikes(post.key)
+            .subscribe(likes => {
+              this.posts[i].likes = likes;
+              this.posts[i].totalLikes = likes.length;
+              likeSubscription.unsubscribe();
+            });
+          const commentSubscription = this.postCommentsService
+            .getTotalComments(post.key)
+            .subscribe(comments => {
+              this.posts[i].totalComments = comments.length;
+              commentSubscription.unsubscribe();
+            });
         });
       });
     }

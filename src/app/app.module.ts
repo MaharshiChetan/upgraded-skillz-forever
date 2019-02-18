@@ -26,7 +26,7 @@ import { File } from '@ionic-native/file';
 
 import { MessageService } from '../providers/message/message';
 import { FollowService } from '../providers/follow/follow';
-import { PostService } from '../providers/post/post';
+import { EventPostService } from '../providers/event-post/event-post';
 import { ImageLoaderConfig } from 'ionic-image-loader';
 import { ChatService } from '../providers/chat/chat';
 import { Clipboard } from '@ionic-native/clipboard';
@@ -68,7 +68,6 @@ export function myCustomAudioProviderFactory() {
     IonicAudioModule.forRoot(defaultAudioProviderFactory),
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: true,
-      // animate: false,
       mode: 'ios',
       platforms: {
         ios: {
@@ -76,6 +75,7 @@ export function myCustomAudioProviderFactory() {
         },
         android: {
           pageTransition: 'wp-transition',
+          animate: false,
         },
       },
       ios: {
@@ -117,7 +117,7 @@ export function myCustomAudioProviderFactory() {
     EventsService,
     MessageService,
     FollowService,
-    PostService,
+    EventPostService,
     TitlesService,
     ImageLoaderConfig,
     ChatService,

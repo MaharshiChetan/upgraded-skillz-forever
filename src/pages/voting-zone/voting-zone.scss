@@ -1,0 +1,71 @@
+voting-zone-page {
+  img {
+    border-radius: 50%;
+    height: 110px;
+    width: 110px;
+    object-fit: cover;
+  }
+
+  ion-grid ion-row.players {
+    margin-top: 15%;
+  }
+
+  ion-grid ion-row.match-status {
+    color: #fff;
+    margin-top: 7%;
+    width: 50%;
+    background: #6ec30c;
+    align-self: center;
+    text-transform: uppercase;
+    font-family: sans-serif;
+  }
+
+  .content {
+    background: #f7f7f7;
+  }
+
+  .vs {
+    font-weight: bold;
+    font-size: x-large;
+    color: #49575c;
+    text-align: center;
+    margin-top: 36px;
+  }
+
+  .item-ios {
+    background: #f7f7f7;
+  }
+
+  .item-ios.item-block .item-inner {
+    padding-right: 0px;
+  }
+
+  .label-ios {
+    margin: 0px;
+  }
+
+  .player-name {
+    font-weight: bold;
+    text-align: center;
+    color: #49575c;
+    font-family: sans-serif;
+    margin-top: 1.5px;
+    font-size: 1.6rem;
+  }
+
+  .player {
+    text-align: center;
+    color: #778899;
+    font-family: sans-serif;
+    margin-top: 2px;
+    font-size: 1.3rem;
+  }
+
+  .button-ios {
+    height: 2.4em;
+  }
+
+  .grid {
+    padding: 0px;
+  }
+}
